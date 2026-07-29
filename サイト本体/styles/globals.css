@@ -315,6 +315,33 @@ img {
   color: var(--color-text-faint);
 }
 
+.footer-sitelist {
+  margin: 20px auto 0;
+  max-width: 640px;
+}
+
+.footer-sitelist-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.footer-sitelist ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-sitelist a {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
 /* ---- Hero banner(トップページのみ) ---- */
 .hero-banner {
   position: relative;

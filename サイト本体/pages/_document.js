@@ -13,6 +13,7 @@ export default function Document() {
   return (
     <Html lang="ja">
       <Head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         {GSC_VERIFICATION && (
           <meta name="google-site-verification" content={GSC_VERIFICATION} />
         )}
