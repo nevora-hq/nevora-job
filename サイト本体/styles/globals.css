@@ -330,16 +330,16 @@ img {
 .footer-sitelist ul {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   margin: 0;
   padding: 0;
 }
 
 .footer-sitelist a {
   color: var(--color-text-muted);
-  font-size: 0.78rem;
+  font-size: 0.68rem;
 }
 
 /* ---- Hero banner(トップページのみ) ---- */
