@@ -5,19 +5,19 @@ const DUMMY_HISTORY = [
   {
     date: "2026-07-17",
     action: "記事公開",
-    detail: "ダイエット中の食事管理で意識したい5つのポイント",
+    detail: "初心者が失敗しない副業選びの5つのポイント",
     agent: "publisher",
   },
   {
     date: "2026-07-16",
     action: "記事公開",
-    detail: "初心者向け基礎化粧品の選び方完全ガイド",
+    detail: "初心者向けクラウドソーシングの始め方完全ガイド",
     agent: "publisher",
   },
   {
     date: "2026-07-16",
     action: "トレンド調査",
-    detail: "美容健康トレンド調査を実施",
+    detail: "副業・在宅ワークトレンド調査を実施",
     agent: "keyword-researcher",
   },
 ];

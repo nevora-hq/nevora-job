@@ -22,8 +22,8 @@ export async function getStaticProps() {
 export default function ComparePage({ items }) {
   return (
     <Layout
-      title="商品・サービス比較 | 美容の総合ガイド｜NEVORA"
-      description="美容の総合ガイド｜NEVORAで紹介している商品・サービスを一覧で比較できるページです。"
+      title="商品・サービス比較 | 副業・在宅ワークの総合ガイド｜NEVORA"
+      description="副業・在宅ワークの総合ガイド｜NEVORAで紹介している商品・サービスを一覧で比較できるページです。"
       canonicalPath="/compare"
       panel
     >

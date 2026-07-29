@@ -43,7 +43,7 @@ export default function Home({
 }) {
   return (
     <Layout
-      title="美容の総合ガイド｜NEVORA｜スキンケア・コスメ・メイクの美容情報"
+      title="副業・在宅ワークの総合ガイド｜NEVORA｜クラウドソーシング・スキルシェアの情報"
       categories={categories}
       canonicalPath="/"
       hero={
