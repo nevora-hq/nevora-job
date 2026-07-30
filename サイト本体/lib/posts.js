@@ -5,6 +5,7 @@ import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import { getCategoryMascot } from "./categoryMascot";
+import { BASE_CATEGORY_NAMES } from "./categoryMeta";
 
 // npm run sync-content (predev/prebuild) によって
 // サイト運営/記事データ/確定稿 から自動コピーされるディレクトリ
@@ -640,7 +641,7 @@ export function getAllSlugs() {
 
 export function getAllCategories() {
   const posts = getAllPostsMeta();
-  const categories = new Map();
+  const categories = new Map(BASE_CATEGORY_NAMES.map((name) => [name, 0]));
 
   for (const post of posts) {
     categories.set(post.category, (categories.get(post.category) || 0) + 1);
