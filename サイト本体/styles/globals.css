@@ -1590,6 +1590,10 @@ h1.page-title {
   margin: 28px 0;
 }
 
+.mascot-comment-category {
+  margin: 16px 0 28px;
+}
+
 /* ---- 「次の記事」ボタン ---- */
 .article-next-post {
   margin: 40px auto 0;

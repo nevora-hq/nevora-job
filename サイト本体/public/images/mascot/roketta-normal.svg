@@ -1,0 +1,16 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="マスコットキャラクター ロケッタ">
+  <ellipse cx="120" cy="215" rx="55" ry="10" fill="#f08c00" opacity="0.08"/>
+  <path d="M100 70 L120 32 L140 70 Z" fill="#fff0e0" stroke="#f08c00" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M55 70 h130 a10 10 0 0 1 10 10 v90 a10 10 0 0 1 -10 10 H55 a10 10 0 0 1 -10 -10 V80 a10 10 0 0 1 10 -10 Z"
+        fill="#fff0e0" stroke="#f08c00" stroke-width="6"/>
+  <path d="M55 150 L38 176 L58 168 Z" fill="#f08c00" opacity="0.5"/>
+  <path d="M185 150 L202 176 L182 168 Z" fill="#f08c00" opacity="0.5"/>
+  <circle cx="98" cy="132" r="7" fill="#24242b"/>
+  <circle cx="142" cy="132" r="7" fill="#24242b"/>
+  <circle cx="100.5" cy="129" r="2.2" fill="#fff"/>
+  <circle cx="144.5" cy="129" r="2.2" fill="#fff"/>
+  <path d="M106 158 Q120 170 134 158" stroke="#a8571a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M165 100 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" fill="#3fb0a8"/>
+  <circle cx="70" cy="95" r="4" fill="#3fb0a8"/>
+  <path d="M108 222 Q120 236 132 222 Q120 230 108 222 Z" fill="#f08c00" opacity="0.6"/>
+</svg>
