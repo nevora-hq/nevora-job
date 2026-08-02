@@ -5,8 +5,9 @@
 # 依存パッケージ
 /node_modules/
 
-# ビルド時に記事データから自動生成されるコピー(元データは ../記事データ/確定稿 が正)
-/content/
+# content/articles は sync-content.js の生成物だが、Vercelの実行環境設定(Root Directory等)により
+# ビルド時同期が確実に行われる保証がないため、publisherがローカルでsync-content.jsを実行した結果を
+# 直接commitしてGit管理下に置く(元データは ../記事データ/確定稿・公開済み が正、content/articlesは複製物)
 
 # 環境変数
 .env
