@@ -6,7 +6,7 @@ import ImageSlider from "../components/ImageSlider";
 import Sidebar from "../components/Sidebar";
 import { getAllPostsMeta, getAllCategories, getPostsByCategory } from "../lib/posts";
 import { getCategoryMeta } from "../lib/categoryMeta";
-import { getCategoryMascot } from "../lib/categoryMascot";
+import { getCategoryMascot, MAIN_MASCOT } from "../lib/categoryMascot";
 import Mascot from "../components/Mascot";
 import Link from "next/link";
 
@@ -64,6 +64,23 @@ export default function Home({
       <div className="home-page">
         <div className="home-layout">
           <div className="home-main">
+            <div className="mascot-comment mascot-comment-main">
+              <img
+                src={MAIN_MASCOT.normalImage}
+                alt={MAIN_MASCOT.name}
+                width={72}
+                height={72}
+                className="mascot-comment-img"
+                loading="lazy"
+              />
+              <div className="mascot-comment-bubble">
+                <span className="mascot-comment-name">{MAIN_MASCOT.name}</span>
+                <p className="mascot-comment-text">
+                  はじめまして、ワーキーくんだよ!このサイトでは副業・在宅ワークに役立つ情報を、カテゴリー担当のなかまたちと一緒に紹介しているよ。気になるジャンルから読んでみてね。
+                </p>
+              </div>
+            </div>
+
             {categorySummaries.length > 0 && (
               <section className="category-summary-section">
                 <h2 className="home-section-title">カテゴリで探す</h2>

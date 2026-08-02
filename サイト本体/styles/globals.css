@@ -1594,6 +1594,19 @@ h1.page-title {
   margin: 16px 0 28px;
 }
 
+.mascot-comment-main {
+  margin: 0 0 28px;
+  gap: 18px;
+}
+
+.mascot-comment-main .mascot-comment-bubble {
+  padding: 14px 20px;
+}
+
+.mascot-comment-main .mascot-comment-text {
+  font-size: 0.9rem;
+}
+
 /* ---- 「次の記事」ボタン ---- */
 .article-next-post {
   margin: 40px auto 0;
