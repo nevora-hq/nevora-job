@@ -99,6 +99,23 @@ function renderMascotCommentHtml(mascot) {
 // 途中にマスコットが挟まる不具合が過去にあったため、必ず記事の大きな
 // セクション区切りであるH2見出しの直前にのみ挿入する。
 // H2が少ない(短文)記事では不自然になるため2つ未満の場合は挿入しない。
+// ライターが本文中の任意の位置(冒頭・まとめ等)に画像付きマスコット吹き出しを
+// 手動で置きたい場合のマーカー。Markdown本文に単独行で `[mascot-image]` と
+// 書くと、その段落がfrontmatterのmascotCommentを使った画像付き吹き出しに置き換わる。
+// 自動挿入(本文中盤)と文言を分けたい場合は `[mascot-image: 任意のせりふ]` のように
+// コロン以降にせりふを直接書ける。1記事内で何度使ってもよいが、
+// マスコット登場ルール(合計2〜4箇所目安)は執筆側で守ること。
+function insertMascotImageMarkers(html, mascot) {
+  if (!mascot) return html;
+  return html.replace(
+    /<p>\s*\[mascot-image(?::\s*([^\]]+))?\]\s*<\/p>/g,
+    (_, customComment) =>
+      renderMascotCommentHtml(
+        customComment ? { ...mascot, comment: customComment.trim() } : mascot
+      )
+  );
+}
+
 function insertMascotComment(html, mascot) {
   if (!mascot) return html;
 
@@ -621,7 +638,8 @@ export async function getPostBySlug(slug) {
     meta.affiliateLinks
   );
   const mascot = getCategoryMascot(meta.category, slug, meta.mascotComment);
-  const contentHtml = insertMascotComment(htmlWithAffiliateBanners, mascot);
+  const htmlWithMascotMarkers = insertMascotImageMarkers(htmlWithAffiliateBanners, mascot);
+  const contentHtml = insertMascotComment(htmlWithMascotMarkers, mascot);
 
   return {
     slug,
