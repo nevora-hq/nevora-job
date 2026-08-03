@@ -4,22 +4,60 @@ import PostCard from "../components/PostCard";
 import HeroBanner from "../components/HeroBanner";
 import ImageSlider from "../components/ImageSlider";
 import Sidebar from "../components/Sidebar";
-import { getAllPostsMeta, getAllCategories, getPostsByCategory } from "../lib/posts";
+import { getAllPostsMeta, getAllCategories } from "../lib/posts";
 import { getCategoryMeta } from "../lib/categoryMeta";
 import { getCategoryMascot, MAIN_MASCOT } from "../lib/categoryMascot";
-import Mascot from "../components/Mascot";
 import Link from "next/link";
+
+// カテゴリごとの紹介画像(public/images/category/配下)。
+// 新しいカテゴリを追加する場合はここに画像パスを追記する(未登録カテゴリは画像なしで表示)。
+const CATEGORY_IMAGES = {
+  "副業の種類": "/images/category/category-shubyou-shurui.png",
+  "副業の始め方": "/images/category/category-hajimekata.png",
+  "副業スキル": "/images/category/category-skill.png",
+  "仕事・案件獲得": "/images/category/category-anken-kakutoku.png",
+  "副業収入": "/images/category/category-shunyu.png",
+  "副業の管理": "/images/category/category-kanri.png",
+  "副業サービス": "/images/category/category-service.png",
+};
+
+// マスコットの吹き出しに表示する、カテゴリ紹介文(親しみやすい口調で統一)。
+const CATEGORY_INTROS = {
+  "副業の種類":
+    "ライティングやデザイン、動画編集、SNS運用など、副業にもいろんな種類があるんだ。自分に合いそうなものをここでチェックしてみてね。気になる方は、上の画像をタップして記事を見てみてね。",
+  "副業の始め方":
+    "副業を始めるときの準備や初めての案件の取り方、会社への申告のことまでまとめてるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+  "副業スキル":
+    "ライティングやデザイン、プログラミングなど、副業で役立つスキルをここで紹介してるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+  "仕事・案件獲得":
+    "クラウドソーシングでの案件の探し方や営業、ポートフォリオ作りのコツをまとめてるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+  "副業収入":
+    "収益化の方法や単価アップの交渉術、収入の目安をここで紹介してるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+  "副業の管理":
+    "本業との両立や時間・お金の管理、税金や確定申告のことをまとめてるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+  "副業サービス":
+    "クラウドソーシングやスキル販売サービスの比較・選び方をここで紹介してるよ。気になる方は、上の画像をタップして記事を見てみてね。",
+};
 
 export async function getStaticProps() {
   const posts = getAllPostsMeta();
   const categories = getAllCategories();
-  const sliderPosts = posts.filter((p) => p.thumbnail).slice(0, 5);
 
   const categorySummaries = categories.map((c) => ({
     ...c,
     ...getCategoryMeta(c.name),
-    posts: getPostsByCategory(c.name).slice(0, 3),
+    image: CATEGORY_IMAGES[c.name] || "",
+    intro: CATEGORY_INTROS[c.name] || "",
   }));
+
+  const sliderSlides = categorySummaries
+    .filter((c) => c.image)
+    .map((c) => ({
+      name: c.name,
+      image: c.image,
+      color: c.color,
+      href: `/category/${encodeURIComponent(c.name)}`,
+    }));
 
   return {
     props: {
@@ -28,7 +66,7 @@ export async function getStaticProps() {
       popularPosts: posts.slice(0, 5),
       categories,
       categorySummaries,
-      sliderPosts,
+      sliderSlides,
     },
   };
 }
@@ -39,7 +77,7 @@ export default function Home({
   popularPosts,
   categories,
   categorySummaries,
-  sliderPosts,
+  sliderSlides,
 }) {
   return (
     <Layout
@@ -49,7 +87,7 @@ export default function Home({
       hero={
         <>
           <HeroBanner />
-          <ImageSlider slides={sliderPosts} />
+          <ImageSlider slides={sliderSlides} />
         </>
       }
     >
@@ -88,49 +126,55 @@ export default function Home({
                   気になるテーマから、関連記事をまとめてチェックできます。
                 </p>
                 <div className="category-summary-grid">
-                  {categorySummaries.map((cat) => (
-                    <div
-                      key={cat.name}
-                      className="category-summary-card"
-                      style={{ "--cat-color": cat.color, "--cat-soft": cat.soft }}
-                    >
-                      {getCategoryMascot(cat.name) && (
-                        <div className="category-summary-mascot">
-                          <Mascot mascot={getCategoryMascot(cat.name)} />
-                        </div>
-                      )}
-                      <div className="category-summary-head">
-                        <span className="category-summary-icon" aria-hidden="true">
-                          {cat.icon}
-                        </span>
-                        <div>
-                          <h3 className="category-summary-name">{cat.name}</h3>
-                          <span className="category-summary-count">{cat.count}件の記事</span>
-                        </div>
-                      </div>
-                      <p className="category-summary-desc">{cat.description}</p>
-                      {cat.posts.length > 0 && (
-                        <ul className="category-summary-posts">
-                          {cat.posts.map((p) => (
-                            <li key={p.slug}>
-                              <Link href={`/posts/${p.slug}`} className="category-summary-post-link">
-                                {p.thumbnail && (
-                                  <img src={p.thumbnail} alt="" loading="lazy" />
-                                )}
-                                <span>{p.title}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      <Link
-                        href={`/category/${encodeURIComponent(cat.name)}`}
-                        className="category-summary-more"
+                  {categorySummaries.map((cat) => {
+                    const mascot = getCategoryMascot(cat.name, cat.name, cat.intro);
+                    const href = `/category/${encodeURIComponent(cat.name)}`;
+                    return (
+                      <div
+                        key={cat.name}
+                        className="category-summary-card"
+                        style={{ "--cat-color": cat.color, "--cat-soft": cat.soft }}
                       >
-                        {cat.name}の記事をすべて見る →
-                      </Link>
-                    </div>
-                  ))}
+                        {cat.image && (
+                          <Link href={href} className="category-summary-image-link">
+                            <img
+                              src={cat.image}
+                              alt={cat.name}
+                              className="category-summary-image"
+                              loading="lazy"
+                            />
+                            <span className="category-summary-badge">
+                              <span className="category-summary-badge-icon" aria-hidden="true">
+                                {cat.icon}
+                              </span>
+                              <span className="category-summary-badge-name">{cat.name}</span>
+                            </span>
+                          </Link>
+                        )}
+
+                        {mascot && (
+                          <div className="category-summary-mascot-row">
+                            <img
+                              src={mascot.normalImage}
+                              alt={mascot.name}
+                              width={48}
+                              height={48}
+                              className="category-summary-mascot-img"
+                              loading="lazy"
+                            />
+                            <div className="category-summary-mascot-bubble">
+                              <span className="category-summary-mascot-name">{mascot.name}</span>
+                              <p className="category-summary-mascot-text">{mascot.comment}</p>
+                            </div>
+                          </div>
+                        )}
+
+                        <Link href={href} className="category-summary-more">
+                          {cat.name}の記事をすべて見る →
+                        </Link>
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             )}
