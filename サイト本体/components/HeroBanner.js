@@ -12,7 +12,7 @@ export default function HeroBanner() {
           <p className="hero-banner-eyebrow">WEB MAGAZINE</p>
           <h1 className="hero-banner-title">副業・在宅ワークの総合ガイド｜NEVORA</h1>
           <p className="hero-banner-lead">
-            クラウドソーシング・スキルシェア・スキマ時間の稼ぎ方など信頼できる副業情報をわかりやすく解説します。
+            副業の始め方から収入アップまで、あなたに合うペースで進める総合ガイド
           </p>
         </div>
       </div>

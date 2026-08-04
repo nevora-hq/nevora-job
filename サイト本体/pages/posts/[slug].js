@@ -120,6 +120,37 @@ export default function PostPage({ post, related, nextPost }) {
           />
         )}
 
+        {(post.description || post.keyPoints.length > 0 || post.recommendedFor || post.comparisonCriteria.length > 0) && (
+          <div className="article-summary-box">
+            {post.description && <p className="article-summary-lead">{post.description}</p>}
+            {post.keyPoints.length > 0 && (
+              <div className="article-summary-block">
+                <h2 className="article-summary-heading">この記事で分かること</h2>
+                <ul>
+                  {post.keyPoints.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {post.comparisonCriteria.length > 0 && (
+              <div className="article-summary-block">
+                <h2 className="article-summary-heading">比較基準</h2>
+                <ul>
+                  {post.comparisonCriteria.map((criteria) => (
+                    <li key={criteria}>{criteria}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {post.recommendedFor && (
+              <p className="article-summary-recommended">
+                <strong>こんな人におすすめ:</strong> {post.recommendedFor}
+              </p>
+            )}
+          </div>
+        )}
+
         <ArticleToc items={post.toc} />
 
         {post.affiliateLinks?.length > 0 && (

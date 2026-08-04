@@ -526,6 +526,10 @@ function normalizeFrontmatter(data, slug) {
     updatedDate: data.updatedDate || data.updated || null,
     thumbnail: data.thumbnail || "",
     mascotComment: data.mascotComment || "",
+    // 記事上部の要約ボックス用(任意項目)。未設定の記事はdescriptionのみで表示する。
+    keyPoints: Array.isArray(data.keyPoints) ? data.keyPoints : [],
+    recommendedFor: data.recommendedFor || "",
+    comparisonCriteria: Array.isArray(data.comparisonCriteria) ? data.comparisonCriteria : [],
   };
 }
 

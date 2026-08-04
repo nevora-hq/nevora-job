@@ -967,6 +967,24 @@ h1.page-title {
   color: var(--color-text-faint);
 }
 
+/* ホームページの新着・注目記事(compact)カード。カード全体がリンクのため
+   下線・色の初期化と、タイトル行数を揃えて高さを揃える処理のみ追加する。 */
+.post-card-compact {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-card-compact:hover {
+  text-decoration: none;
+}
+
+.post-card-compact h2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 /* ---- Article ---- */
 .article-header {
   margin-bottom: 24px;
@@ -1355,6 +1373,36 @@ h1.page-title {
   font-size: 0.72rem;
   margin: 16px auto;
   max-width: 720px;
+}
+
+.article-summary-box {
+  margin: 20px auto 24px;
+  padding: 20px;
+  background: var(--color-primary-surface);
+  border-radius: var(--radius-md);
+}
+
+.article-summary-lead {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.article-summary-block {
+  margin-top: 12px;
+}
+
+.article-summary-heading {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+.article-summary-block ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.article-summary-recommended {
+  margin: 12px 0 0;
 }
 
 .affiliate-box {
