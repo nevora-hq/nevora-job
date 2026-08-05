@@ -83,9 +83,9 @@ export default function CategoryPage({ posts, category, description }) {
       {posts.length === 0 ? (
         <p>このカテゴリの記事はまだありません。</p>
       ) : (
-        <div className="post-list">
+        <div className="post-list post-list-rows">
           {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
+            <PostCard key={post.slug} post={post} list />
           ))}
         </div>
       )}

@@ -2,8 +2,9 @@ import Link from "next/link";
 
 // compact: ホームページの新着・注目記事セクション向けの簡易表示。
 // サムネイル・カテゴリー・タイトルのみを表示し、カード全体を1つのリンクにする。
-// category/searchページ等の既存表示(抜粋・タグあり)には影響しない。
-export default function PostCard({ post, compact = false }) {
+// list: カテゴリー/検索ページ向けの横並び表示(左サムネ・右タイトル+サマリー)。
+// アフィリエイトを想起させないよう、タグ(ハッシュタグ)は表示しない。
+export default function PostCard({ post, compact = false, list = false }) {
   if (compact) {
     return (
       <Link href={`/posts/${post.slug}`} className="post-card post-card-compact">
@@ -18,6 +19,26 @@ export default function PostCard({ post, compact = false }) {
         <div className="post-card-body">
           <span className="category-badge">{post.category}</span>
           <h2>{post.title}</h2>
+        </div>
+      </Link>
+    );
+  }
+
+  if (list) {
+    return (
+      <Link href={`/posts/${post.slug}`} className="post-card post-card-list">
+        {post.thumbnail && (
+          <img
+            src={post.thumbnail}
+            alt={post.title}
+            loading="lazy"
+            className="post-card-list-thumb"
+          />
+        )}
+        <div className="post-card-body">
+          <span className="category-badge">{post.category}</span>
+          <h2>{post.title}</h2>
+          <p className="excerpt">{post.excerpt}</p>
         </div>
       </Link>
     );
