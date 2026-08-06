@@ -407,6 +407,73 @@ function renderProsConsHtml(chart) {
   return `<figure class="pros-cons-block">${titleHtml}<div class="pros-cons-grid"><div class="pros-cons-col pros-cons-pros"><p class="pros-cons-head">◎ メリット</p><ul>${prosItems}</ul></div><div class="pros-cons-col pros-cons-cons"><p class="pros-cons-head">△ デメリット</p><ul>${consItems}</ul></div></div></figure>`;
 }
 
+// frontmatterのcalloutBoxes(type: "tip"|"warning"|"conclusion")から、
+// 見出し直後に挿入する強調ボックスを組み立てる。remarkHtmlのsanitizeで
+// 生HTMLタグが除去されるのを避けるため、Markdown本文への直書きではなく
+// charts同様frontmatter経由でHTML文字列として組み立てて後から挿入する方式にする。
+const CALLOUT_META = {
+  tip: { icon: "💡", label: "ポイント", cls: "callout-tip" },
+  warning: { icon: "⚠️", label: "注意", cls: "callout-warning" },
+  conclusion: { icon: "🔍", label: "結論だけ知りたい人へ", cls: "callout-conclusion" },
+};
+
+function renderCalloutBoxHtml(box) {
+  const meta = CALLOUT_META[box.type] || CALLOUT_META.tip;
+  const text = escapeHtmlText(box.text).replace(/\n+/g, "<br />");
+  return `<div class="callout-box ${meta.cls}"><p class="callout-box-head"><span class="callout-box-icon" aria-hidden="true">${meta.icon}</span><span class="callout-box-label">${meta.label}</span></p><p class="callout-box-text">${text}</p></div>`;
+}
+
+// frontmatterのcollapsibles(折りたたみ/アコーディオン)から<details><summary>相当のUIを組み立てる。
+function renderCollapsibleHtml(item) {
+  const summary = escapeHtmlText(item.summary);
+  const body = escapeHtmlText(item.body).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br />");
+  return `<details class="article-collapsible"><summary class="article-collapsible-summary">${summary}</summary><div class="article-collapsible-body"><p>${body}</p></div></details>`;
+}
+
+// charts/calloutBoxes/collapsibles共通:「afterHeadingのテキストと完全一致する
+// 見出しブロックの直後」に、renderFnで組み立てたHTMLを挿入する汎用処理。
+// 一致する見出しが無い項目は挿入されない(黙ってスキップし、開発時はconsole.warnで気付けるようにする)。
+function embedAfterHeading(html, items, renderFn, warnLabel) {
+  if (!Array.isArray(items) || items.length === 0) return html;
+
+  const blocks = splitHtmlBlocks(html);
+  const used = new Array(items.length).fill(false);
+  const outBlocks = [];
+
+  for (const block of blocks) {
+    outBlocks.push(block);
+    const headingMatch = block.match(/^<h[23][^>]*>([\s\S]*?)<\/h[23]>/);
+    if (!headingMatch) continue;
+    const headingText = stripTags(headingMatch[1]);
+
+    items.forEach((item, i) => {
+      if (used[i] || !item.afterHeading) return;
+      if (stripTags(item.afterHeading) === headingText) {
+        used[i] = true;
+        outBlocks.push(renderFn(item));
+      }
+    });
+  }
+
+  items.forEach((item, i) => {
+    if (!used[i] && process.env.NODE_ENV !== "production") {
+      console.warn(
+        `[posts.js] ${warnLabel}: afterHeading "${item.afterHeading}" に一致する見出しが見つからず挿入されませんでした`
+      );
+    }
+  });
+
+  return outBlocks.join("");
+}
+
+function embedCalloutBoxes(html, calloutBoxes) {
+  return embedAfterHeading(html, calloutBoxes, renderCalloutBoxHtml, "calloutBoxes");
+}
+
+function embedCollapsibles(html, collapsibles) {
+  return embedAfterHeading(html, collapsibles, renderCollapsibleHtml, "collapsibles");
+}
+
 function renderChartHtml(chart) {
   if (chart.type === "stat") return renderStatTileHtml(chart);
   if (chart.type === "pie" || chart.type === "donut")
@@ -637,8 +704,12 @@ export async function getPostBySlug(slug) {
   const { html: htmlWithHeadingIds, toc } = addHeadingIdsAndBuildToc(rawHtml);
   const charts = Array.isArray(data.charts) ? data.charts : [];
   const htmlWithCharts = embedCharts(htmlWithHeadingIds, charts);
+  const calloutBoxes = Array.isArray(data.calloutBoxes) ? data.calloutBoxes : [];
+  const htmlWithCallouts = embedCalloutBoxes(htmlWithCharts, calloutBoxes);
+  const collapsibles = Array.isArray(data.collapsibles) ? data.collapsibles : [];
+  const htmlWithCollapsibles = embedCollapsibles(htmlWithCallouts, collapsibles);
   const { html: htmlWithAffiliateBanners, unplaced } = embedAffiliateBanners(
-    htmlWithCharts,
+    htmlWithCollapsibles,
     meta.affiliateLinks
   );
   const mascot = getCategoryMascot(meta.category, slug, meta.mascotComment);
