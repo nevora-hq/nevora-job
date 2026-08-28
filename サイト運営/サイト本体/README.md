@@ -69,12 +69,6 @@ Webサイト
 1. `.env.local.example` の内容(`NEXT_PUBLIC_SITE_URL=https://nevora-job.vercel.app`)を `.env.local` に追記する(無ければ `.env.local.example` をコピーしてもよい)
 2. `npm run build` を実行し、`.next/server/pages/worry/[slug].html` 等の出力HTML内で `<link rel="canonical" ...>` と `<meta property="og:url" ...>` が英語slugのURL(例: `https://nevora-job.vercel.app/worry/what-to-start`)になっていることを確認する
 
-## お問い合わせフォーム
-
-- 実装箇所: `pages/contact.js`
-- 送信ボタンを押すと`mailto:`リンクで`nevora01123@gmail.com`宛のメール下書きが開く方式(サーバー側の送信処理は無し)
-- Web3Forms等の外部フォームサービスと連携すればサーバー側送信に切り替えられるが、外部サービスのアカウント登録が必要なため現時点では見送っている
-
 ## アフィリエイトASP(A8.net等)提携の今後の設定手順
 
 公開済み記事内には `AFFILIATE_LINK_PLACEHOLDER` 形式のプレースホルダーでリンク挿入箇所を用意済み。実際のASP提携完了後、以下の手順でプレースホルダーを実リンクに差し替える。
@@ -148,7 +142,8 @@ C:\Users\kokim\OneDrive\デスクトップ\画像フォルダ\各種サイト\�
 ## お問い合わせの受け口
 
 入力フォームは設置していない。問い合わせは `nevora01123@gmail.com` へのメールに一本化しており、
-`pages/contact.js` はアドレスの明示と `mailto:` リンク(件名・雛形入り)だけで構成する。
+実装箇所は `pages/contact.js`。アドレスの明示と `mailto:` リンク(件名・雛形入り)だけで構成し、
+サーバー側の送信処理は持たない。
 
 - フォーム配信サービス(Formspree)は有料化のリスクがあるため2026-08-28に廃止した。
   `NEXT_PUBLIC_FORMSPREE_ENDPOINT` は環境変数・`.env` 系ファイル・Vercelのいずれからも削除済み
