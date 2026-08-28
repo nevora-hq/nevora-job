@@ -99,3 +99,25 @@ Webサイト
 - 未公開の記事は `記事データ/公開待ち` にあり、`sync-content.js` の同期対象外のためサイト・sitemap のいずれにも出ない。`確定稿` に誤って置かれた場合も `publishAt` が未来ならスキップされる
 - 公開の反映は `.github/workflows/publish-queue.yml` が commit・push し、Vercel の自動デプロイで行う(手動の vercel CLI は使わない)。ジョブが失敗した場合は `publish-queue` ラベル付きの Issue が自動で立つ
 - 記事の公開日(表示・sitemap・JSON-LD の `datePublished`)は、`queue:release` が動いた**実際の公開日**になる
+
+## ホスティング(Vercel)
+
+| 項目 | 値 |
+| --- | --- |
+| Vercelプロジェクト | `nevora-job`(チーム: nevora-hq) |
+| 連携リポジトリ | `nevora-hq/nevora-job`(main ブランチ) |
+| Root Directory | `サイト運営/サイト本体` |
+| 暫定URL | https://nevora-job.vercel.app (カスタムドメインは未設定) |
+
+デプロイは main への `git push` による自動デプロイのみを正規の手段とする
+(手動の `vercel --prod` は使わない。理由はプロジェクト直下の `CLAUDE.md`「デプロイ運用ルール」を参照)。
+
+### 環境変数(Vercel側で設定済み)
+
+| 変数 | 現在の値 | 補足 |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://nevora-job.vercel.app` | canonical・og:url・JSON-LD の絶対URLに使う。独自ドメイン確定時に差し替える |
+| `NEXT_PUBLIC_FORMSPREE_ENDPOINT` | ダミー値 | 本番のフォーム作成までは送信が必ず失敗する。誤送信防止のため意図的にダミーにしている |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 未設定 | 未設定の間は計測タグ自体を読み込まない(`lib/gtag.js`)。GA4プロパティ作成後に設定する |
+| `NEXT_PUBLIC_ALLOW_INDEX` | 未設定 | **未設定の間は全ページ noindex + robots.txt が `Disallow: /`**。ドメイン確定・公開準備が整った時点で `1` を設定して解除する |
+
