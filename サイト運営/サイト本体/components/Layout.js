@@ -69,6 +69,14 @@ export default function Layout({
         )}
         {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
         {absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
+        {/* 既定のOGP画像は1200x630固定。寸法を明示するとSNS側のカード生成が安定する
+            (記事サムネイルは記事ごとにサイズが異なるため出力しない)。 */}
+        {resolvedOgImage === DEFAULT_OG_IMAGE && (
+          <>
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+          </>
+        )}
         <meta name="twitter:card" content={absoluteOgImage ? "summary_large_image" : "summary"} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />

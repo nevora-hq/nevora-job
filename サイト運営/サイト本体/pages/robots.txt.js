@@ -21,7 +21,27 @@ Disallow: /api/
 
 Sitemap: ${siteUrl}/sitemap.xml
 `
-    : `User-agent: *
+    : // 検索エンジンには拾わせないが、SNSのリンクプレビュー用クローラーだけは通す。
+      // (これらもrobots.txtに従うため、全面Disallowにするとカード画像が出なくなる)
+      `User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: LINE
+Allow: /
+
+User-agent: *
 Disallow: /
 `;
 
