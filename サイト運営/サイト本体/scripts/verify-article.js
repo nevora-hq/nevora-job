@@ -715,9 +715,13 @@ const EXPERTS_BY_SITE = [
 // 「〇〇さん」に加え、敬称なしの「〇〇に言われた」や「〇〇の人に言われた」も拾う。
 // ただし誤検知を避けるため、証言の引用にあたる語(言われ/聞いた/話して/教わ/によると/曰く)
 // を必須にしている。「税理士に相談する」のような相談の勧めは一致しない。
+//
+// 「の知人」「の友人」は、writer.mdが想定違反例に挙げている形(例: AIサイトの
+// 「エンジニアの知人に〜と言われた」)。2026-08-28のAIサイト検証で、この2語が
+// 敬称パターンに無いために素通りしていたことが判明したため追加した。
 const EXPERT_NAMES = Array.from(new Set([...EXPERTS_COMMON, ...EXPERTS_BY_SITE]));
 const EXPERT_ALT = EXPERT_NAMES.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-const EXPERT_HONORIFIC = "(?:さん|さま|様|の方|の人)?";
+const EXPERT_HONORIFIC = "(?:さん|さま|様|の方|の人|の知人|の友人)?";
 const RE_B5_FAKE_EXPERT = new RegExp(
   [
     `(?:${EXPERT_ALT})${EXPERT_HONORIFIC}(?:に|が|は)[^。\\n]{0,20}(?:言われ|聞いた|話して|教わ)`,
