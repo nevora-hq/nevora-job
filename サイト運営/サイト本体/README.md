@@ -121,3 +121,26 @@ Webサイト
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 未設定 | 未設定の間は計測タグ自体を読み込まない(`lib/gtag.js`)。GA4プロパティ作成後に設定する |
 | `NEXT_PUBLIC_ALLOW_INDEX` | 未設定 | **未設定の間は全ページ noindex + robots.txt が `Disallow: /`**。ドメイン確定・公開準備が整った時点で `1` を設定して解除する |
 
+
+## トップページ素材・ブランド資産の作り方
+
+素材(ChatGPTで生成したPNG)の置き場所は、全サイト共通の画像フォルダ規約に従う(`docs/rollout-noindex-and-image-convention.md` B節)。
+
+```
+C:\Users\kokim\OneDrive\デスクトップ\画像フォルダ\各種サイト\副業サイト\ライブラリ
+├ 記事用          … 記事のサムネイル・本文画像(image-selector / image-placer の対象)
+├ ホームページ用  … ヒーロー・セクションバンド・カテゴリカードの元画像(下記スクリプトの入力)
+└ 使用済み        … 記事に配置済みの元画像の退避先
+```
+
+| コマンド | 内容 | 入力 | 主な出力 |
+| --- | --- | --- | --- |
+| `npm run site-images` | トップページの写真をwebp化・多解像度化 | `ライブラリ\ホームページ用\*.png`(1536×1024で生成) | `public/images/hero`・`band`・`category` |
+| `npm run brand-assets` | ロゴ・ファビコン一式・OGPを生成 | `public/images/mascot/hajimin-*.svg` | `images/logo.png`・`images/logo-mark.png`・`favicon-16/32/48.png`・`icon-192/512.png`・`apple-touch-icon.png`・`favicon.ico`・`images/ogp.png` |
+| `node scripts/generate-mascots.js` | マスコット12体×3ポーズ+主役の顔アップのSVGを生成 | スクリプト内のテンプレート | `public/images/mascot/*.svg` |
+| `npm run check:contrast` | 主要ページのコントラストを実測(しきい値6:1) | 起動中のサイト | 標準出力のレポート |
+
+- **OGP(`public/images/ogp.png`)を書き出すのは `brand-assets` だけ**。`site-images` 側にOGPを持たせると実行順で出力が入れ替わるため、意図的に一本化している
+- マスコットの絵柄を直すときは `scripts/generate-mascots.js` を編集 → `node scripts/generate-mascots.js` → `npm run brand-assets` の順で実行する
+- 元画像の幅を変えたときは、生成される `-<幅>.webp` の名前も変わる。`components/HeroBanner.js` と `pages/index.js` の `srcSet` / `widths` を実ファイルに合わせ、古い幅のファイルを削除すること(消し忘れると旧画像が配信され続ける)
+- コントラスト検査の手順: `npm run build` のあと `npx next start -p 3123` を起動した状態で `npm run check:contrast`

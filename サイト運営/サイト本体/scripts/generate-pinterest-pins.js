@@ -305,13 +305,13 @@ function buildPinInPage(opts) {
   // --- 1) 上部: タイトル帯(〜350px) ---
   const head = document.createElement("div");
   head.style.cssText =
-    "height:350px;flex:0 0 350px;background:#fff5f8;border-bottom:6px solid #d6336c;" +
+    "height:350px;flex:0 0 350px;background:#fff7f0;border-bottom:6px solid #9a4a08;" +
     "box-sizing:border-box;padding:40px 60px;display:flex;flex-direction:column;" +
     "align-items:center;justify-content:center;gap:16px;";
   const cat = document.createElement("div");
   cat.textContent = category;
   cat.style.cssText =
-    "font-family:var(--font-sans);font-size:30px;font-weight:700;color:#fff;background:#d6336c;" +
+    "font-family:var(--font-sans);font-size:30px;font-weight:700;color:#fff;background:#9a4a08;" +
     "padding:6px 24px;border-radius:999px;letter-spacing:.04em;";
   const h = document.createElement("div");
   h.textContent = title;
@@ -336,7 +336,7 @@ function buildPinInPage(opts) {
   // --- 3) 下部: サイト名 + マスコット + ドメイン(〜250px) ---
   const foot = document.createElement("div");
   foot.style.cssText =
-    "height:250px;flex:0 0 250px;background:#d6336c;box-sizing:border-box;" +
+    "height:250px;flex:0 0 250px;background:#9a4a08;box-sizing:border-box;" +
     "padding:40px 60px;display:flex;align-items:center;justify-content:space-between;gap:32px;";
   const brand = document.createElement("div");
   brand.style.cssText = "display:flex;flex-direction:column;gap:10px;";
@@ -359,7 +359,7 @@ function buildPinInPage(opts) {
   const bdomain = document.createElement("div");
   bdomain.textContent = domain;
   bdomain.style.cssText =
-    "font-family:var(--font-sans);font-size:28px;font-weight:500;color:#ffe3ec;letter-spacing:.04em;white-space:nowrap;";
+    "font-family:var(--font-sans);font-size:28px;font-weight:500;color:#ffe6cf;letter-spacing:.04em;white-space:nowrap;";
   brand.appendChild(bname);
   brand.appendChild(bdomain);
   const mascot = document.createElement("img");

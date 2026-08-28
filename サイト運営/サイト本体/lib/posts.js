@@ -7,185 +7,12 @@ import remarkBreaks from "remark-breaks";
 import remarkHtml from "remark-html";
 import { getCategoryMascot, getMascotIntroComment, getMascotOutroComment } from "./categoryMascot";
 import { MAJOR_CATEGORIES } from "./categoryMeta";
-import {
-  LIP_COMPARE_SLUG,
-  renderLipCrossSectionHtml,
-  renderRadarChartHtml,
-  renderProductTableHtml,
-  renderStepGuideHtml,
-  renderLipTocHtml,
-  wrapLipCompareSections,
-} from "./lipCompareExtras";
-import {
-  SUMMER_MAKEUP_SLUG,
-  renderMakeupCrossSectionHtml,
-  renderMakeupDiagnosisFlowHtml,
-  renderTempSebumChartHtml,
-  renderMakeupTimelineHtml,
-  renderMakeupTocHtml,
-  wrapMakeupSections,
-} from "./summerMakeupExtras";
-import {
-  renderBarrierDiagramHtml,
-  renderDryCycleLoopHtml,
-  renderComboChartHtml,
-  renderSkinTypeMatrixHtml,
-  renderVerticalTimelineHtml,
-  dryskinizeSummaryLists,
-} from "./drySkinWidgets";
-import {
-  HYALU_SLUG,
-  renderSkinLayerDiagramHtml,
-  renderMetaphorTrioHtml,
-  renderHyaluTocHtml,
-  insertHyaluToc,
-  wrapHyaluTables,
-} from "./hyaluWidgets";
-import {
-  renderSteps4Html,
-  renderTempDialHtml,
-  renderTradeoffCurveHtml,
-  renderTroubleMatrixHtml,
-  renderChecklistHtml,
-  renderConclusionCardHtml,
-  renderQuickSummaryCardHtml,
-} from "./maegamiWidgets";
-import {
-  renderHairCrossSectionHtml,
-  renderHairDiagnosisFlowHtml,
-  renderHairSilhouetteHtml,
-  renderHairDryingStepsHtml,
-  renderHairChecklistHtml,
-  renderHairSummaryCardHtml,
-  wrapHairTypeSections,
-  wrapHairTypeTables,
-} from "./hairTypeWidgets";
 
-const HAIR_TYPE_SLUG = "2026-08-05_くせ毛タイプ別まとまる髪型ガイド";
-import {
-  renderAzelaicMechanismHtml,
-  renderAzelaicConcentrationTableHtml,
-  renderAzelaicTimelineHtml,
-  renderAzelaicIngredientCompareHtml,
-  renderAzelaicStepsHtml,
-} from "./azelaicAcidWidgets";
-import {
-  MICRONEEDLE_SLUG,
-  renderQuickSummaryHtml,
-  renderTipHtml,
-  renderWarningHtml,
-  renderMemoHtml,
-  renderFinalSummaryHtml,
-  renderStepsHtml as renderMicroneedleStepsHtml,
-  renderNeedleScaleHtml,
-  renderFlowHtml as renderMicroneedleFlowHtml,
-  renderMicroneedleTocHtml,
-  wrapMicroneedleSections,
-} from "./microneedleExtras";
-import {
-  renderPyramidHtml,
-  renderCalendarBandHtml,
-} from "./perfectSkinWidgets";
-import {
-  FOUNDATION_COMPARE_SLUG,
-  wrapFoundationSections,
-  addFoundationTypeBadges,
-} from "./foundationCompareExtras";
-import {
-  renderRoleDiagramHtml as renderSkincareBasicsRoleDiagramHtml,
-  renderFlowDiagramHtml as renderSkincareBasicsFlowDiagramHtml,
-  renderDiagnosisMatrixHtml as renderSkincareBasicsDiagnosisMatrixHtml,
-  renderAmountDiagramHtml as renderSkincareBasicsAmountDiagramHtml,
-} from "./skincareBasicsWidgets";
-import {
-  SKINCARE_BASICS_SLUG,
-  renderQuickSummaryHtml as renderSkincareBasicsQuickSummaryHtml,
-  renderTipHtml as renderSkincareBasicsTipHtml,
-  renderWarningHtml as renderSkincareBasicsWarningHtml,
-  renderMemoHtml as renderSkincareBasicsMemoHtml,
-  renderFinalSummaryHtml as renderSkincareBasicsFinalSummaryHtml,
-  wrapSkincareBasicsSections,
-} from "./skincareBasicsExtras";
-import {
-  KUSUMI_SLUG,
-  renderKusumiFacesHtml,
-  renderKusumiDiagnosisFlowHtml,
-  renderKusumiMatrixHtml,
-  renderKusumiProductTableHtml,
-  renderKusumiChecklistHtml,
-  renderKusumiSummaryCardHtml,
-  renderKusumiTocHtml,
-  wrapKusumiSections,
-} from "./kusumiWidgets";
-import {
-  PORE_CARE_SLUG,
-  renderPoreTypesFacesHtml,
-  renderPoreAxisIconsHtml,
-  renderPoreTextureDialHtml,
-  renderPoreChecklistHtml,
-  renderPoreSummaryCardHtml,
-  renderPoreTocHtml,
-  wrapPoreSections,
-  wrapPoreTables,
-} from "./poreCareWidgets";
-import {
-  renderLayerCrossSectionHtml as renderMkskorderLayerCrossSectionHtml,
-  renderCompatMatrixHtml as renderMkskorderCompatMatrixHtml,
-  renderWaitTimelineHtml as renderMkskorderWaitTimelineHtml,
-  renderCollapseLineChartHtml as renderMkskorderCollapseLineChartHtml,
-  wrapMkskorderSections,
-  wrapMkskorderTables,
-} from "./makeupSkincareOrderWidgets";
 
-const MKSKORDER_SLUG = "2026-07-21_メイクとスキンケアの相性";
-import {
-  ZAITAKU_SLUG,
-  renderSignalDiagramHtml,
-  renderProcessTableHtml,
-  renderTimeBandChartHtml,
-  renderTimelineHtml,
-  wrapZaitakuSections,
-} from "./zaitakuSkincareWidgets";
-import {
-  KSS_SLUG,
-  renderScalpCrossSectionHtml,
-  renderFlakeCloseupHtml,
-  renderDiagnosisFlowHtml as renderKssDiagnosisFlowHtml,
-  renderWashStepsHtml,
-  renderKssTocHtml,
-  wrapKssSections,
-  wrapKssTables,
-} from "./kayumiScalpWidgets";
-import {
-  ASEMO_SLUG,
-  renderSweatGlandCrossSectionHtml,
-  renderDiagnosisFlowHtml as renderAsemoDiagnosisFlowHtml,
-  renderCareStepsHtml,
-  renderCompareCardsHtml,
-  renderChecklistHtml as renderAsemoChecklistHtml,
-  renderSummaryCardHtml as renderAsemoSummaryCardHtml,
-  wrapAsemoTables,
-  wrapAsemoSections,
-  renderAsemoTocHtml,
-} from "./asemoWidgets";
 
 // npm run sync-content (predev/prebuild) によって
 // サイト運営/記事データ/確定稿 から自動コピーされるディレクトリ
 const ARTICLES_DIR = path.join(process.cwd(), "content", "articles");
-
-// renderXTocHtml/insertXToc(このファイル内、下記slug === 〇〇分岐)でcontentHtml冒頭に
-// 記事専用の折りたたみ目次を埋め込んでいるslug一覧。post.hasEmbeddedTocの算出に使う
-// (2026-08-09、目次重複バグ対応で新設)。
-const SLUGS_WITH_EMBEDDED_TOC = new Set([
-  LIP_COMPARE_SLUG,
-  SUMMER_MAKEUP_SLUG,
-  MICRONEEDLE_SLUG,
-  KUSUMI_SLUG,
-  PORE_CARE_SLUG,
-  HYALU_SLUG,
-  KSS_SLUG,
-  ASEMO_SLUG,
-]);
 
 function readArticleFiles() {
   if (!fs.existsSync(ARTICLES_DIR)) return [];
@@ -1162,12 +989,10 @@ function renderLineChartHtml(chart) {
 }
 
 // ==== 汎用4type(steps/checklist/summaryCard/compareCards) ====
-// asemo/pore/kusumi/hairType等の記事ごとの専用widgetファイルで同じ形の実装が
-// 繰り返されていたため、2026-08-08に共通実装として追加。新規記事はこちらのtypeを
-// 使う想定で、既存記事側の専用実装(renderCareStepsHtml等)は移行せずそのまま残す。
-// 関数名は既存の bare importと衝突しないよう Generic を付けている
-// (renderChecklistHtml/renderCareStepsHtml/renderCompareCardsHtmlは他記事のimportで
-// 既に使用済みのため)。
+// 記事ごとの専用widgetファイルで同じ形の実装が繰り返されていたため、
+// 2026-08-08に共通実装として追加した汎用type。記事専用の実装は
+// 2026-08-28に全廃したため、現在はこちらが唯一の実装。
+// 関数名のGenericは当時の命名衝突回避の名残で、そのまま維持している。
 
 // 手順図(chart type: "steps")。items: [{step, note}]
 // note/step双方のテキスト折り返し(2026-08-17、項目35が「寝つきが悪い夜の
@@ -1539,7 +1364,7 @@ function renderProcessContrastMotifHtml(motif, chart, panel) {
     const guidesHtml = guides
       .map((g, i) => {
         const isActive = i === activeIndex;
-        const color = isActive ? "var(--chart-accent, #d6336c)" : "var(--diagram-line, #4a3f33)";
+        const color = isActive ? "var(--chart-accent, #9a4a08)" : "var(--diagram-line, #4a3f33)";
         return `<line x1="20" y1="${g.y}" x2="126" y2="${
           g.y
         }" stroke="${color}" stroke-width="${
@@ -1554,7 +1379,7 @@ function renderProcessContrastMotifHtml(motif, chart, panel) {
     const targetY = guides[activeIndex] ? Number(guides[activeIndex].y) : 40;
     return `<g><circle cx="55" cy="35" r="26" fill="var(--diagram-skin, #f4e4d0)" stroke="var(--diagram-line, #4a3f33)" stroke-width="1.5" /><rect x="45" y="58" width="20" height="30" fill="var(--diagram-skin, #f4e4d0)" stroke="var(--diagram-line, #4a3f33)" stroke-width="1.5" />${guidesHtml}<path d="M40,16 Q30,${
       (16 + targetY) / 2
-    } 38,${targetY}" fill="none" stroke="var(--chart-accent, #d6336c)" stroke-width="6" stroke-linecap="round" /></g>`;
+    } 38,${targetY}" fill="none" stroke="var(--chart-accent, #9a4a08)" stroke-width="6" stroke-linecap="round" /></g>`;
   }
   // hairCuticleContrast: 毛髪の縦断面をシャフト(中心の帯)+左右のキューティクル
   // (鱗状のうろこ)で表現する。panel.state==="damaged"のときキューティクルの
@@ -1584,7 +1409,7 @@ function renderProcessContrastMotifHtml(motif, chart, panel) {
       } Z" fill="var(--diagram-skin, #f4e4d0)" stroke="var(--diagram-line, #4a3f33)" stroke-width="1" />`;
     }
     const shaftHeight = scaleCount * scaleH + 6;
-    const shaftHtml = `<rect x="${shaftX}" y="${top}" width="${shaftWidth}" height="${shaftHeight}" rx="8" fill="var(--chart-accent, #d6336c)" fill-opacity="0.12" stroke="var(--diagram-line, #4a3f33)" stroke-width="1.5" />`;
+    const shaftHtml = `<rect x="${shaftX}" y="${top}" width="${shaftWidth}" height="${shaftHeight}" rx="8" fill="var(--chart-accent, #9a4a08)" fill-opacity="0.12" stroke="var(--diagram-line, #4a3f33)" stroke-width="1.5" />`;
     const causeLabels = isDamaged && Array.isArray(panel.causeLabels) ? panel.causeLabels : [];
     const causesHtml = causeLabels
       .map((label, i) => {
@@ -1645,7 +1470,7 @@ function renderProcessContrastMotifHtml(motif, chart, panel) {
     const sparseFilled = new Set([3, 9, 14, 19]);
     const denseFilled = new Set([0, 1, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13, 15, 16, 18]);
     const filled = isDense ? denseFilled : sparseFilled;
-    const filledColor = isDense ? "var(--chart-accent, #d6336c)" : "var(--color-text-faint, #9ca3af)";
+    const filledColor = isDense ? "var(--chart-accent, #9a4a08)" : "var(--color-text-faint, #9ca3af)";
     const cellSize = 16;
     const gap = 4;
     const cols = 7;
@@ -2023,183 +1848,59 @@ function renderChartHtml(chart, toc, debugSlug) {
   // 以下4種は「乾燥肌とは？」記事(2026-08-05_乾燥肌とは_基本情報.md)専用の
   // 図解タイプ(lib/drySkinWidgets.js参照)。他記事では使用しない想定だが、
   // type名で分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "barrierDiagram") return renderBarrierDiagramHtml(chart);
-  if (chart.type === "dryCycleLoop") return renderDryCycleLoopHtml(chart);
-  if (chart.type === "comboChart") return renderComboChartHtml(chart);
-  if (chart.type === "skinTypeMatrix") return renderSkinTypeMatrixHtml(chart);
-  if (chart.type === "verticalTimeline") return renderVerticalTimelineHtml(chart);
   // 以下4種は「くせ毛タイプ別まとまる髪型ガイド」記事
   // (2026-08-05_くせ毛タイプ別まとまる髪型ガイド.md)専用の図解タイプ
   // (lib/hairTypeWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "hairCrossSection") return renderHairCrossSectionHtml();
-  if (chart.type === "hairDiagnosisFlow") return renderHairDiagnosisFlowHtml();
-  if (chart.type === "hairSilhouette") return renderHairSilhouetteHtml();
-  if (chart.type === "hairDryingSteps") return renderHairDryingStepsHtml();
-  if (chart.type === "hairChecklist") return renderHairChecklistHtml(chart);
-  if (chart.type === "hairSummaryCard") return renderHairSummaryCardHtml(chart);
   // 以下4種は「夏の皮脂汗メイク崩れ対策」記事
   // (2026-07-20_夏の皮脂汗メイク崩れ対策.md)専用の図解タイプ
   // (lib/summerMakeupExtras.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "makeupCrossSection") return renderMakeupCrossSectionHtml();
-  if (chart.type === "makeupDiagnosisFlow") return renderMakeupDiagnosisFlowHtml();
-  if (chart.type === "tempSebumChart") return renderTempSebumChartHtml();
-  if (chart.type === "makeupTimeline") return renderMakeupTimelineHtml();
   // 以下4種は「リップ比較」記事(2026-07-26_リップ比較.md)専用の図解タイプ
   // (lib/lipCompareExtras.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "lipCrossSection") return renderLipCrossSectionHtml(chart);
-  if (chart.type === "radar") return renderRadarChartHtml(chart);
-  if (chart.type === "productTable") return renderProductTableHtml(chart);
-  if (chart.type === "stepGuide") return renderStepGuideHtml(chart);
   // 以下5種は「アゼライン酸とは」記事(2026-08-05_アゼライン酸とは.md)専用の
   // 図解タイプ(lib/azelaicAcidWidgets.js参照)。他記事では使用しない想定だが、
   // type名で分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "azelaicMechanism") return renderAzelaicMechanismHtml();
-  if (chart.type === "azelaicConcentrationTable")
-    return renderAzelaicConcentrationTableHtml();
-  if (chart.type === "azelaicTimeline") return renderAzelaicTimelineHtml();
-  if (chart.type === "azelaicIngredientCompare")
-    return renderAzelaicIngredientCompareHtml();
-  if (chart.type === "azelaicSteps") return renderAzelaicStepsHtml();
   // 以下2種は「普通肌におすすめの美容成分」記事
   // (2026-08-05_普通肌におすすめの美容成分.md)専用の図解タイプ
   // (lib/perfectSkinWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "pyramid") return renderPyramidHtml(chart);
-  if (chart.type === "calendarBand") return renderCalendarBandHtml(chart);
   // 以下8種は「マイクロニードル美容液比較」記事
   // (2026-08-02_マイクロニードル美容液比較.md)専用の図解タイプ
   // (lib/microneedleExtras.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "quickSummary") return renderQuickSummaryHtml(chart);
-  if (chart.type === "tip") return renderTipHtml(chart);
-  if (chart.type === "warning") return renderWarningHtml(chart);
-  if (chart.type === "memo") return renderMemoHtml(chart);
-  if (chart.type === "finalSummary") return renderFinalSummaryHtml(chart);
-  if (chart.type === "steps3") return renderMicroneedleStepsHtml(chart);
-  if (chart.type === "needleScale") return renderNeedleScaleHtml(chart);
-  if (chart.type === "flowDiagnosis") return renderMicroneedleFlowHtml(chart);
   // 以下4種は「前髪の巻き方完全ガイド」記事(2026-08-02_前髪の巻き方完全ガイド.md)専用の
   // 図解タイプ(lib/maegamiWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "steps4") return renderSteps4Html(chart);
-  if (chart.type === "tempDial") return renderTempDialHtml(chart);
-  if (chart.type === "tradeoffCurve") return renderTradeoffCurveHtml(chart);
-  if (chart.type === "troubleMatrix") return renderTroubleMatrixHtml(chart);
   // 以下6種は「くすみケア比較」記事(2026-07-26_くすみケア比較.md)専用の
   // 図解タイプ(lib/kusumiWidgets.js参照)。他記事では使用しない想定だが、
   // type名で分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "kusumiFaces") return renderKusumiFacesHtml();
-  if (chart.type === "kusumiDiagnosisFlow") return renderKusumiDiagnosisFlowHtml();
-  if (chart.type === "kusumiMatrix") return renderKusumiMatrixHtml(chart);
-  if (chart.type === "kusumiProductTable") return renderKusumiProductTableHtml(chart);
-  if (chart.type === "kusumiChecklist") return renderKusumiChecklistHtml(chart);
-  if (chart.type === "kusumiSummaryCard") return renderKusumiSummaryCardHtml(chart);
   // 以下2種は「ヒアルロン酸・コラーゲン・セラミドの違い」記事専用の図解タイプ
   // (lib/hyaluWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "skinLayerDiagram") return renderSkinLayerDiagramHtml();
-  if (chart.type === "metaphorTrio") return renderMetaphorTrioHtml();
   // 以下4種は「基礎化粧品の基本知識と肌質診断」記事
   // (2026-07-26_基礎化粧品の基本知識と肌質診断.md)専用の図解タイプ
   // (lib/skincareBasicsWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "skincareRoleDiagram") return renderSkincareBasicsRoleDiagramHtml();
-  if (chart.type === "skincareFlowDiagram") return renderSkincareBasicsFlowDiagramHtml();
-  if (chart.type === "skincareDiagnosisMatrix")
-    return renderSkincareBasicsDiagnosisMatrixHtml();
-  if (chart.type === "skincareAmountDiagram") return renderSkincareBasicsAmountDiagramHtml();
   // 以下5種も同じく「基礎化粧品の基本知識と肌質診断」記事専用(2026-08-07単調さ改善
   // リニューアルで追加。lib/skincareBasicsExtras.js参照)。マスコット「ネヴォラちゃん」の
   // 吹き出し・サマリーカード・まとめカード。type名で分岐するため他記事には影響しない。
-  if (chart.type === "skincareQuickSummary") return renderSkincareBasicsQuickSummaryHtml(chart);
-  if (chart.type === "skincareTip") return renderSkincareBasicsTipHtml(chart);
-  if (chart.type === "skincareWarning") return renderSkincareBasicsWarningHtml(chart);
-  if (chart.type === "skincareMemo") return renderSkincareBasicsMemoHtml(chart);
-  if (chart.type === "skincareFinalSummary") return renderSkincareBasicsFinalSummaryHtml(chart);
   // 以下4種は「スキンケアの効果、メイクで台無しにしてない？」記事
   // (2026-07-21_メイクとスキンケアの相性.md)専用の図解タイプ
   // (lib/makeupSkincareOrderWidgets.js参照)。他記事では使用しない想定だが、
   // type名で分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "mkskorderLayerCrossSection")
-    return renderMkskorderLayerCrossSectionHtml();
-  if (chart.type === "mkskorderCompatMatrix") return renderMkskorderCompatMatrixHtml();
-  if (chart.type === "mkskorderWaitTimeline") return renderMkskorderWaitTimelineHtml();
-  if (chart.type === "mkskorderCollapseLineChart")
-    return renderMkskorderCollapseLineChartHtml();
   // 以下4種は「在宅ワーク時短スキンケア」記事
   // (2026-07-21_在宅ワーク時短スキンケア削っていい工程.md)専用の図解タイプ
   // (lib/zaitakuSkincareWidgets.js参照。2026-08-07スマホ可読性リニューアルで追加)。
   // 他記事では使用しない想定だが、type名で分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "zaitakuSignal") return renderSignalDiagramHtml(chart);
-  if (chart.type === "zaitakuProcessTable") return renderProcessTableHtml(chart);
-  if (chart.type === "zaitakuTimeBand") return renderTimeBandChartHtml(chart);
-  if (chart.type === "zaitakuTimeline") return renderTimelineHtml(chart);
-  if (chart.type === "kssScalpCrossSection") return renderScalpCrossSectionHtml(chart);
-  if (chart.type === "kssFlakeCloseup") return renderFlakeCloseupHtml(chart);
-  if (chart.type === "kssDiagnosisFlow") return renderKssDiagnosisFlowHtml(chart);
-  if (chart.type === "kssWashSteps") return renderWashStepsHtml(chart);
-  if (chart.type === "asemoSweatGlandCrossSection")
-    return renderSweatGlandCrossSectionHtml(chart);
-  if (chart.type === "asemoDiagnosisFlow") return renderAsemoDiagnosisFlowHtml(chart);
-  if (chart.type === "asemoCareSteps") return renderCareStepsHtml(chart);
-  if (chart.type === "asemoCompareCards") return renderCompareCardsHtml(chart);
-  if (chart.type === "asemoChecklist") return renderAsemoChecklistHtml(chart);
-  if (chart.type === "asemoSummaryCard") return renderAsemoSummaryCardHtml(chart);
   // 以下5種は「毛穴ケア比較」記事(2026-07-26_毛穴ケア比較.md)専用の図解タイプ
   // (lib/poreCareWidgets.js参照)。他記事では使用しない想定だが、type名で
   // 分岐するため他記事のchart処理には影響しない。
-  if (chart.type === "poreTypesFaces") return renderPoreTypesFacesHtml();
-  if (chart.type === "poreAxisIcons") return renderPoreAxisIconsHtml();
-  if (chart.type === "poreTextureDial") return renderPoreTextureDialHtml();
-  if (chart.type === "poreChecklist") return renderPoreChecklistHtml(chart);
-  if (chart.type === "poreSummaryCard") return renderPoreSummaryCardHtml(chart);
   return renderBarChartHtml(chart);
 }
 
-// frontmatterのchecklists/conclusionCards([{afterHeading, ...}])を、
-// afterHeadingのテキストと完全一致する見出しブロックの直後に挿入する
-// (embedCharts/embedAccordionsと同じマッチング方式)。現状は「前髪の巻き方完全ガイド」
-// 記事専用(2026-08-07)だが、afterHeadingが指定されていない記事では何も挿入されない
-// ため他記事の挙動を変えない。
-function embedByHeading(html, items, renderFn) {
-  if (!Array.isArray(items) || items.length === 0) return html;
 
-  const blocks = splitHtmlBlocks(html);
-  const used = new Array(items.length).fill(false);
-  const outBlocks = [];
-
-  for (const block of blocks) {
-    outBlocks.push(block);
-    const headingMatch = block.match(/^<h[23][^>]*>([\s\S]*?)<\/h[23]>/);
-    if (!headingMatch) continue;
-    const headingText = stripTags(headingMatch[1]);
-
-    items.forEach((item, i) => {
-      if (used[i] || !item.afterHeading) return;
-      if (stripTags(item.afterHeading) === headingText) {
-        used[i] = true;
-        outBlocks.push(renderFn(item));
-      }
-    });
-  }
-
-  return outBlocks.join("");
-}
-
-// 記事冒頭(本文最初のH2見出しの直前)に、30秒でわかるサマリーカードを挿入する。
-// insertMascotCommentと同じく、H2見出しの直前という安全な境界にのみ挿入する
-// (現状は「前髪の巻き方完全ガイド」記事専用。dataが無い記事では何もしない)。
-function insertQuickSummaryCard(html, data) {
-  if (!data) return html;
-  const headingRe = /<h2[ >]/;
-  const match = headingRe.exec(html);
-  if (!match) return html;
-  const at = match.index;
-  return html.slice(0, at) + renderQuickSummaryCardHtml(data) + html.slice(at);
-}
 
 // frontmatterのaccordions([{afterHeading, summary, content}])から、開閉式の
 // 折りたたみブロックを組み立てる。記事本文に生HTML(<details>等)を直書きさせず、
@@ -2691,174 +2392,8 @@ export async function getPostBySlug(slug) {
     htmlWithAccordions,
     meta.affiliateLinks
   );
-  // 「前髪の巻き方完全ガイド」記事だけ、チェックリスト・まとめカードを
-  // afterHeading一致の見出し直後に挿入し、記事冒頭(最初のH2直前)に
-  // 30秒でわかるサマリーカードを追加する(lib/maegamiWidgets.js参照)。
-  // frontmatterにこれらのキーが無い記事には一切影響しない。
-  let htmlWithMaegamiWidgets = htmlWithAffiliateBanners;
-  if (Array.isArray(data.checklists)) {
-    htmlWithMaegamiWidgets = embedByHeading(
-      htmlWithMaegamiWidgets,
-      data.checklists,
-      renderChecklistHtml
-    );
-  }
-  if (Array.isArray(data.conclusionCards)) {
-    htmlWithMaegamiWidgets = embedByHeading(
-      htmlWithMaegamiWidgets,
-      data.conclusionCards,
-      renderConclusionCardHtml
-    );
-  }
-  if (data.quickSummaryCard) {
-    htmlWithMaegamiWidgets = insertQuickSummaryCard(
-      htmlWithMaegamiWidgets,
-      data.quickSummaryCard
-    );
-  }
-
   const mascot = getCategoryMascot(meta.category, slug, meta.mascotComment);
-  let contentHtml = insertMascotComment(htmlWithMaegamiWidgets, mascot, slug);
-
-  // 「リップ比較」記事だけ、独自の折りたたみ目次(絵文字付き)を本文冒頭に追加し、
-  // H2見出し単位でセクション背景を交互に変えるラッパーを適用する(他記事は対象外)。
-  if (slug === LIP_COMPARE_SLUG) {
-    contentHtml = renderLipTocHtml(toc) + wrapLipCompareSections(contentHtml);
-  }
-
-  // 「夏の皮脂汗メイク崩れ対策」記事だけ、独自の折りたたみ目次(絵文字付き)を
-  // 本文冒頭に追加し、H2見出し単位でセクション背景を交互に変えるラッパーを
-  // 適用する(他記事は対象外)。
-  if (slug === SUMMER_MAKEUP_SLUG) {
-    contentHtml = `<div class="smk-article">${renderMakeupTocHtml(toc)}${wrapMakeupSections(
-      contentHtml
-    )}</div>`;
-  }
-
-  // 「アゼライン酸とは」記事だけ、スマホ表示専用のレイアウト調整CSS
-  // (styles/azelaicArticle.css)を効かせるためのスコープ用クラスを付与する。
-  // 他記事のcontentHtmlには影響しない。
-  if (slug === "2026-08-05_アゼライン酸とは") {
-    contentHtml = `<div class="azelaic-article">${contentHtml}</div>`;
-  }
-
-  // 「くせ毛タイプ別まとまる髪型ガイド」記事だけ、表の横スクロール対応と
-  // H2見出し単位でのセクション背景交互化を適用する(他記事は対象外)。
-  if (slug === HAIR_TYPE_SLUG) {
-    contentHtml = wrapHairTypeSections(wrapHairTypeTables(contentHtml));
-  }
-
-  // 「ファンデーション崩れタイプ別比較」記事だけ、H2見出し単位でセクション背景を
-  // 交互に変えるラッパーと、タイプ別h3見出しへのラベルバッジ付与を適用する
-  // (lib/foundationCompareExtras.js参照)。他記事には一切影響しない。
-  if (slug === FOUNDATION_COMPARE_SLUG) {
-    contentHtml = wrapFoundationSections(addFoundationTypeBadges(contentHtml));
-  }
-
-  // 「前髪の巻き方完全ガイド」記事だけ、スマホ可読性リニューアル用の専用テーマ
-  // (styles/globals.cssの.maegami-*、テーマカラーはピンク#F08CA0+アイボリー#FFF8F3+
-  // ダークグレー#423A3A)を効かせるスコープ用クラスを付与する。他記事には影響しない。
-  if (slug === "2026-08-02_前髪の巻き方完全ガイド") {
-    contentHtml = `<div class="maegami-theme">${contentHtml}</div>`;
-  }
-
-  // 「マイクロニードル美容液比較」記事だけ、独自の折りたたみ目次(絵文字付き)を
-  // 本文冒頭に追加し、H2見出し単位でセクション背景を交互に変えるラッパーを適用し、
-  // スマホ表示専用CSS(styles/globals.cssの.mn-*)を効かせるスコープ用クラスを
-  // 付与する。他記事のcontentHtmlには一切影響しない。
-  if (slug === MICRONEEDLE_SLUG) {
-    contentHtml = `<div class="mn-article">${renderMicroneedleTocHtml(
-      toc
-    )}${wrapMicroneedleSections(contentHtml)}</div>`;
-  }
-
-  // 「くすみケア比較」記事だけ、独自の折りたたみ目次(絵文字付き)を本文冒頭に追加し、
-  // H2見出し単位でセクション背景を交互に変えるラッパーを適用し、スマホ表示専用CSS
-  // (styles/globals.cssの.kusumi-*)を効かせるスコープ用クラスを付与する。
-  // 他記事のcontentHtmlには一切影響しない。
-  if (slug === KUSUMI_SLUG) {
-    contentHtml = `<div class="kusumi-theme">${renderKusumiTocHtml(toc)}${wrapKusumiSections(
-      contentHtml
-    )}</div>`;
-  }
-
-  // 「毛穴ケア比較」記事だけ、独自の折りたたみ目次(絵文字付き)を本文冒頭に追加し、
-  // 表を横スクロール対応でラップし、H2見出し単位でセクション背景を交互に変える
-  // ラッパーを適用し、スマホ表示専用CSS(styles/globals.cssの.pc-*、テーマカラーは
-  // テラコッタ#D98362+ピーチクリーム#FBEEE4+チャコール#40363A)を効かせるスコープ用
-  // クラスを付与する(2026-08-08スマホ可読性リニューアル)。他記事のcontentHtmlには
-  // 一切影響しない。
-  if (slug === PORE_CARE_SLUG) {
-    contentHtml = `<div class="pore-theme">${renderPoreTocHtml(toc)}${wrapPoreSections(
-      wrapPoreTables(contentHtml)
-    )}</div>`;
-  }
-
-  // 「ヒアルロン酸・コラーゲン・セラミドの違い」記事だけ、スマホ可読性リニューアル用の
-  // 専用テーマ(styles/globals.cssの.hyalu-article、テーマカラーはアクアブルー#3FA9D9+
-  // パールホワイト#F4FAFD+コーラル#F08C7A)を効かせるスコープ用クラスを付与し、
-  // 冒頭サマリーカード(quickSummaryCard、既存の汎用処理)の直後に絵文字付き目次を挿入、
-  // 幅の広い表を横スクロール対応でラップする。他記事のcontentHtmlには影響しない。
-  if (slug === HYALU_SLUG) {
-    contentHtml = `<div class="hyalu-article">${wrapHyaluTables(
-      insertHyaluToc(contentHtml, renderHyaluTocHtml(toc))
-    )}</div>`;
-  }
-
-  // 「基礎化粧品の基本知識と肌質診断」記事だけ、H2見出し単位でセクション背景を
-  // 交互に変えるラッパーを適用し、スマホ表示専用CSS(styles/globals.cssの.skb-*、
-  // テーマカラーはミルクベージュ#C8A882+アイボリー#FBF7F0+グリーンティー#8FA37E)を
-  // 効かせるスコープ用クラスを付与する(2026-08-07単調さ改善リニューアル)。
-  // 他記事のcontentHtmlには一切影響しない。
-  if (slug === SKINCARE_BASICS_SLUG) {
-    contentHtml = `<div class="skb-article">${wrapSkincareBasicsSections(contentHtml)}</div>`;
-  }
-
-  // 「乾燥肌とは?」記事だけ、「⏱ 30秒でわかる」「こんな人におすすめ」内の
-  // 「・」区切りテキストを本物の<ul><li>リストに変換する(他記事は対象外)。
-  if (slug === "2026-08-05_乾燥肌とは_基本情報") {
-    contentHtml = dryskinizeSummaryLists(contentHtml);
-  }
-
-  // 「スキンケアの効果、メイクで台無しにしてない？」記事だけ、表の横スクロール対応と
-  // H2見出し単位でのセクション背景交互化(白/テーマ淡色/罫線カード)を適用する
-  // (lib/makeupSkincareOrderWidgets.js参照。他記事は対象外)。
-  if (slug === MKSKORDER_SLUG) {
-    contentHtml = `<div class="mkskorder-article">${wrapMkskorderSections(
-      wrapMkskorderTables(contentHtml)
-    )}</div>`;
-  }
-
-  // 「在宅ワーク時短スキンケア」記事だけ、スマホ可読性リニューアル用の専用テーマ
-  // (styles/globals.cssの.zwsc-*、テーマカラーはモスグリーン#5FA88C+ウォームクリーム#FAF3E7+
-  // テラコッタ#D98F6E)を効かせるスコープ用クラスを付与し、H2見出し単位でセクション背景を
-  // 交互に変えるラッパーを適用する(2026-08-07)。他記事のcontentHtmlには影響しない。
-  if (slug === ZAITAKU_SLUG) {
-    contentHtml = `<div class="zwsc-article">${wrapZaitakuSections(contentHtml)}</div>`;
-  }
-
-  // 「頭皮のかゆみ・フケに効くシャンプー比較」記事だけ、独自の折りたたみ目次(絵文字付き)を
-  // 本文冒頭に追加し、H2見出し単位でセクション背景を交互に変えるラッパーを適用し、
-  // スマホ表示専用CSS(styles/globals.cssの.kss-*、テーマカラーはミントグリーン#4FB49B+
-  // スレートグレー#4C5A63+ペールミント#EAF6F2)を効かせるスコープ用クラスを付与する
-  // (2026-08-08 スマホ可読性リニューアル)。他記事のcontentHtmlには一切影響しない。
-  if (slug === KSS_SLUG) {
-    contentHtml = `<div class="kss-article">${renderKssTocHtml(toc)}${wrapKssSections(
-      wrapKssTables(contentHtml)
-    )}</div>`;
-  }
-
-  // 「大人のあせも」記事だけ、独自の折りたたみ目次(絵文字付き)を本文冒頭に追加し、
-  // H2見出し単位でセクション背景を交互に変えるラッパーを適用し、幅の広い表を横スクロール
-  // 対応でラップし、スマホ表示専用CSS(styles/globals.cssの.asemo-*、テーマカラーは
-  // コーラルオレンジ#E8734F+クリームピーチ#FFF3EA+セージグリーン#7FA98B)を効かせる
-  // スコープ用クラスを付与する(2026-08-08 スマホ可読性リニューアル)。
-  // 他記事のcontentHtmlには一切影響しない。
-  if (slug === ASEMO_SLUG) {
-    contentHtml = `<div class="asemo-article">${renderAsemoTocHtml(toc)}${wrapAsemoSections(
-      wrapAsemoTables(contentHtml)
-    )}</div>`;
-  }
+  let contentHtml = insertMascotComment(htmlWithAffiliateBanners, mascot, slug);
 
   // 新規記事はfrontmatterに sectionAlternate: true を指定するだけで、H2見出し単位の
   // セクション背景交互化(汎用CSSクラス.article-section-*)を適用できる
@@ -2873,11 +2408,6 @@ export async function getPostBySlug(slug) {
     ...meta,
     contentHtml,
     toc,
-    // 上記のrenderXTocHtml/insertXToc呼び出しでcontentHtml冒頭に専用目次を
-    // 埋め込み済みのslugでは、pages/posts/[slug].js側の共通<ArticleToc>を
-    // 重ねて表示すると目次が2つ並んでしまう(2026-08-09判明)。
-    // ここで検出してページ側の共通目次を出し分ける。
-    hasEmbeddedToc: SLUGS_WITH_EMBEDDED_TOC.has(slug),
     conclusionAnchor: findConclusionAnchor(toc),
     readTimeMinutes: estimateReadTimeMinutes(contentHtml),
     // 本文中に紐づく言及が見つからなかったアフィリエイトリンク(あれば)。

@@ -24,7 +24,7 @@ const fs = require("fs");
 const sharp = require("sharp");
 
 const SRC_DIR =
-  "c:/Users/kokim/OneDrive/デスクトップ/画像フォルダ/各種サイト/副業サイト/ライブラリ";
+  "c:/Users/kokim/OneDrive/デスクトップ/画像フォルダ/各種サイト/副業サイト/ライブラリ/ホームページ用";
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const RESPONSIVE_WIDTHS = [640, 1024, 1600];
 const RESPONSIVE_FALLBACK = 1600;
@@ -32,33 +32,34 @@ const CARD_WIDTH = 800;
 const QUALITY = 78;
 
 // key: 絞り込み用の識別子 / src: 元画像 / out: public配下の出力パス(拡張子なし)
-// srcのファイル名は、ChatGPTで生成した画像をSRC_DIRに保存したときの実ファイル名に
-// 書き換えてから実行すること(下記は推奨のリネーム名)。
+// srcは「ホームページ用」フォルダ内の実ファイル名。ChatGPTの既定名
+// (ChatGPT Image ....png)のままにせず、下記の意味の分かる名前にリネームして置く
+// (素材を差し替えてもスクリプトの書き換えが不要になる)。
 const MANIFEST = [
   // ---- ヒーロー ----
   // 左55%が明るい無地(白壁・光)で、被写体は右寄り。左に白文字のコピーを重ねる
-  { key: "hero", src: "ChatGPT Image 2026年8月28日 11_27_17.png", out: "images/hero/home-hero", responsive: true },
+  { key: "hero", src: "home-hero.png", out: "images/hero/home-hero", responsive: true },
 
   // ---- セクションバンド ----
   // band-01: 左側に余白のある横長写真。「あなたの副業の悩みから探す」の見出しを重ねる
-  { key: "band-01", src: "ChatGPT Image 2026年8月28日 11_27_22.png", out: "images/band/band-01", responsive: true },
+  { key: "band-01", src: "band-01.png", out: "images/band/band-01", responsive: true },
   // band-02: テキストを重ねない装飾用の静物写真
-  { key: "band-02", src: "ChatGPT Image 2026年8月28日 11_27_28.png", out: "images/band/band-02", responsive: true },
+  { key: "band-02", src: "band-02.png", out: "images/band/band-02", responsive: true },
 
   // ---- カテゴリカード(任意。生成したものだけ有効化する) ----
   // 出力名はlib/categoryMeta.jsのimageフィールドに書くパスと一致させること
-  { key: "category-start", src: "ChatGPT Image 2026年8月28日 11_27_35.png", out: "images/category/start" },
-  { key: "category-writing", src: "ChatGPT Image 2026年8月28日 11_27_41.png", out: "images/category/writing" },
-  { key: "category-design", src: "ChatGPT Image 2026年8月28日 11_27_47.png", out: "images/category/design" },
-  { key: "category-programming", src: "ChatGPT Image 2026年8月28日 11_27_53.png", out: "images/category/programming" },
-  { key: "category-resale", src: "ChatGPT Image 2026年8月28日 11_28_00.png", out: "images/category/resale" },
-  { key: "category-blog", src: "ChatGPT Image 2026年8月28日 11_28_06.png", out: "images/category/blog" },
-  { key: "category-skill-market", src: "ChatGPT Image 2026年8月28日 11_28_13.png", out: "images/category/skill-market" },
-  { key: "category-points", src: "ChatGPT Image 2026年8月28日 11_28_21.png", out: "images/category/points" },
-  { key: "category-remote-work", src: "ChatGPT Image 2026年8月28日 11_28_28.png", out: "images/category/remote-work" },
-  { key: "category-tax", src: "ChatGPT Image 2026年8月28日 11_28_33.png", out: "images/category/tax" },
-  { key: "category-invest", src: "ChatGPT Image 2026年8月28日 11_28_40.png", out: "images/category/invest" },
-  { key: "category-basics", src: "ChatGPT Image 2026年8月28日 11_28_45.png", out: "images/category/basics" },
+  { key: "category-start", src: "category-start.png", out: "images/category/start" },
+  { key: "category-writing", src: "category-writing.png", out: "images/category/writing" },
+  { key: "category-design", src: "category-design.png", out: "images/category/design" },
+  { key: "category-programming", src: "category-programming.png", out: "images/category/programming" },
+  { key: "category-resale", src: "category-resale.png", out: "images/category/resale" },
+  { key: "category-blog", src: "category-blog.png", out: "images/category/blog" },
+  { key: "category-skill-market", src: "category-skill-market.png", out: "images/category/skill-market" },
+  { key: "category-points", src: "category-points.png", out: "images/category/points" },
+  { key: "category-remote-work", src: "category-remote-work.png", out: "images/category/remote-work" },
+  { key: "category-tax", src: "category-tax.png", out: "images/category/tax" },
+  { key: "category-invest", src: "category-invest.png", out: "images/category/invest" },
+  { key: "category-basics", src: "category-basics.png", out: "images/category/basics" },
 ];
 
 async function emit(srcPath, outBase, width, suffix) {

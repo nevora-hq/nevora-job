@@ -1,16 +1,16 @@
 // カテゴリ別のマスコットキャラクター設定。
-// NEVORA公式マスコット体系。大カテゴリ12種 + サイト全体のメインマスコット
-// 「ネヴォミンちゃん」で構成する。
+// NEVORA公式マスコット体系。大カテゴリ12種で構成し、そのうち
+// 「副業の始め方」担当のハジミンがサイト全体の主役を兼ねる。
 // 各キャラは normalImage(挨拶)/researchImage(補足)/matomeImage(振り返り)の
-// 3ポーズを持つ。画像ファイル名は旧名(tsuyamin等)のまま流用しており、
-// 表示名だけを副業サイト向けに付け直している。
+// 3ポーズを持つ。SVGは scripts/generate-mascots.js が1つのテンプレートから
+// 生成するため、絵柄を直すときはそのスクリプトを編集して再実行する。
 // 新ジャンル追加時はこのファイルに追記するだけで拡張できる設計を維持する。
 
 export const HAJIMIN = {
   name: "ハジミンちゃん",
-  normalImage: "/images/mascot/tsuyamin-normal.svg",
-  researchImage: "/images/mascot/tsuyamin-research.svg",
-  matomeImage: "/images/mascot/tsuyamin-matome.svg",
+  normalImage: "/images/mascot/hajimin-normal.svg",
+  researchImage: "/images/mascot/hajimin-research.svg",
+  matomeImage: "/images/mascot/hajimin-matome.svg",
   comments: [
     "向いている副業は人それぞれ。まずは小さく試してみてね。",
     "最初の1件が一番むずかしいから、そこだけ乗り越えよう。",
@@ -28,9 +28,9 @@ export const HAJIMIN = {
 
 const KAKIMIN = {
   name: "カキミンちゃん",
-  normalImage: "/images/mascot/kiramin-normal.svg",
-  researchImage: "/images/mascot/kiramin-research.svg",
-  matomeImage: "/images/mascot/kiramin-matome.svg",
+  normalImage: "/images/mascot/kakimin-normal.svg",
+  researchImage: "/images/mascot/kakimin-research.svg",
+  matomeImage: "/images/mascot/kakimin-matome.svg",
   comments: [
     "書く仕事は、実績が増えるほど条件がよくなっていくよ。",
     "最初の単価だけで判断せず、続けられるかどうかも見てみてね。",
@@ -47,9 +47,9 @@ const KAKIMIN = {
 
 const TSUKUMIN = {
   name: "ツクミンちゃん",
-  normalImage: "/images/mascot/iromin-normal.svg",
-  researchImage: "/images/mascot/iromin-research.svg",
-  matomeImage: "/images/mascot/iromin-matome.svg",
+  normalImage: "/images/mascot/tsukumin-normal.svg",
+  researchImage: "/images/mascot/tsukumin-research.svg",
+  matomeImage: "/images/mascot/tsukumin-matome.svg",
   comments: [
     "作ったものは、そのままポートフォリオになるよ。",
     "同じ道具でも仕上がりは人それぞれ。まずは1本作ってみよう。",
@@ -66,9 +66,9 @@ const TSUKUMIN = {
 
 const KODOMIN = {
   name: "コドミンちゃん",
-  normalImage: "/images/mascot/denmin-normal.svg",
-  researchImage: "/images/mascot/denmin-research.svg",
-  matomeImage: "/images/mascot/denmin-matome.svg",
+  normalImage: "/images/mascot/kodomin-normal.svg",
+  researchImage: "/images/mascot/kodomin-research.svg",
+  matomeImage: "/images/mascot/kodomin-matome.svg",
   comments: [
     "全部を覚えてから始めなくて大丈夫。小さく作って動かそう。",
     "エラーは失敗じゃなくて、次のヒントだよ。",
@@ -85,9 +85,9 @@ const KODOMIN = {
 
 const URIMIN = {
   name: "ウリミンちゃん",
-  normalImage: "/images/mascot/mochimin-normal.svg",
-  researchImage: "/images/mascot/mochimin-research.svg",
-  matomeImage: "/images/mascot/mochimin-matome.svg",
+  normalImage: "/images/mascot/urimin-normal.svg",
+  researchImage: "/images/mascot/urimin-research.svg",
+  matomeImage: "/images/mascot/urimin-matome.svg",
   comments: [
     "仕入れる前に、手数料と送料まで含めて計算してみてね。",
     "売れる数より、残ったときのことを先に考えておこう。",
@@ -104,9 +104,9 @@ const URIMIN = {
 
 const BUROMIN = {
   name: "ブロミンちゃん",
-  normalImage: "/images/mascot/saramin-normal.svg",
-  researchImage: "/images/mascot/saramin-research.svg",
-  matomeImage: "/images/mascot/saramin-matome.svg",
+  normalImage: "/images/mascot/buromin-normal.svg",
+  researchImage: "/images/mascot/buromin-research.svg",
+  matomeImage: "/images/mascot/buromin-matome.svg",
   comments: [
     "すぐには伸びないけれど、書いた分だけ残っていくよ。",
     "誰に向けて書くかを決めると、内容がぶれにくくなるよ。",
@@ -123,9 +123,9 @@ const BUROMIN = {
 
 const UKEMIN = {
   name: "ウケミンちゃん",
-  normalImage: "/images/mascot/utsumin-normal.svg",
-  researchImage: "/images/mascot/utsumin-research.svg",
-  matomeImage: "/images/mascot/utsumin-matome.svg",
+  normalImage: "/images/mascot/ukemin-normal.svg",
+  researchImage: "/images/mascot/ukemin-research.svg",
+  matomeImage: "/images/mascot/ukemin-matome.svg",
   comments: [
     "できることを細かく書くほど、依頼側は選びやすくなるよ。",
     "条件のすり合わせは、着手前にきちんと文字で残しておこう。",
@@ -142,9 +142,9 @@ const UKEMIN = {
 
 const TAMEMIN = {
   name: "タメミンちゃん",
-  normalImage: "/images/mascot/kurumin-normal.svg",
-  researchImage: "/images/mascot/kurumin-research.svg",
-  matomeImage: "/images/mascot/kurumin-matome.svg",
+  normalImage: "/images/mascot/tamemin-normal.svg",
+  researchImage: "/images/mascot/tamemin-research.svg",
+  matomeImage: "/images/mascot/tamemin-matome.svg",
   comments: [
     "小さな金額でも、続けると意外とまとまるよ。",
     "個人情報の扱いだけは、登録前に確認しておこうね。",
@@ -161,9 +161,9 @@ const TAMEMIN = {
 
 const FUYAMIN = {
   name: "フヤミンちゃん",
-  normalImage: "/images/mascot/hikamin-normal.svg",
-  researchImage: "/images/mascot/hikamin-research.svg",
-  matomeImage: "/images/mascot/hikamin-matome.svg",
+  normalImage: "/images/mascot/fuyamin-normal.svg",
+  researchImage: "/images/mascot/fuyamin-research.svg",
+  matomeImage: "/images/mascot/fuyamin-matome.svg",
   comments: [
     "増やす前に、減らさない工夫から始めてみてね。",
     "値動きのある商品は、余裕資金の範囲で付き合おう。",
@@ -180,9 +180,9 @@ const FUYAMIN = {
 
 const ZEIMIN = {
   name: "ゼイミンちゃん",
-  normalImage: "/images/mascot/karumin-normal.svg",
-  researchImage: "/images/mascot/karumin-research.svg",
-  matomeImage: "/images/mascot/karumin-matome.svg",
+  normalImage: "/images/mascot/zeimin-normal.svg",
+  researchImage: "/images/mascot/zeimin-research.svg",
+  matomeImage: "/images/mascot/zeimin-matome.svg",
   comments: [
     "領収書は、あとで困らないように今のうちに残しておこう。",
     "判断に迷う金額は、税務署や税理士に確認するのが確実だよ。",
@@ -199,9 +199,9 @@ const ZEIMIN = {
 
 const OUCHIMIN = {
   name: "オウチミンちゃん",
-  normalImage: "/images/mascot/nemumin-normal.svg",
-  researchImage: "/images/mascot/nemumin-research.svg",
-  matomeImage: "/images/mascot/nemumin-matome.svg",
+  normalImage: "/images/mascot/ouchimin-normal.svg",
+  researchImage: "/images/mascot/ouchimin-research.svg",
+  matomeImage: "/images/mascot/ouchimin-matome.svg",
   comments: [
     "がんばりすぎない設計にしておくと、長く続けられるよ。",
     "作業する時間を先に決めてしまうと、迷わなくなるよ。",
@@ -236,26 +236,13 @@ const MANAMIN = {
 };
 
 // サイト全体のメインマスコット。カテゴリを横断する案内・ホームページで使用する。
-export const NEVOMIN = {
-  name: "ネヴォミンちゃん",
-  normalImage: "/images/mascot/nevomin-normal.svg",
-  researchImage: "/images/mascot/nevomin-research.svg",
-  matomeImage: "/images/mascot/nevomin-matome.svg",
-  comments: [
-    "気になるテーマは、カテゴリからも探せるよ。",
-    "迷ったときは、担当のミンたちに聞いてみてね。",
-  ],
-  introComments: [
-    "こんにちは、ネヴォミンです。NEVORAへようこそ。",
-    "ようこそ、NEVORAへ。ここでは色んな「ミン」たちが案内役をしていますよ。",
-  ],
-  outroComments: [
-    "気になるカテゴリがあれば、担当のミンたちが待っていますよ。",
-    "また会いましょう。今日も読んでくれてありがとう。",
-  ],
+// 「副業の始め方」担当のハジミンが、そのままサイトの主役を兼ねる
+// (2026-08-28、美容サイト由来のしずく型マスコット「ネヴォミン」を廃止して交代)。
+export const MAIN_MASCOT = {
+  ...HAJIMIN,
   // ホームページ冒頭専用の自己紹介コメント(トップページのみで使用)。
   homeComment:
-    "はじめまして、ネヴォミンだよ!このサイトでは副業に役立つ情報を、カテゴリー担当のなかまたちと一緒に紹介しているよ。気になるジャンルから読んでみてね。",
+    "はじめまして、ハジミンだよ!このサイトでは副業に役立つ情報を、カテゴリー担当のなかまたちと一緒に紹介しているよ。気になるジャンルから読んでみてね。",
 };
 
 const CATEGORY_MASCOTS = {
