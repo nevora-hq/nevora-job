@@ -107,7 +107,7 @@ Webサイト
 | Vercelプロジェクト | `nevora-job`(チーム: nevora-hq) |
 | 連携リポジトリ | `nevora-hq/nevora-job`(main ブランチ) |
 | Root Directory | `サイト運営/サイト本体` |
-| 暫定URL | https://nevora-job.vercel.app (カスタムドメインは未設定) |
+| 公開URL | https://nevora-job.vercel.app (独自ドメインは取得せず、当面この vercel.app で運用する) |
 
 デプロイは main への `git push` による自動デプロイのみを正規の手段とする
 (手動の `vercel --prod` は使わない。理由はプロジェクト直下の `CLAUDE.md`「デプロイ運用ルール」を参照)。
@@ -117,8 +117,8 @@ Webサイト
 | 変数 | 現在の値 | 補足 |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | `https://nevora-job.vercel.app` | canonical・og:url・JSON-LD の絶対URLに使う。独自ドメイン確定時に差し替える |
-| `NEXT_PUBLIC_FORMSPREE_ENDPOINT` | ダミー値 | 本番のフォーム作成までは送信が必ず失敗する。誤送信防止のため意図的にダミーにしている |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | 未設定 | 未設定の間は計測タグ自体を読み込まない(`lib/gtag.js`)。GA4プロパティ作成後に設定する |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | 設定済み | Search Consoleの所有権確認用metaタグ(`pages/_document.js`)。サイトマップの送信は正式公開時に行う |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | `G-6KEN9VTX2B` | 本番のみ計測が有効(`lib/gtag.js` の `isGAEnabled`)。未設定だとタグ自体を読み込まない |
 | `NEXT_PUBLIC_ALLOW_INDEX` | 未設定 | **未設定の間は全ページ noindex + robots.txt が `Disallow: /`**。ドメイン確定・公開準備が整った時点で `1` を設定して解除する |
 
 
@@ -144,3 +144,15 @@ C:\Users\kokim\OneDrive\デスクトップ\画像フォルダ\各種サイト\�
 - マスコットの絵柄を直すときは `scripts/generate-mascots.js` を編集 → `node scripts/generate-mascots.js` → `npm run brand-assets` の順で実行する
 - 元画像の幅を変えたときは、生成される `-<幅>.webp` の名前も変わる。`components/HeroBanner.js` と `pages/index.js` の `srcSet` / `widths` を実ファイルに合わせ、古い幅のファイルを削除すること(消し忘れると旧画像が配信され続ける)
 - コントラスト検査の手順: `npm run build` のあと `npx next start -p 3123` を起動した状態で `npm run check:contrast`
+
+## お問い合わせの受け口
+
+入力フォームは設置していない。問い合わせは `nevora01123@gmail.com` へのメールに一本化しており、
+`pages/contact.js` はアドレスの明示と `mailto:` リンク(件名・雛形入り)だけで構成する。
+
+- フォーム配信サービス(Formspree)は有料化のリスクがあるため2026-08-28に廃止した。
+  `NEXT_PUBLIC_FORMSPREE_ENDPOINT` は環境変数・`.env` 系ファイル・Vercelのいずれからも削除済み
+- 「送信 → 失敗 → メールで連絡してください」という遠回りの動線を作らないため、
+  送信フォームやエラー表示を復活させないこと
+- 受け口を変えたときは `pages/privacy-policy.js` の「個人情報の取得について」も合わせて直す
+

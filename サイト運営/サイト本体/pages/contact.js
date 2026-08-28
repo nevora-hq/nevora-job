@@ -1,129 +1,70 @@
-import { useState } from "react";
 import Layout from "../components/Layout";
 
 const CONTACT_EMAIL = "nevora01123@gmail.com";
+const MAIL_SUBJECT = "【副業の総合ガイド｜NEVORA】お問い合わせ";
 
-// Formspreeのフォームエンドポイント(例: https://formspree.io/f/xxxxxxxx)。
-// 未設定の場合はmailto:方式(訪問者のメールソフトで下書きを開く)にフォールバックし、
-// フォーム自体は壊れないようにしている。
-const FORM_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "";
+// 問い合わせはメール直行に一本化している(2026-08-28)。
+// フォーム配信サービス(Formspree)は有料化のリスクがあるため廃止し、
+// 送信の可否がこちらの契約状況に左右されない形にした。
+// 「送信 → 失敗 → メールで連絡してください」という遠回りの動線を作らないため、
+// このページでは最初からメールアドレスとmailtoリンクを主動線として提示する。
+const mailtoHref =
+  `mailto:${CONTACT_EMAIL}` +
+  `?subject=${encodeURIComponent(MAIL_SUBJECT)}` +
+  `&body=${encodeURIComponent(
+    "以下にお問い合わせ内容をご記入ください。\n\n" +
+      "──────────────\n" +
+      "お名前:\n" +
+      "ご連絡先(返信が必要な場合):\n\n" +
+      "お問い合わせ内容:\n\n" +
+      "──────────────\n"
+  )}`;
 
 export default function Contact() {
-  // idle | sending | sent | error
-  const [status, setStatus] = useState("idle");
-
-  function sendByMailto(name, email, message) {
-    const subject = encodeURIComponent("【副業の総合ガイド｜NEVORA】お問い合わせ");
-    const body = encodeURIComponent(
-      `お名前: ${name}\nメールアドレス: ${email}\n\n${message}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const message = form.message.value;
-
-    // ハニーポット。人間には見えない項目が埋まっていればbotとみなし、
-    // 送信したように見せて破棄する。
-    if (form._gotcha.value) {
-      setStatus("sent");
-      return;
-    }
-
-    if (!FORM_ENDPOINT) {
-      sendByMailto(name, email, message);
-      return;
-    }
-
-    setStatus("sending");
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
-      });
-      if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
-      form.reset();
-      setStatus("sent");
-    } catch (err) {
-      setStatus("error");
-    }
-  }
-
   return (
     <Layout
       title="お問い合わせ | 副業の総合ガイド｜NEVORA"
-      description="副業の総合ガイド｜NEVORAへのお問い合わせページです。"
+      description="副業の総合ガイド｜NEVORAへのお問い合わせページです。メールにてご連絡ください。"
       canonicalPath="/contact"
     >
       <h1 className="page-title">お問い合わせ</h1>
       <div className="article-body">
         <p>
-          記事内容に関するご意見・ご指摘、掲載情報の訂正依頼、その他お問い合わせは、以下のフォームよりご連絡ください。
-          {FORM_ENDPOINT
-            ? "内容を確認のうえ、必要に応じて運営者よりご返信いたします。"
-            : "送信ボタンを押すと、お使いのメールソフトで下書きが作成されます。内容をご確認のうえ送信してください。"}
+          記事内容へのご意見・ご指摘、掲載情報の訂正依頼、取材・お仕事のご依頼などは、
+          下記のメールアドレス宛にご連絡ください。内容を確認のうえ、必要に応じて運営者よりご返信いたします。
         </p>
 
-        {status === "sent" ? (
-          <p className="form-message form-message-success" role="status">
-            送信が完了しました。お問い合わせいただきありがとうございます。
+        <div className="contact-card">
+          <p className="contact-card-label">メールアドレス</p>
+          <p className="contact-card-address">
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </p>
-        ) : (
-          <form onSubmit={handleSubmit} className="form">
-            <label className="form-field">
-              お名前
-              <input type="text" name="name" required disabled={status === "sending"} />
-            </label>
-            <label className="form-field">
-              メールアドレス
-              <input type="email" name="email" required disabled={status === "sending"} />
-            </label>
-            <label className="form-field">
-              お問い合わせ内容
-              <textarea name="message" required rows={6} disabled={status === "sending"} />
-            </label>
+          <a href={mailtoHref} className="affiliate-link-btn contact-card-btn">
+            メールソフトで書き始める
+          </a>
+          <p className="contact-card-note">
+            ボタンを押すと、お使いのメールソフトで宛先と件名が入った下書きが開きます。
+            開かない場合は、上のアドレスをコピーしてお使いのメールサービスからお送りください。
+          </p>
+        </div>
 
-            {/* スパム対策のハニーポット。画面には表示しない */}
-            <input
-              type="text"
-              name="_gotcha"
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden="true"
-              style={{ display: "none" }}
-            />
-
-            <button
-              type="submit"
-              className="affiliate-link-btn form-submit"
-              disabled={status === "sending"}
-            >
-              {status === "sending"
-                ? "送信中…"
-                : FORM_ENDPOINT
-                  ? "送信する"
-                  : "メールソフトで送信する"}
-            </button>
-
-            {status === "error" && (
-              <p className="form-message form-message-error" role="alert">
-                送信に失敗しました。時間をおいて再度お試しいただくか、{CONTACT_EMAIL} まで直接ご連絡ください。
-              </p>
-            )}
-          </form>
-        )}
+        <h2>ご連絡いただく際のお願い</h2>
+        <ul>
+          <li>該当する記事がある場合は、記事のタイトルまたはURLを添えてください</li>
+          <li>返信が必要な場合は、返信先のメールアドレスをご記入ください</li>
+          <li>
+            内容によっては返信までにお時間をいただく場合や、返信を差し控える場合があります
+          </li>
+          <li>
+            個別の税務・法務・投資に関するご相談にはお答えできません。税務署・税理士等の
+            専門機関にご相談ください
+          </li>
+        </ul>
 
         <p className="page-note" style={{ marginTop: 24, marginBottom: 0 }}>
-          {FORM_ENDPOINT
-            ? "ご入力いただいた内容は、お問い合わせへの対応のみに利用します。送信にはフォーム配信サービス「Formspree」を利用しており、入力内容は同サービスを経由して運営者へ届きます。詳しくは"
-            : "ご入力いただいた内容は、お問い合わせへの対応のみに利用します。詳しくは"}
+          いただいたメールの内容・メールアドレスは、お問い合わせへの対応のみに利用します。詳しくは
           <a href="/privacy-policy">プライバシーポリシー</a>
-          をご確認ください。フォームが利用できない場合は、{CONTACT_EMAIL} まで直接ご連絡ください。
+          をご確認ください。
         </p>
       </div>
     </Layout>
