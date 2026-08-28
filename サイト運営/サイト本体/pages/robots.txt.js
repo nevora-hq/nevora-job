@@ -16,7 +16,7 @@ export async function getServerSideProps({ req, res }) {
   const body = allowIndex
     ? `User-agent: *
 Allow: /
-Disallow: /admin/
+Disallow: /admin
 Disallow: /api/
 
 Sitemap: ${siteUrl}/sitemap.xml

@@ -101,7 +101,10 @@ export function buildPublisherOrganization(siteUrl) {
 // 記事ページ用のArticle。
 export function buildArticleJsonLd(post, siteUrl) {
   if (!siteUrl) return null;
-  const url = `${siteUrl}/posts/${post.slug}`;
+  // 日本語スラッグはpages/sitemap.xml.js・canonicalと同じpercent-encoded形式で出力する
+  // (生の日本語のままだとsitemap・canonicalのURLと文字列が一致せず、別URL扱いになる)。
+  // post.slugはファイル名から取り出した未エンコードの値のため、ここでの1回の変換で二重エンコードにはならない。
+  const url = `${siteUrl}/posts/${encodeURIComponent(post.slug)}`;
   const image = post.thumbnail ? `${siteUrl}${post.thumbnail}` : undefined;
   return {
     "@context": "https://schema.org",

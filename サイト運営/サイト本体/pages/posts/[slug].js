@@ -76,7 +76,7 @@ export default function PostPage({ post, related, nextPost }) {
       title={`${post.title} | ${SITE_NAME}`}
       description={post.description}
       ogImage={post.thumbnail}
-      canonicalPath={`/posts/${post.slug}`}
+      canonicalPath={`/posts/${encodeURIComponent(post.slug)}`}
       ogType="article"
       publishedTime={toIsoJst(post.date)}
       modifiedTime={toIsoJst(post.updatedDate || post.date)}
