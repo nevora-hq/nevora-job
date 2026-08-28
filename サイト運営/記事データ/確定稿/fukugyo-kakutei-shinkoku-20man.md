@@ -6,6 +6,7 @@ tags: ["副業 確定申告", "20万円ルール", "副業 住民税", "雑所�
 date: "2026-08-28"
 sectionAlternate: true
 thumbnail: "/images/articles/fukugyo-20man-thumb.webp"
+heroImage: "/images/articles/fukugyo-20man-hero.webp"
 summaryPoints:
   - "「20万円」は売上ではなく、経費を引いたあとの所得で判定する"
   - "20万円以下で所得税の申告が不要でも、住民税の申告は別に必要になることがある"
