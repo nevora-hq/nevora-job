@@ -24,7 +24,7 @@ const fs = require("fs");
 const sharp = require("sharp");
 
 const SRC_DIR =
-  "c:/Users/kokim/OneDrive/デスクトップ/画像フォルダ/美容サイト/ホームページ修正用";
+  "c:/Users/kokim/OneDrive/デスクトップ/画像フォルダ/各種サイト/副業サイト/ライブラリ";
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const RESPONSIVE_WIDTHS = [640, 1024, 1600];
 const RESPONSIVE_FALLBACK = 1600;
@@ -32,29 +32,33 @@ const CARD_WIDTH = 800;
 const QUALITY = 78;
 
 // key: 絞り込み用の識別子 / src: 元画像 / out: public配下の出力パス(拡張子なし)
+// srcのファイル名は、ChatGPTで生成した画像をSRC_DIRに保存したときの実ファイル名に
+// 書き換えてから実行すること(下記は推奨のリネーム名)。
 const MANIFEST = [
-  // ---- ヒーロー(Step1) ----
-  { key: "hero", src: "ChatGPT Image 2026年8月17日 15_49_19.png", out: "images/hero/home-hero", responsive: true },
+  // ---- ヒーロー ----
+  // 左55%が明るい無地(白壁・光)で、被写体は右寄り。左に白文字のコピーを重ねる
+  { key: "hero", src: "ChatGPT Image 2026年8月28日 11_27_17.png", out: "images/hero/home-hero", responsive: true },
 
-  // ---- セクションバンド(Step4) ----
-  // band-01: 左側に白壁の余白がある横長写真。「あなたの美容の悩みから探す」の見出しを重ねる
-  { key: "band-01", src: "ChatGPT Image 2026年8月17日 15_49_25.png", out: "images/band/band-01", responsive: true },
-  // band-02: ゴールドポンプのボトル3本と木製コームの静物(テキストは重ねない)
-  { key: "band-02", src: "ChatGPT Image 2026年8月17日 15_49_40.png", out: "images/band/band-02", responsive: true },
+  // ---- セクションバンド ----
+  // band-01: 左側に余白のある横長写真。「あなたの副業の悩みから探す」の見出しを重ねる
+  { key: "band-01", src: "ChatGPT Image 2026年8月28日 11_27_22.png", out: "images/band/band-01", responsive: true },
+  // band-02: テキストを重ねない装飾用の静物写真
+  { key: "band-02", src: "ChatGPT Image 2026年8月28日 11_27_28.png", out: "images/band/band-02", responsive: true },
 
-  // ---- カテゴリカード(Step3)。出力名は既存の/images/category/*.webpをそのまま踏襲する ----
-  { key: "category-skincare", src: "ChatGPT Image 2026年8月17日 15_49_35.png", out: "images/category/skincare" },
-  { key: "category-ingredient", src: "ChatGPT Image 2026年8月17日 19_35_47.png", out: "images/category/ingredient" },
-  { key: "category-cosmetics", src: "ChatGPT Image 2026年8月17日 15_49_56.png", out: "images/category/cosmetics" },
-  { key: "category-haircare", src: "ChatGPT Image 2026年8月17日 15_49_48.png", out: "images/category/haircare" },
-  { key: "category-hairstyle", src: "ChatGPT Image 2026年8月17日 19_36_36.png", out: "images/category/hairstyle" },
-  { key: "category-bodycare", src: "ChatGPT Image 2026年8月17日 19_36_30.png", out: "images/category/bodycare" },
-  { key: "category-uv-care", src: "ChatGPT Image 2026年8月17日 19_38_16.png", out: "images/category/uv-care" },
-  { key: "category-beauty-habit", src: "ChatGPT Image 2026年8月17日 19_38_05.png", out: "images/category/beauty-habit" },
-  { key: "category-beauty-device", src: "ChatGPT Image 2026年8月17日 15_50_20.png", out: "images/category/beauty-device" },
-  { key: "category-beauty-service", src: "ChatGPT Image 2026年8月17日 19_36_04.png", out: "images/category/beauty-service" },
-  { key: "category-beauty-basics", src: "ChatGPT Image 2026年8月17日 19_35_58.png", out: "images/category/beauty-basics" },
-  { key: "category-diet", src: "ChatGPT Image 2026年8月17日 19_36_26.png", out: "images/category/diet" },
+  // ---- カテゴリカード(任意。生成したものだけ有効化する) ----
+  // 出力名はlib/categoryMeta.jsのimageフィールドに書くパスと一致させること
+  { key: "category-start", src: "ChatGPT Image 2026年8月28日 11_27_35.png", out: "images/category/start" },
+  { key: "category-writing", src: "ChatGPT Image 2026年8月28日 11_27_41.png", out: "images/category/writing" },
+  { key: "category-design", src: "ChatGPT Image 2026年8月28日 11_27_47.png", out: "images/category/design" },
+  { key: "category-programming", src: "ChatGPT Image 2026年8月28日 11_27_53.png", out: "images/category/programming" },
+  { key: "category-resale", src: "ChatGPT Image 2026年8月28日 11_28_00.png", out: "images/category/resale" },
+  { key: "category-blog", src: "ChatGPT Image 2026年8月28日 11_28_06.png", out: "images/category/blog" },
+  { key: "category-skill-market", src: "ChatGPT Image 2026年8月28日 11_28_13.png", out: "images/category/skill-market" },
+  { key: "category-points", src: "ChatGPT Image 2026年8月28日 11_28_21.png", out: "images/category/points" },
+  { key: "category-remote-work", src: "ChatGPT Image 2026年8月28日 11_28_28.png", out: "images/category/remote-work" },
+  { key: "category-tax", src: "ChatGPT Image 2026年8月28日 11_28_33.png", out: "images/category/tax" },
+  { key: "category-invest", src: "ChatGPT Image 2026年8月28日 11_28_40.png", out: "images/category/invest" },
+  { key: "category-basics", src: "ChatGPT Image 2026年8月28日 11_28_45.png", out: "images/category/basics" },
 ];
 
 async function emit(srcPath, outBase, width, suffix) {

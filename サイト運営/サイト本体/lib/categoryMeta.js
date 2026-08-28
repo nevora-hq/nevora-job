@@ -9,6 +9,7 @@ const CATEGORY_META = {
     icon: "🚀",
     color: "#1c7ed6",
     soft: "#dff0ff",
+    image: "/images/category/start.webp",
     description:
       "何から手をつければいいのか、どう選べばいいのか。副業をゼロから始めるための手順と考え方をまとめています。",
     shortSummary:
@@ -18,6 +19,7 @@ const CATEGORY_META = {
     icon: "✍️",
     color: "#0ca678",
     soft: "#dff7ee",
+    image: "/images/category/writing.webp",
     description:
       "未経験から案件を取るまでの流れ、単価の上げ方、書き方のコツなど、Webライティングで稼ぐための情報を紹介します。",
     shortSummary:
@@ -27,6 +29,7 @@ const CATEGORY_META = {
     icon: "🎨",
     color: "#e8590c",
     soft: "#ffe8d9",
+    image: "/images/category/design.webp",
     description:
       "バナー制作・サムネイル・動画編集など、制作スキルを副収入につなげる方法と必要なツールをまとめています。",
     shortSummary:
@@ -36,6 +39,7 @@ const CATEGORY_META = {
     icon: "💻",
     color: "#5f3dc4",
     soft: "#e5dbff",
+    image: "/images/category/programming.webp",
     description:
       "学習ロードマップから小さな受託案件の取り方まで、IT・プログラミング系の副業に必要な情報を紹介します。",
     shortSummary:
@@ -45,6 +49,7 @@ const CATEGORY_META = {
     icon: "📦",
     color: "#d6336c",
     soft: "#ffe3ec",
+    image: "/images/category/resale.webp",
     description:
       "仕入れ・出品・発送の流れ、利益計算、在庫リスクとの付き合い方など、物販で失敗しないための知識をまとめています。",
     shortSummary:
@@ -54,6 +59,7 @@ const CATEGORY_META = {
     icon: "📝",
     color: "#f08c00",
     soft: "#fff3d6",
+    image: "/images/category/blog.webp",
     description:
       "サイトの立ち上げ方、記事の書き方、ASPの選び方まで。時間はかかるが積み上がる副業の進め方を紹介します。",
     shortSummary:
@@ -63,6 +69,7 @@ const CATEGORY_META = {
     icon: "🤝",
     color: "#0b7285",
     soft: "#d8f1f6",
+    image: "/images/category/skill-market.webp",
     description:
       "クラウドソーシングやスキルマーケットで、自分の得意を売るための出品のコツと、トラブルを避ける立ち回りをまとめています。",
     shortSummary:
@@ -72,6 +79,7 @@ const CATEGORY_META = {
     icon: "🎁",
     color: "#ae3ec9",
     soft: "#f5e3fb",
+    image: "/images/category/points.webp",
     description:
       "アンケート・ポイントサイト・アプリなど、通勤中や家事の合間にコツコツ積める小さな収入源を紹介します。",
     shortSummary:
@@ -81,6 +89,7 @@ const CATEGORY_META = {
     icon: "📈",
     color: "#2b8a3e",
     soft: "#e0f5e5",
+    image: "/images/category/invest.webp",
     description:
       "副業で得たお金をどう置いておくか。NISAや積立など、無理のない資産形成の考え方を整理しています。",
     shortSummary:
@@ -90,6 +99,7 @@ const CATEGORY_META = {
     icon: "🧾",
     color: "#495057",
     soft: "#eceef0",
+    image: "/images/category/tax.webp",
     description:
       "いくらから申告が必要か、経費はどこまで認められるか、住民税や会社バレの話まで。副業のお金まわりの手続きをまとめています。",
     shortSummary:
@@ -99,6 +109,7 @@ const CATEGORY_META = {
     icon: "🏠",
     color: "#e03131",
     soft: "#ffe3e3",
+    image: "/images/category/remote-work.webp",
     description:
       "本業と両立するための時間の使い方、在宅で働く環境づくり、続けるためのペース配分を紹介します。",
     shortSummary:
@@ -108,6 +119,7 @@ const CATEGORY_META = {
     icon: "📚",
     color: "#845ef7",
     soft: "#ede6fd",
+    image: "/images/category/basics.webp",
     description:
       "就業規則・契約・報酬の仕組みなど、始める前に知っておきたい副業の土台になる知識を幅広く扱います。",
     shortSummary:
