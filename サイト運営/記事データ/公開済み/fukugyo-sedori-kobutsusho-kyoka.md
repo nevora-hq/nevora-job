@@ -3,7 +3,7 @@ title: "せどり・物販で古物商許可はどこから必要？不用品の
 description: "自分の不用品を売るだけなら古物商許可は不要ですが、転売目的で仕入れる場合は許可が必要になります。警察の案内と国税庁の情報をもとに、許可の要否・ネット取引の表示義務・税金の扱いを整理します。"
 category: "せどり・物販"
 tags: ["古物商許可", "せどり 副業", "メルカリ 転売 許可", "物販 税金", "古物営業法"]
-date: "2026-08-28"
+date: "2026-08-30"
 sectionAlternate: true
 thumbnail: "/images/articles/fukugyo-kobutsusho-thumb.webp"
 heroImage: "/images/articles/fukugyo-kobutsusho-hero.webp"
