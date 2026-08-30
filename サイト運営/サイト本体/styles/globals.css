@@ -304,6 +304,11 @@ img {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   z-index: 30;
+  /* カテゴリ数が増えると画面下端をはみ出して下の項目が見えなくなるため、
+     ヘッダー分を除いたビューポート高さで頭打ちにし、内部スクロールさせる。 */
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu,
