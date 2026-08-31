@@ -3,7 +3,7 @@ title: "副業で受注する人こそ知っておきたいフリーランス法
 description: "2024年11月1日に施行されたフリーランス・事業者間取引適正化等法では、発注事業者に取引条件の明示や原則60日以内の報酬支払、ハラスメント対策などが義務づけられています。副業で受注する立場から要点を整理します。"
 category: "スキル販売・クラウドソーシング"
 tags: ["フリーランス法", "業務委託 副業", "取引条件の明示", "報酬 支払期日", "クラウドソーシング トラブル"]
-date: "2026-08-28"
+date: "2026-08-31"
 sectionAlternate: true
 thumbnail: "/images/articles/fukugyo-freelance-ho-thumb.webp"
 heroImage: "/images/articles/fukugyo-freelance-ho-hero.webp"
