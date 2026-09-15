@@ -4,7 +4,6 @@ description: "実績ゼロの状態からポートフォリオを作る方法を
 category: "デザイン・動画編集"
 tags: ["デザイン 副業", "ポートフォリオ 作り方", "実績なし 案件", "バナー制作", "副業 実績"]
 date: "2026-09-15"
-publishAt: "2026-09-15T15:26:00+09:00"
 sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-design-jisseki-thumb.webp"
 summaryPoints:
