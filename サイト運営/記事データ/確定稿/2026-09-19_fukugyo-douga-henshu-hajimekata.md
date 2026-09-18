@@ -3,8 +3,7 @@ title: "動画編集の副業、最初の1件を納品するまでに決めて�
 description: "動画編集の副業でつまずくのは編集操作より前の工程です。制作の流れと案件の型を整理し、素材の権利や条件の決め方など、受注前に固めておく項目をまとめます。"
 category: "デザイン・動画編集"
 tags: ["動画編集 副業", "動画編集 案件", "著作権 BGM", "副業 納品", "編集 単価"]
-date: "2026-09-18"
-publishAt: "2026-09-18T21:12:00+09:00"
+date: "2026-09-19"
 sectionAlternate: true
 thumbnail: "/images/articles/fukugyo-douga-henshu-thumb.webp"
 summaryPoints:
