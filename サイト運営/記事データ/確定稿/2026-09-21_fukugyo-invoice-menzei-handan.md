@@ -4,7 +4,6 @@ description: "インボイス制度が副業にどう関わるのかを、消費
 category: "税金・確定申告"
 tags: ["副業 インボイス", "免税事業者", "適格請求書発行事業者", "消費税 納税義務", "課税売上高1000万円"]
 date: "2026-09-21"
-publishAt: "2026-09-21T16:17:00+09:00"
 sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-invoice-handan-thumb.webp"
 summaryPoints:
