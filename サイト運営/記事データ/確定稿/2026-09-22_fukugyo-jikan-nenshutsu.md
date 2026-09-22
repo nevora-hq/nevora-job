@@ -4,7 +4,6 @@ description: "社会生活基本調査の生活時間データをもとに、1�
 category: "在宅ワーク・働き方"
 tags: ["副業 時間がない", "すきま時間 活用", "生活時間 統計", "在宅ワーク 時間管理", "自由時間"]
 date: "2026-09-22"
-publishAt: "2026-09-22T09:34:00+09:00"
 sectionAlternate: true
 thumbnail: "/images/articles/fukugyo-jikan-nenshutsu-thumb.webp"
 summaryPoints:
