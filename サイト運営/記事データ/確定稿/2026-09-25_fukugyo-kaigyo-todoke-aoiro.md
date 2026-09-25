@@ -4,7 +4,6 @@ description: "開業届は事業を始めた日から1か月以内、青色申�
 category: "副業の始め方"
 tags: ["副業 開業届", "青色申告 承認申請", "青色申告特別控除", "副業 帳簿", "個人事業の開業届出"]
 date: "2026-09-25"
-publishAt: "2026-09-25T16:35:00+09:00"
 sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-kaigyo-todoke-thumb.webp"
 summaryPoints:
