@@ -4,7 +4,6 @@ description: "電気代や家賃を副業の経費にできるのか。国税庁
 category: "税金・確定申告"
 tags: ["副業 経費", "家事按分", "家事関連費", "必要経費", "副業 帳簿"]
 date: "2026-09-29"
-publishAt: "2026-09-29T07:41:00+09:00"
 sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-keihi-anbun-thumb.webp"
 summaryPoints:
