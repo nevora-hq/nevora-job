@@ -4,7 +4,6 @@ description: "この記事を読むと、副業中や副業先への移動中の
 category: "在宅ワーク・働き方"
 tags: ["副業 労災", "副業 けが 労災", "副業 業務委託 労災", "複数事業労働者", "労災保険 特別加入", "副業 通勤災害"]
 date: "2026-10-11"
-publishAt: "2026-10-11T01:30:00+09:00"
 sectionAlternate: true
 pinImageTitle: "副業のけがと労災"
 summaryPoints:
