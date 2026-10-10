@@ -4,7 +4,6 @@ description: "A8.net・afb・もしもアフィリエイトを、審査・案件
 category: "ブログ・アフィリエイト"
 tags: ["アフィリエイト ASP おすすめ", "ASP 比較", "ASP 初心者", "A8.net afb もしも 違い", "ASP 審査", "ASP 複数登録", "ASP 振込手数料"]
 date: "2026-10-10"
-publishAt: "2026-10-10T11:23:00+09:00"
 thumbnail: "/images/articles/fukugyo-asp-hikaku-thumb.webp"
 sectionAlternate: true
 summaryPoints:
