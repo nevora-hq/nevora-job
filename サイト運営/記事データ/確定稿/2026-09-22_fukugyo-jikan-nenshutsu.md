@@ -4,7 +4,7 @@ description: "社会生活基本調査の生活時間データをもとに、1�
 category: "在宅ワーク・働き方"
 tags: ["副業 時間がない", "すきま時間 活用", "生活時間 統計", "在宅ワーク 時間管理", "自由時間"]
 date: "2026-09-22"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-jikan-nenshutsu-thumb.webp"
 summaryPoints:
   - "1日の生活時間は1次活動10時間57分・2次活動6時間47分・3次活動6時間16分に分かれる"

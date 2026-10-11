@@ -4,7 +4,7 @@ description: "自分の不用品を売るだけなら古物商許可は不要で
 category: "せどり・物販"
 tags: ["古物商許可", "せどり 副業", "メルカリ 転売 許可", "物販 税金", "古物営業法"]
 date: "2026-08-30"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-kobutsusho-thumb.webp"
 heroImage: "/images/articles/fukugyo-kobutsusho-hero.webp"
 summaryPoints:

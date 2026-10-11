@@ -5,7 +5,7 @@ category: "ブログ・アフィリエイト"
 tags: ["アフィリエイト ASP おすすめ", "ASP 比較", "ASP 初心者", "A8.net afb もしも 違い", "ASP 審査", "ASP 複数登録", "ASP 振込手数料"]
 date: "2026-10-10"
 thumbnail: "/images/articles/fukugyo-asp-hikaku-thumb.webp"
-sectionAlternate: true
+sectionAlternate: false
 summaryPoints:
   - "ASPは順位ではなく「審査・案件の傾向・最低支払額・振込手数料・支払いのタイミング」の5軸で比べる"
   - "A8.net・afb・もしもは、振込手数料の負担者と支払いの時期がそれぞれ違う"

@@ -4,7 +4,7 @@ description: "副業を禁止・制限できるのはどんな場合か。厚生
 category: "副業の基礎知識"
 tags: ["副業 就業規則", "副業 禁止", "モデル就業規則", "副業 届出", "競業避止義務"]
 date: "2026-08-29"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-shugyokisoku-thumb.webp"
 heroImage: "/images/articles/fukugyo-shugyokisoku-hero.webp"
 summaryPoints:

@@ -4,7 +4,7 @@ description: "2024年11月1日に施行されたフリーランス・事業者�
 category: "スキル販売・クラウドソーシング"
 tags: ["フリーランス法", "業務委託 副業", "取引条件の明示", "報酬 支払期日", "クラウドソーシング トラブル"]
 date: "2026-08-31"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-freelance-ho-thumb.webp"
 heroImage: "/images/articles/fukugyo-freelance-ho-hero.webp"
 summaryPoints:

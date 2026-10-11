@@ -4,7 +4,7 @@ description: "副業の確定申告が必要になる「20万円」は収入で�
 category: "税金・確定申告"
 tags: ["副業 確定申告", "20万円ルール", "副業 住民税", "雑所得", "副業 経費"]
 date: "2026-08-28"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-20man-thumb.webp"
 heroImage: "/images/articles/fukugyo-20man-hero.webp"
 summaryPoints:

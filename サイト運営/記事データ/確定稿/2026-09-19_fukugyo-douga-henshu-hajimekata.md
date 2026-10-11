@@ -4,7 +4,7 @@ description: "動画編集の副業でつまずくのは編集操作より前の
 category: "デザイン・動画編集"
 tags: ["動画編集 副業", "動画編集 案件", "著作権 BGM", "副業 納品", "編集 単価"]
 date: "2026-09-19"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-douga-henshu-thumb.webp"
 summaryPoints:
   - "編集作業そのものより、素材の受け取りから納品までの工程設計でつまずきやすい"

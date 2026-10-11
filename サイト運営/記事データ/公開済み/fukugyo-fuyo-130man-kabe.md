@@ -5,7 +5,7 @@ description: "副業の収入が増えると健康保険の扶養から外れる
 category: "副業の基礎知識"
 tags: ["副業 扶養 130万円", "副業 扶養 外れる", "年収の壁", "106万円の壁", "被扶養者 認定", "事業主証明"]
 date: "2026-10-07"
-sectionAlternate: true
+sectionAlternate: false
 pinImageTitle: "副業と扶養130万円の壁"
 summaryPoints:
   - "扶養の130万円は税金ではなく、健康保険の被扶養者になれるかの基準"

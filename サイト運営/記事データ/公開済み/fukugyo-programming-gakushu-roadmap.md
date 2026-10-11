@@ -4,7 +4,7 @@ description: "IT・プログラミングの副業は、学習と受注の間に�
 category: "プログラミング・IT"
 tags: ["プログラミング 副業", "IT 副業 未経験", "学習ロードマップ", "教育訓練給付", "ITパスポート"]
 date: "2026-08-30"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-programming-thumb.webp"
 heroImage: "/images/articles/fukugyo-programming-hero.webp"
 summaryPoints:

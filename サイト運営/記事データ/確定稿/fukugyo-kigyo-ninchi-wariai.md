@@ -4,7 +4,7 @@ description: "副業を認めている会社は実際どのくらいあるのか
 category: "副業の基礎知識"
 tags: ["副業 認めている企業", "副業 割合", "副業 就業規則", "副業 統計", "副業 企業調査"]
 date: "2026-09-02"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-kigyo-ninchi-thumb.webp"
 heroImage: "/images/articles/fukugyo-kigyo-ninchi-hero.webp"
 summaryPoints:

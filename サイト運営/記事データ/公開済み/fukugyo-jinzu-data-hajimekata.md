@@ -4,7 +4,7 @@ description: "副業をしている人は全国で305万人、副業を増やし
 category: "副業の始め方"
 tags: ["副業 人口", "副業 割合", "就業構造基本調査", "副業 始め方", "副業 統計"]
 date: "2026-08-29"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-jinzu-thumb.webp"
 heroImage: "/images/articles/fukugyo-jinzu-hero.webp"
 summaryPoints:

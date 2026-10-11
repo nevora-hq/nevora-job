@@ -4,7 +4,7 @@ description: "副業の所得にかかる住民税は、特別徴収と普通徴
 category: "税金・確定申告"
 tags: ["副業 住民税", "普通徴収", "特別徴収", "確定申告書 第二表", "住民税 自分で納付"]
 date: "2026-08-29"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-juminzei-thumb.webp"
 heroImage: "/images/articles/fukugyo-juminzei-hero.webp"
 summaryPoints:

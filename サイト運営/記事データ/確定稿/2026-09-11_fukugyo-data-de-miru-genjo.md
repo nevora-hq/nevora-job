@@ -4,7 +4,7 @@ description: "副業がある人と追加就業希望者の20年の推移、フ�
 category: "副業の基礎知識"
 tags: ["副業 人数", "副業 統計", "追加就業希望者", "フリーランス 人数", "テレワーク 頻度"]
 date: "2026-09-11"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-data-genjo-thumb.webp"
 summaryPoints:
   - "副業がある人は2022年に304万9千人、5年前より約60万人増えた"

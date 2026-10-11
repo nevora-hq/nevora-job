@@ -5,7 +5,7 @@ category: "副業のトラブル対策"
 thumbnail: "/images/articles/fukugyo-task-soudan-kensu-suii.webp"
 tags: ["副業 トラブル", "消費生活相談", "国民生活センター", "情報商材", "副業 詐欺"]
 date: "2026-09-08"
-sectionAlternate: true
+sectionAlternate: false
 summaryPoints:
   - "情報商材の相談件数は2023年度6,256件→2025年度2,623件と減少傾向。ただし2026年度は前年同期比でも減少が続く"
   - "2025年度の消費生活相談全体では、契約購入金額の平均88万円に対し、既に支払われた金額の平均は50万円(既支払割合56.8%)"

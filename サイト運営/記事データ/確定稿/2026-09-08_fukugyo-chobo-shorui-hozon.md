@@ -4,7 +4,7 @@ description: "副業で発生する帳簿・請求書・領収書の保存期間
 category: "税金・確定申告"
 tags: ["副業 帳簿", "書類 保存期間", "電子帳簿保存法", "電子取引", "領収書 保管"]
 date: "2026-09-08"
-sectionAlternate: true
+sectionAlternate: false
 thumbnail: "/images/articles/fukugyo-chobo-hozon-thumb.webp"
 summaryPoints:
   - "帳簿および書類などは原則7年間保存、書類によっては5年間でよいものがある"
