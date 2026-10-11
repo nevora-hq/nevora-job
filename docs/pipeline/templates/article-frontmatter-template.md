@@ -1,27 +1,30 @@
 <!--
+(このテンプレートは旧パイプライン用で、docs/pipeline/README.md の冒頭と一覧表(101行)のとおり無効化済み。現行の frontmatter は writer.md に従い、charts・accordions は frontmatter に直接書く。)
+
 記事YAMLテンプレート(工程1が新規記事作成時にコピーして使う)。
 
-根拠: 美容サイト時代の90記事でのfrontmatterフィールド出現率の実測(元資料 docs/pipeline/SPEC-EXTRACT.md は記事全廃に伴い退避済み。記事が3本たまった時点で`nevora-spec-extractor` に再生成させる)。
-90記事中90/90で出現した7フィールド(title/description/category/tags/thumbnail/
+根拠: docs/pipeline/SPEC-EXTRACT.md §0.2(frontmatterフィールドの出現率実測)。
+既存記事の全記事で出現した7フィールド(title/description/category/tags/thumbnail/
 summaryPoints/targetReader)+ほぼ必須のdateを「事実上の必須項目」として採用している。
 
 このテンプレートに含めていないもの(意図的):
 - accordions / charts: 工程1では書かない。プレースホルダー([[ACC:...]] [[VIS:...]])を
   本文に置くのみで、frontmatterへの反映は工程2/3の仕事(docs/pipeline/README.md 決定事項#5)。
-- affiliateLinks: ASP提携が確定している場合のみ追加する(現状は未提携のため原則なし)。
+- affiliateLinks: ASP提携が確定している場合のみ追加する(SPEC-EXTRACT.md §0.2、美容版の実測は14/90記事のみ)。現在は全カット方針でアフィリエイトリンクは置かないので書かない。
   無い場合はキー自体を書かない(空配列やプレースホルダー文言を残さない)。
-- mascotComment: 12カテゴリすべてにマスコットが割り当たっているため、原則として必ず追加する
-  (`lib/categoryMascot.js` に未登録のカテゴリを使う場合のみ省略)。中盤に挿入される1コメント
-  (40〜70字目安)。挨拶・まとめは自動生成されるため書かない。
+- sectionAlternate: 使わない。`false` にし、`true` にしない(見出しごとに背景や枠を切り替える設定。2026-10-11 依頼者の決定)。
+- mascotComment: 必須・字数・口調・中身は writer.md の mascotComment の規則〔frontmatter の項〕が正。
+  中盤に挿入される1コメント。挨拶・まとめは自動生成されるため書かない。
 -->
 
 ---
 title: "SEOキーワードを含むタイトル"
-description: "検索結果に表示される120字程度の要約"
-category: "lib/categoryMeta.js の MAJOR_CATEGORIES(12カテゴリ)、またはRUN-PARAMS.mdで指定されたカテゴリと一致させる"
+description: "検索結果に表示される80〜110字の要約(題名の約束を具体にする1文。writer.md 規則30(i))"
+category: "カテゴリ名(writer.md と、カテゴリページ pages/category/[name].js に従う)"
 tags: ["キーワード1", "キーワード2"]
 date: "YYYY-MM-DD"
 thumbnail: ""
+sectionAlternate: false
 summaryPoints:
   - "この記事で分かることA"
   - "この記事で分かることB"
