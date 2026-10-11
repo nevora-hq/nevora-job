@@ -1383,7 +1383,7 @@ function checkItem22(ctx) {
 // という2つの抜け道を検出できないため、これを補う3項目を追加する。
 // ---------------------------------------------------------------------------
 
-const CONTINUOUS_TEXT_MAX_CHARS = 300; // 2026-08-13、400字でも詰まりが体感で解消されないとの実機判定によりユーザー指示で300字へ再改訂
+const CONTINUOUS_TEXT_MAX_CHARS = 400; // 2026-10-11、ルール最新版(writer.md 400字ルール・CONTRIBUTING 25節(a))に合わせて400字へ(2026-08-13の300字から)
 
 // lib/posts.jsのEND_OF_SECTION_CHART_TYPES(embedChartsでセクション末尾に描画する
 // chart type)と同じ値を、verify-article.js側でも保持する(このスクリプトは
@@ -1527,6 +1527,7 @@ function checkItem23(ctx) {
   let flaggedForCurrentRun = false;
   let currentHeadingText = null;
   let pendingEndOfSectionReset = false;
+  let seenFirstHeading = false; // 2026-10-11: 導入(最初の見出しより前)は数えない
 
   function reset() {
     runChars = 0;
@@ -1540,6 +1541,7 @@ function checkItem23(ctx) {
     const type = classifyLine(line);
 
     if (type === "heading") {
+      seenFirstHeading = true;
       const m = line.match(RE_HEADING);
       const level = m ? m[1].length : 0;
       const headingText = m ? m[2].trim() : "";
@@ -1559,13 +1561,15 @@ function checkItem23(ctx) {
       return;
     }
     if (type === "blank" || type === "hr") return;
+    if (!seenFirstHeading) return; // 導入(最初の見出しより前)は対象にしない
 
     // type === "text" または "list"(箇条書きも地の文としてカウントする)
     if (runStartLine === null) {
       runStartLine = lineNo;
       runStartHeading = currentHeadingText;
     }
-    runChars += zenkakuLength(stripMarkdownLinkSyntax(line));
+    // 字数は出典の印 %%出典:…%% を除いて数える(2026-10-11、ルール最新版)
+    runChars += zenkakuLength(stripMarkdownLinkSyntax(line).replace(/%%出典[:：][^\n]*?%%/g, ""));
     if (runChars >= CONTINUOUS_TEXT_MAX_CHARS && !flaggedForCurrentRun) {
       violations.push({
         heading: runStartHeading,
@@ -1583,7 +1587,7 @@ function checkItem23(ctx) {
     name: "地の文の連続文字数(400字ルール)",
     result: violations.length === 0 ? "Yes" : "No",
     violations,
-    note: `画像・チャート(図解含む)/アコーディオン・表・コールアウトボックスのいずれにも当たらないまま、地の文(箇条書き含む)が${CONTINUOUS_TEXT_MAX_CHARS}字以上連続する箇所を検出する。見出し自体(図解等が紐づいていない場合)・箇条書き自体・区切り線(hr)はリセット条件に含めない。Markdownリンク[表示テキスト](URL)はURL・角括弧・丸括弧を除いた表示テキストのみをカウントする(2026-08-15、L1決裁)。解消手段は説明内容の図解化を優先する(docs/CONTRIBUTING.md 24〜25節参照)。`,
+    note: `画像・チャート(図解含む)/アコーディオン・表・コールアウトボックスのいずれにも当たらないまま、地の文(箇条書き含む)が${CONTINUOUS_TEXT_MAX_CHARS}字以上連続する箇所を検出する。見出し自体(図解等が紐づいていない場合)・箇条書き自体・区切り線(hr)はリセット条件に含めない。Markdownリンク[表示テキスト](URL)はURL・角括弧・丸括弧を除いた表示テキストのみをカウントする(2026-08-15、L1決裁)。導入(最初の見出しより前)は対象にしない。字数は出典の印 %%出典:…%% を除いて数える(2026-10-11)。解消手段は説明内容の図解化を優先する(docs/CONTRIBUTING.md 24〜25節参照)。`,
   };
 }
 
@@ -2314,6 +2318,18 @@ function checkItem32(ctx) {
   };
 }
 
+// 2026-10-11: ルール最新版で廃止された項目(3・4・6・8・22・24)。番号は振り直さず、
+// 判定対象外(result: "N/A")として出力に残す。overall判定には含めない。
+// 各項目のcheckItem関数は削除せず残している(復活させる場合に備える)。
+function abolishedItem(id, name) {
+  return {
+    id,
+    name,
+    result: "N/A",
+    note: "ルール最新版で廃止された項目(2026-10-11)。判定対象外(overallに含めない)。",
+  };
+}
+
 function main() {
   if (process.argv[2] === "--audit-updated-date") {
     const dirs = process.argv.slice(3);
@@ -2344,12 +2360,12 @@ function main() {
   const items = [
     checkItem1(ctx),
     checkItem2(ctx),
-    checkItem3(ctx),
-    checkItem4(ctx),
+    abolishedItem(3, "チャート数(廃止)"),
+    abolishedItem(4, "装飾要素の合計使用数(廃止)"),
     checkItem5(ctx),
-    checkItem6(ctx),
+    abolishedItem(6, "NEVORAポイント内のハイライト(廃止)"),
     checkItem7(), // 2026-08-14廃止・永久欠番(ユーザー決裁)。常にresult: "Yes"を返すスタブで、ブロッキング・非ブロッキングいずれの集計にも実質影響しない。地の文連続の基準は項目23〔300字ルール〕に一本化
-    checkItem8(ctx),
+    abolishedItem(8, "H2ごとの視覚要素(廃止)"),
     checkItem9(ctx),
     checkItem10(ctx),
     checkItem11(ctx),
@@ -2363,9 +2379,9 @@ function main() {
     checkItem19(ctx), // result: "N/A"、非ブロッキング(overall判定には含めない)
     checkItem20(ctx), // result: "N/A"、非ブロッキング(overall判定には含めない)
     checkItem21(ctx),
-    checkItem22(ctx),
+    abolishedItem(22, "検証済み出典1件以上(廃止)"),
     checkItem23(ctx), // 2026-08-13、400字ルールへ改訂しブロッキング化
-    checkItem24(ctx),
+    abolishedItem(24, "視覚要素の質(廃止)"),
     checkItem25(ctx), // result: "N/A"、非ブロッキング(overall判定には含めない)
     checkItem26(ctx),
     checkItem27(ctx), // result: "N/A"、非ブロッキング(2026-08-13再改訂、候補提示のみ・overall判定には含めない)

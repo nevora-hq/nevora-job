@@ -44,6 +44,27 @@ function normalizeAffiliateLinks(links) {
   }));
 }
 
+// 本文中の出典の印 %%出典:…%% を、読者の画面に出さないよう取り除く(2026-10-11、
+// 依頼者の決定「毎回出典を記載するの禁止。記事末にある出典のみにすること。」)。
+// 出典は記事末の出典欄(frontmatterのsources)と、図表の下の「出典:」だけに出す。
+// 印は判定・照合のために原稿に残してよい。取り除いたあとに、空の段落・空の箇条書き・
+// 句点の重なり・余分な空白が残らないようにする。
+// %%出典:…%% 以外の %%text%%(補足・留意点の注記)はここでは触れない。
+function removeSourceCitationMarks(html) {
+  const mark = "%%出典[:：](?:(?!%%)[^\\n])+?%%";
+  const before = html;
+  let out = html
+    // 句点の前後に挟まれた印(「。%%出典:X%%。」)は句点を1つにする
+    .replace(new RegExp("。[ \\u3000]*" + mark + "[ \\u3000]*。", "g"), "。")
+    // ふつうの印(直前の空白も一緒に取り除く)
+    .replace(new RegExp("[ \\u3000]*" + mark, "g"), "");
+  if (out !== before) {
+    // 印だけだった段落・箇条書きが空になったときの後始末
+    out = out.replace(/<p>\s*<\/p>\s*/g, "").replace(/<li>\s*<\/li>\s*/g, "");
+  }
+  return out;
+}
+
 // ライターが本文中で使える軽量な装飾記法をHTMLに変換する。
 // ==text== → ハイライト(マーカー)、++text++ → 下線、
 // ^^text^^ → 感情の変化・気づきを強調する装飾(文字を大きく・色を変える)、
@@ -60,7 +81,7 @@ function normalizeAffiliateLinks(links) {
 // 対応する閉じ記号まで届かず変換自体が失敗し、==や%%が生テキストとして
 // 読者に表示される不具合があった)。
 function applyInlineMarkup(html) {
-  return html
+  return removeSourceCitationMarks(html)
     .replace(/==((?:(?!==)[^\n])+?)==/g, '<mark class="hl">$1</mark>')
     // (?<!\+)\+\+(?!\+) ... (?<!\+)\+\+(?!\+): "++"区切りが3つ以上連続する"+"の一部として
     // 出現している場合(例: 本文中の"PA++++"という4連続プラス表記)は区切りとして扱わない。
