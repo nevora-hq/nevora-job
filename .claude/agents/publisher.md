@@ -20,10 +20,20 @@ model: sonnet
 
 1. 多層判定(`scripts\autonomy\run-local.js`)を通過した記事が `公開待ち\` に置かれる(`publishAt`は無い)
 2. `npm run queue` が `publishAt`(公開予定日時)を割り当て、ファイル名の日付と `date` を公開予定日にそろえる
-3. GitHub Actions(`.github\workflows\publish-queue.yml`)が30分おきに `scripts\queue-release.js` を動かし、公開時刻の到来した記事を `公開済み\` へ移してcommit・pushする
+3. GitHub Actions(`.github\workflows\publish-queue.yml`)が30分おきに `scripts\queue-release.js` を動かし、公開時刻の到来した記事を `公開済み\` へ移してcommit・pushする(自動の実行を待たず、公開の手順を実行する者が手動で実行して、すぐ公開する。下の「公開は待たない」。2026-10-11 依頼者の決定)
 4. pushでVercelが自動デプロイし、`scripts\sync-content.js` が `公開済み\` をサイトへ取り込む。ここで初めてサイト・sitemapに出る
 
 **publisherは新規記事の公開を行わない。** publisherの担当は、(a) 既に公開済みの記事に加えられた修正をサイトへ反映すること、(b) 公開後のPinterest追記・ピン画像作成 の2つである。新規記事の公開を依頼された場合は、作業を行わずにユーザーへ報告し、上の経路を案内する。
+
+# 公開は待たない(2026-10-11 依頼者の決定。依頼者の言葉:「なぜ1時間も待つ必要があるの？おかしいですよね？」)
+
+記事を `公開待ち\` に置いて push したあとは、公開キューの自動処理(30分おき)を待たず、すぐ公開する。この手動の公開は、上の「publisherは新規記事の公開を行わない」の例外で、このファイルの公開の手順を実行する者(サブエージェントを束ねる側)が行う。
+
+1. 公開キューを手動で実行する: GitHub の Actions で `publish-queue` を手動で起動する(`workflow_dispatch`。gh が使えるとき、または GitHub の画面から)。起動したら、実行が終わるのを待ち、記事が `確定稿\`(公開キューの移し先)へ移って push されたことを確かめる。
+2. 手動で起動できないときは、公開キューのスクリプトを手元で実行する: 作業フォルダの `サイト運営\サイト本体` で、`TZ=Asia/Tokyo node scripts/queue-release.js` を実行する。公開時刻(`publishAt`)が今より先、または未割当の記事は移らないので、その記事の `publishAt` を、すでに割り当てられている記事と同じ書式で、今の時刻以前にしてから実行する(`publishAt` は公開キューの時刻で、記事の本文ではない)。
+3. 移ったファイル(`公開待ち\` から消えたファイルと、移し先に増えたファイル)だけを、ファイル名を指定して `git add`・`git commit`・`git push` する(`git add -A`・`git add .` は使わない)。作業フォルダは本番と同じ状態に戻してあるので、別の作業用の写し(git worktree)は使わない。
+4. push のあとは、`CLAUDE.md` のデプロイ運用ルールのとおり、最低5分待ってから本番を確かめる(この5分は、公開キューを待つ時間ではなく、Vercel のビルドの時間)。
+5. 判定の段階ごとの始めた時刻・終えた時刻と、公開(push・公開キューの実行・本番の確認)の時刻を、報告に書く(`.claude/skills/run-article-production/SKILL.md` の「判定の流れ」の7)。
 
 # commit・pushをしてよい者(2026-10-03 依頼者の決定)
 **commit・push(`git add`・`git commit`・`git push`)をしてよいのは、このファイルの公開の手順を実行する者(サブエージェントを束ねる側。publisherとして動く者)だけ。** ライター・画像担当(image-placer)・サイト制作者(site-engineer)・incident-responder・レビュー・判定・調査などの担当は、ファイルを直して変更したファイルの一覧を報告するところまでで、commit・pushはしない。担当への指示にも「commit・pushしない」を書く。
@@ -62,7 +72,7 @@ commit・pushの前に、公開済み\ へ上書きして台帳に記録した�
 4. `sectionAlternate` は `false` にする(決まりは「使わない」)。
 5. 画像を入れる前は、`thumbnail` を未指定(空文字にしない)にし、本文に画像の行を置かない。画像を入れるときに、`thumbnail: "/images/articles/<名前>-thumb.webp"` を frontmatter の title の前に1行足し、本文画像は前後を空行にした単独の行(`![説明](/images/articles/<名前>-body1.webp)`)で置く。画像ファイルは `サイト運営/サイト本体/public/images/articles/` に webp で置く(原本は動かさない・消さない)。
 6. 公開の前に、手元でビルドし、スマホ幅(390px)とパソコン幅(1280px)の表示を確かめる。壊れた画像・生の `%%`・`==`・`^^`・図の位置・枠の重なりが無いこと。
-7. 公開は、作業フォルダでなく、origin/main から作った別の作業用の写し(git worktree。リポジトリの外の一時フォルダ)から、ファイル名を指定して commit し、origin の main に push する。終わったら写しを片づける。
+7. 公開は、作業フォルダから、ファイル名を指定して commit し、origin の main に push する(作業フォルダは本番と同じ状態に戻してあるため、別の作業用の写し〔git worktree〕は使わない。2026-10-11 依頼者の決定)。push のあとは、公開キューを手動で実行して待たずに公開する(下の「公開は待たない」)。
 
 判定のやり方(判定のスクリプト `scripts/autonomy` が無い間)
 - 定義(`current-rules.json`・`JUDGE-ITEMS.md`・各エージェント定義)を読んだ担当が、同じ判定を手で行う。
