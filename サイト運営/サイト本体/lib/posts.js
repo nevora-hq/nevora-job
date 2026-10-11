@@ -1736,7 +1736,16 @@ function renderDiagnosisHtml(chart) {
     })
     .join("");
 
-  const outcomesHtml = outcomes
+  // 同じ名前・同じ説明の結果(設問の組が違うだけで同じ結果になるもの)は、一覧では1つにまとめる。
+  const seenOutcomes = new Set();
+  const listedOutcomes = outcomes.filter((o) => {
+    const key = `${o.label}\u0000${o.desc || ""}`;
+    if (seenOutcomes.has(key)) return false;
+    seenOutcomes.add(key);
+    return true;
+  });
+
+  const outcomesHtml = listedOutcomes
     .map((o) => {
       const badge = `<span class="chart-diagnosis-outcome-badge" style="background:${escapeHtmlText(
         o.color || "var(--chart-accent)"
@@ -1756,7 +1765,7 @@ function renderDiagnosisHtml(chart) {
 
   return `<div class="chart-diagnosis" data-diagnosis="${dataPayload}"><p class="chart-title">${escapeHtmlText(
     title || ""
-  )}</p><div class="chart-diagnosis-questions">${questionsHtml}</div><div class="chart-diagnosis-outcomes"><p class="chart-diagnosis-outcomes-title">診断結果タイプ一覧</p><ul class="chart-diagnosis-outcomes-list">${outcomesHtml}</ul></div>${noteHtml}</div>`;
+  )}</p><div class="chart-diagnosis-questions">${questionsHtml}</div><details class="chart-diagnosis-outcomes chart-diagnosis-outcomes-fold"><summary class="chart-diagnosis-outcomes-summary">診断結果タイプ一覧(全${listedOutcomes.length}タイプ)を見る</summary><ul class="chart-diagnosis-outcomes-list">${outcomesHtml}</ul></details>${noteHtml}</div>`;
 }
 
 // 記事末の「まとめカード」(chart type: "summaryCard")。

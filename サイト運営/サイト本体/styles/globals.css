@@ -4067,6 +4067,11 @@ table.admin-table td {
   padding: 4px 14px;
   border-radius: 999px;
   margin: 4px 0;
+  /* 結果名が長いとき、スマホ幅で横にはみ出さず、ラベルの中で折り返す */
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .chart-diagnosis-result-desc {
@@ -4126,10 +4131,61 @@ table.admin-table td {
   padding: 3px 10px;
   border-radius: 999px;
   flex-shrink: 0;
+  /* 結果名が長いとき、スマホ幅で横にはみ出さず、ラベルの中で折り返す */
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .chart-diagnosis-outcome-desc {
   color: var(--color-text-muted);
+}
+
+/* 診断結果タイプ一覧の折りたたみ(details/summary。JSなしでも開閉できる)。
+   見た目は .article-accordion に合わせる。WorrySelfCheck の一覧(div)には効かない。 */
+.chart-diagnosis-outcomes-fold {
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.chart-diagnosis-outcomes-summary {
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chart-diagnosis-outcomes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.chart-diagnosis-outcomes-summary::after {
+  content: "▼";
+  font-size: 0.7em;
+  color: var(--color-primary);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+.chart-diagnosis-outcomes-fold[open] .chart-diagnosis-outcomes-summary::after {
+  transform: rotate(180deg);
+}
+
+.chart-diagnosis-outcomes-fold > .chart-diagnosis-outcomes-list {
+  padding: 12px 18px 16px;
 }
 
 .chart-diagnosis-note {
