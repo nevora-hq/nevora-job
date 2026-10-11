@@ -1,5 +1,5 @@
 // カテゴリ別のマスコットキャラクター設定。
-// NEVORA公式マスコット体系。大カテゴリ12種で構成し、そのうち
+// NEVORA公式マスコット体系。大カテゴリ13種で構成し、そのうち
 // 「副業の始め方」担当のハジミンがサイト全体の主役を兼ねる。
 // 各キャラは normalImage(挨拶)/researchImage(補足)/matomeImage(振り返り)の
 // 3ポーズを持つ。SVGは scripts/generate-mascots.js が1つのテンプレートから
@@ -235,6 +235,25 @@ const MANAMIN = {
   ],
 };
 
+const MAMOMIN = {
+  name: "マモミンちゃん",
+  normalImage: "/images/mascot/mamomin-normal.svg",
+  researchImage: "/images/mascot/mamomin-research.svg",
+  matomeImage: "/images/mascot/mamomin-matome.svg",
+  comments: [
+    "困ったときは、まず今の状況を書き出してみてね。",
+    "契約ややり取りは、あとで見返せる形で残しておこう。",
+  ],
+  introComments: [
+    "こんにちは、マモミンだよ!今日は困ったときの確かめ方のお話をするね。",
+    "マモミン参上!落ち着いて、できることから一緒に見ていこう。",
+  ],
+  outroComments: [
+    "気になることがあれば、相談できる窓口も頼ってみてね。",
+    "最後まで読んでくれてありがとう。自分のペースでね。",
+  ],
+};
+
 // サイト全体のメインマスコット。カテゴリを横断する案内・ホームページで使用する。
 // 「副業の始め方」担当のハジミンが、そのままサイトの主役を兼ねる
 // (2026-08-28、美容サイト由来のしずく型マスコット「ネヴォミン」を廃止して交代)。
@@ -258,6 +277,7 @@ const CATEGORY_MASCOTS = {
   "税金・確定申告": ZEIMIN,
   "投資・資産形成": FUYAMIN,
   "副業の基礎知識": MANAMIN,
+  "副業のトラブル対策": MAMOMIN,
 };
 
 export {

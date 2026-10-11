@@ -129,6 +129,7 @@ const CATEGORY_META = {
     icon: "🛡️",
     color: "#7a2e4d",
     soft: "#fbe6ee",
+    image: "/images/category/trouble.webp",
     description:
       "副業中のけが・怪しい勧誘・契約や報酬のもめごとなど、困ったときに何を確かめ、どこへ相談すればいいかを整理しています。",
     shortSummary:

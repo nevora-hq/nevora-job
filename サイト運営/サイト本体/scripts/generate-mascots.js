@@ -4,7 +4,7 @@
  *
  *   node scripts/generate-mascots.js
  *
- * 12カテゴリ + サイト全体の主役(ハジミン)の計13体を、それぞれ
+ * 13カテゴリ(ハジミンはサイト全体の主役を兼ねる)の計13体を、それぞれ
  * normal(挨拶) / research(補足) / matome(振り返り) の3ポーズで書き出す。
  * 出力先: public/images/mascot/<key>-<pose>.svg
  *
@@ -42,6 +42,7 @@ const MASCOTS = [
   { key: "zeimin", accent: "#495057", crown: "leaf" }, // 税金・確定申告
   { key: "fuyamin", accent: "#20672e", crown: "sprout" }, // 投資・資産形成
   { key: "manamin", accent: "#501af4", crown: "spark" }, // 副業の基礎知識
+  { key: "mamomin", accent: "#7a2e4d", crown: "leaf" }, // 副業のトラブル対策
 ];
 
 const POSES = ["normal", "research", "matome"];
