@@ -9,3 +9,6 @@ pinterest-pins/*.png
 
 # 旧美容サイト由来の退避データ(Git管理対象外)
 _旧美容サイト退避/
+
+# 副業サイト用Pinterestピン画像(生成物。追跡済みの xlsx は影響を受けない)
+pinterest-pins-副業/

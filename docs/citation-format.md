@@ -1,6 +1,6 @@
 # 出典フォーマット仕様(sources)
 
-2026-08-10に新設。記事frontmatterの `sources` フィールドで出典を構造化して管理する仕様。実装は `lib/articleMeta.js`(`normalizeSources`)・`components/ArticleSources.js`。
+2026-08-10に新設。記事frontmatterの `sources` フィールドで出典を構造化して管理する仕様。実装は `lib/articleMeta.js`(このサイトには無い。読まずに進める)(`normalizeSources`)・`components/ArticleSources.js`。
 
 ## 背景
 
@@ -46,7 +46,7 @@ sources:
 
 ## バリデーション(ビルド時警告)
 
-`lib/articleMeta.js` の `normalizeSources` が以下をチェックし、違反時は `next build`/`next dev` のログに `console.warn` を出す(**ビルドは失敗させない**。記事データはMarkdownで人手管理のため、軽微な入力漏れでビルド全体を止めると運用の障害になるため)。
+`lib/articleMeta.js`(このサイトには無い。読まずに進める) の `normalizeSources` が以下をチェックし、違反時は `next build`/`next dev` のログに `console.warn` を出す(**ビルドは失敗させない**。記事データはMarkdownで人手管理のため、軽微な入力漏れでビルド全体を止めると運用の障害になるため)。
 
 - `label` が空
 - `type` が `primary`/`secondary`/`editorial` 以外(未指定含む)→ `secondary` 扱いにフォールバック
