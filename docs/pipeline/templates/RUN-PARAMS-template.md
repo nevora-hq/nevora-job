@@ -12,7 +12,7 @@
 | 1 | リポジトリルート | `c:\Users\kokim\OneDrive\デスクトップ\各種サイト\副業サイト\サイト運営\サイト本体` | 固定 |
 | 2 | 対象記事ファイルパス | ⬜ | 例: `サイト運営\記事データ\確定稿\YYYY-MM-DD_テーマ.md`(`content/articles`は編集しない。SPEC-EXTRACT.md §0.1) |
 | 3 | 記事ファイル形式 | `.md` | 固定(SPEC-EXTRACT.md §0.1。`.mdx`ではない) |
-| 4 | カテゴリ | ⬜ | `lib\categoryMeta.js` の12カテゴリ(`MAJOR_CATEGORIES`)から選ぶ(マスコット自動割当に影響) |
+| 4 | カテゴリ | ⬜ | `lib\categoryMeta.js` の13カテゴリ(`MAJOR_CATEGORIES`。13個目は「副業のトラブル対策」)から選ぶ(マスコット自動割当に影響) |
 | 5 | 記事タイトル(仮) | ⬜ | |
 | 6 | 想定読者・検索意図 | ⬜ | |
 | 7 | 目標文字数 | ⬜ ± ⬜ % | 集計範囲は本文Markdownのみ、プレースホルダー中身は除く(README.md 決定事項#2) |

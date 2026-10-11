@@ -124,5 +124,5 @@ slug(ファイル名から`.md`を除いたもの)・公開日(frontmatterの`da
   `記事データ/確定稿`・`公開済み`と同期させたうえで集計する。`content/articles/`は
   生成物であり直接編集しないこと(`scripts/sync-content.js`のコメント参照)。
 - `fukugyo-task-soudan-kensu-suii` の category「副業のトラブル対策」は `lib/categoryMeta.js` の
-  `MAJOR_CATEGORIES` に登録されていない暫定名。集計時はこの扱いを決めてから数える。
+  `MAJOR_CATEGORIES` の13個目の正式なカテゴリとして登録済み(2026-10-11 依頼者の決定)。
 - 前回版との差分: (未記入)

@@ -265,7 +265,7 @@ PHOTOプレースホルダー設計のための整理。§4.3と重複する部�
 | 投資・資産形成 | フヤミンちゃん | `/images/mascot/fuyamin-*.svg` | `categoryMascot.js:259` |
 | 副業の基礎知識 | マナミンちゃん | `/images/mascot/manamin-*.svg` | `categoryMascot.js:260` |
 
-未登録カテゴリ(上記12件に無いカテゴリ)は`getCategoryMascot`が`null`を返し、マスコット挿入自体が発生しない(`lib/posts.js:158`の`if (!mascot) return html;`)。
+マスコット未登録のカテゴリ(上記12件に無いカテゴリ。13個目の「副業のトラブル対策」は絵柄が無く未割り当て)は`getCategoryMascot`が`null`を返し、マスコット挿入自体が発生しない(`lib/posts.js:158`の`if (!mascot) return html;`)。
 
 ---
 
