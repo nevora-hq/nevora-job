@@ -11,7 +11,7 @@ import { MAJOR_CATEGORIES } from "./categoryMeta";
 
 
 // npm run sync-content (predev/prebuild) によって
-// サイト運営/記事データ/確定稿 から自動コピーされるディレクトリ
+// サイト運営/記事データ/公開済み から自動コピーされるディレクトリ
 const ARTICLES_DIR = path.join(process.cwd(), "content", "articles");
 
 function readArticleFiles() {
