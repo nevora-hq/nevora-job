@@ -9,7 +9,7 @@ description: 公開済み記事への修正をサイト本体へ反映(Git commi
 
 ## 記事が公開される経路(このスキルは新規公開を行わない)
 
-新規記事は、多層判定(`scripts/autonomy/run-local.js`)を通過して `記事データ\公開待ち\` に置かれ、`npm run queue` で公開予定日時が割り当てられ、GitHub Actions(`.github\workflows\publish-queue.yml`)が30分おきに `scripts\queue-release.js` を動かして、公開時刻の到来した記事を `記事データ\公開済み\` へ移してcommit・pushする。pushでVercelが自動デプロイし、そこで初めてサイト・sitemapに出る。
+記事の状態は 作成中 → 公開待ち → 公開済み の3つで、置き場の決まりは `.claude/skills/run-article-production/SKILL.md` の「記事の状態と置き場」が正。新規記事は、多層判定(`scripts/autonomy/run-local.js`)を通過して `記事データ\公開待ち\` に置かれ、`npm run queue` で公開予定日時が割り当てられ、GitHub Actions(`.github\workflows\publish-queue.yml`)が30分おきに `scripts\queue-release.js` を動かして、公開時刻の到来した記事を `記事データ\公開済み\` へ移してcommit・pushする。pushでVercelが自動デプロイし、そこで初めてサイト・sitemapに出る。
 
 **公開は待たない(2026-10-11 依頼者の決定)**: 公開待ちに置いて push したあとは、30分おきの自動処理を待たず、公開キューを手動で実行して、すぐ公開する(手動で起動できないときは、`scripts\queue-release.js` を手元で実行し、移ったファイルだけをファイル名を指定して commit・push する)。手順は publisher.md の「公開は待たない」が正。作業フォルダから commit・push し、別の作業用の写し(worktree)は使わない。
 

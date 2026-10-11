@@ -1,12 +1,12 @@
 # NEVORA 公開済み記事ステータス一覧
 
-`サイト運営/記事データ/確定稿`・`公開済み` → (`npm run sync-content`) → `サイト運営/サイト本体/content/articles`
+`サイト運営/記事データ/公開済み` → (`npm run sync-content`) → `サイト運営/サイト本体/content/articles`
 に存在する全記事について、専用実装(lib)・使用中のchart type・画像枚数・
 `scripts/verify-article.js`による9項目検証の結果をまとめる。
 
 - 生成日: (集計を実施したときに書く)
-- 対象: 下表は `サイト運営/記事データ/確定稿/`(12本)・`公開済み/`(13本)の計25本。
-  確定稿の12本はどれも `publishAt` を持たないので、`サイト本体/README.md` の公開キューの決まりでは公開対象。
+- 対象: 下表は `サイト運営/記事データ/公開済み/` の記事。表は2026-10-12の統合前(旧・確定稿12本と公開済み13本の計25本)の時点のもの。
+  旧・確定稿の12本はどれも `publishAt` を持たないので、`サイト本体/README.md` の公開キューの決まりでは公開対象。
   `2026-10-10_fukugyo-asp-hikaku-shoshinsha` は `content/articles/` にまだ同期されていないので、同期されるまでサイトには出ない。`npm run sync-content` 実行直後の `content/articles/*.md` で数え直すこと
 - 検証コマンド: `node scripts/verify-article.js <記事Markdownパス>`
 - 表の並び順: frontmatterの`date`昇順(公開日が無い記事は先頭)
@@ -121,7 +121,7 @@ slug(ファイル名から`.md`を除いたもの)・公開日(frontmatterの`da
 - **date欠落の記事**: `date` が無い記事がある場合は、`(dateなし)` と表記して記録する(`docs/pipeline/README.md` 決定事項#8:「修正しない・記録のみ」)。
 
 - 本表を集計するときは`npm run sync-content`を実行して`content/articles/`を
-  `記事データ/確定稿`・`公開済み`と同期させたうえで集計する。`content/articles/`は
+  `記事データ/公開済み`と同期させたうえで集計する。`content/articles/`は
   生成物であり直接編集しないこと(`scripts/sync-content.js`のコメント参照)。
 - `fukugyo-task-soudan-kensu-suii` の category「副業のトラブル対策」は `lib/categoryMeta.js` の
   `MAJOR_CATEGORIES` の13個目の正式なカテゴリとして登録済み(2026-10-11 依頼者の決定)。

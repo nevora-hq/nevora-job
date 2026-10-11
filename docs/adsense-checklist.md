@@ -50,7 +50,7 @@ Googleアドセンスの審査(コンテンツの量や質・必須ページ・�
 | 投資・資産形成 | 1 | ⚠️ 5本未満 |
 | 副業のトラブル対策 | 1 | ⚠️ 5本未満(13個目の正式なカテゴリとして `MAJOR_CATEGORIES` に登録。2026-10-11 依頼者の決定)|
 
-補足: `記事データ/確定稿`(12本、どれも `publishAt` なし)と `公開済み`(13本)の計25本のうち、`確定稿/2026-10-10_fukugyo-asp-hikaku-shoshinsha`(ブログ・アフィリエイト)だけが `content/articles` にまだ同期されていない。同期後はブログ・アフィリエイトが2本になる。暫定カテゴリは `公開済み/fukugyo-task-soudan-kensu-suii`。`sync-content` 後の `content/articles` で数え直してから判定する。
+補足: 2026-10-12の統合前は、旧・確定稿(12本、どれも `publishAt` なし)と `公開済み`(13本)の計25本で、そのうち `公開済み/2026-10-10_fukugyo-asp-hikaku-shoshinsha`(ブログ・アフィリエイト)だけが `content/articles` にまだ同期されていない。同期後はブログ・アフィリエイトが2本になる。暫定カテゴリは `公開済み/fukugyo-task-soudan-kensu-suii`。`sync-content` 後の `content/articles` で数え直してから判定する。
 
 **選択肢整理**:
 - (a) 申請前に5本未満のカテゴリを各5本以上へ増強する(コンテンツ量を実質的に増やす、最も確実だがコストが高い)
