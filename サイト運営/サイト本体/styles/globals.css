@@ -3784,6 +3784,32 @@ table.admin-table td {
   padding-left: 1.2em;
 }
 
+/* 診断用でない通常のチェックリストは、各項目の左にチェックボックスの四角を出す
+   (黒丸の箇条書きにしない)。診断用(.chart-checklist-list-diagnostic)は対象外。
+   色はサイトの色(--chart-accent-dark)に合わせる。 */
+.chart-checklist ul:not(.chart-checklist-list-diagnostic) {
+  list-style: none;
+  padding-left: 0;
+}
+
+.chart-checklist ul:not(.chart-checklist-list-diagnostic) > li {
+  position: relative;
+  padding-left: 1.9em;
+}
+
+.chart-checklist ul:not(.chart-checklist-list-diagnostic) > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  width: 1.1em;
+  height: 1.1em;
+  box-sizing: border-box;
+  border: 2px solid var(--chart-accent-dark);
+  border-radius: 3px;
+  background: var(--color-surface);
+}
+
 .chart-checklist-note {
   font-size: 0.78rem;
   color: var(--color-text-muted);
