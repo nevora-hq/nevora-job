@@ -1304,7 +1304,7 @@ function checkItem21(ctx) {
   const hasRenderableGraph = charts.some((c) => {
     // typeなし(棒グラフ)・donutもグラフ扱い。data配列が実際に存在することを必須とする
     if (c.type && !["quadrant", "facemap", "linechart", "steps", "donut"].includes(c.type) && c.type !== undefined) {
-      // prosCons/checklist/tip等は「グラフ」の約束を満たさない
+      // prosCons/versus/checklist/tip等は「グラフ」の約束を満たさない
     }
     const isGraphType = !c.type || ["donut", "quadrant", "facemap", "linechart", "steps"].includes(c.type);
     return isGraphType && Array.isArray(c.data) && c.data.length > 0;
@@ -1443,7 +1443,7 @@ const HIGH_VALUE_CHART_TYPES = new Set([
 ]);
 const HIGH_VALUE_NAME_PATTERN = /CrossSection|DiagnosisFlow|Silhouette|FlowDiagram/i;
 const NEUTRAL_CHART_TYPES = new Set(["stat", "compareCards", "compareScroll", "pie", "donut", "flowchart", "diagnosis"]);
-const LOW_CHART_TYPES = new Set(["prosCons", "tip", "warning", "memo", "summaryCard", "checklist", "steps"]);
+const LOW_CHART_TYPES = new Set(["prosCons", "versus", "tip", "warning", "memo", "summaryCard", "checklist", "steps"]);
 
 function classifyChartValue(chart) {
   const type = chart.type; // undefined = 棒グラフ(bar)

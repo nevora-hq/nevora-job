@@ -455,6 +455,7 @@ async function measurePage(page, slug) {
       ".quick-summary-box",
       ".quick-conclusion-box",
       ".azelaic-summary-card",
+      ".versus-block",
     ];
     document.querySelectorAll(calloutSelectors.join(",")).forEach((box, boxIndex) => {
       box.querySelectorAll("p").forEach((p) => {
