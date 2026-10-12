@@ -14,7 +14,7 @@
 1. **記事ファイルは `.mdx` ではなく `.md`。JSX・Reactコンポーネントの直書きは一切できない。** remark→HTML文字列→`dangerouslySetInnerHTML` という流れで、記事本文に書けるのは素のMarkdown+YAML frontmatterのみ(§0, §2)。
 2. **既存の「アコーディオン」「図解(VIS相当)」は、本文中に置くインライン・プレースホルダーではなく、frontmatterの配列(`accordions`/`charts`)を見出しテキストの完全一致(`afterHeading`)で本文に自動挿入する方式。** `_source-spec-v1.md` §2.2 が想定する「本文中に `[[TYPE:ID ...]]` を書いて後工程が置換する」という物理配置の仕組みは存在しない(§3, §4, §10)。
 3. **`_source-spec-v1.md` §2.4 が例示する消費マーカー `{/* impl:VIS-01 */}` は、このプロジェクトでは機能しない。** 実際にremarkパイプラインへ通すと、コメントとして消えるどころか **`<p>{/* impl:VIS-01 */}</p>` としてそのまま画面に表示される**ことを実機検証で確認した。有効なコメント構文は標準HTMLコメント `<!-- -->` のみ(§8)。
-4. **`VIS`(図解)に相当する既存の仕組みのうち、汎用的に再利用できるのは7種類のみ**(bar/stat/pie・donut/prosCons/quadrant/flowchart/lineChart)。それ以外の `chart.type` は、コード内コメントで「他記事では使用しない想定」と明記された**1記事専用の使い捨てSVG生成関数**(§4, §10)。
+4. **`VIS`(図解)に相当する既存の仕組みのうち、汎用的に再利用できるのは7種類のみ**(bar/stat/pie・donut/prosCons/quadrant/flowchart/lineChart。2026-10-12 に対比の枠 `versus` が加わった)。それ以外の `chart.type` は、コード内コメントで「他記事では使用しない想定」と明記された**1記事専用の使い捨てSVG生成関数**(§4, §10)。
 5. **汎用7種はすべてデータ表現型で、構造説明図(断面図・部位比較図など)を汎用的に生成できる型は無い。** 1記事専用の構造説明図の実装はパラメータ化されておらず、他記事から再利用できない。新規コンポーネントは追加せず、該当する要求は`UNRESOLVED`として扱う運用にした(§4.2, §10。詳細手順は`.claude/_archive/nevora-pipeline/skills/nevora-visual.md`「既知のギャップ」節)。
 
 ---
@@ -126,11 +126,12 @@ remarkは未知の記法をプレーンテキストとして通すため、`rema
 | `charts[].type: "stat"` | 同上 | `value`,`unit`,`label`,`source`,`sourceUrl` | 単一数値の大きな表示 | `renderStatTileHtml`, `lib/posts.js:455-477` |
 | `charts[].type: "pie"\|"donut"` | 同上 | `title`,`data[{label,value}]`,`unit` | 内訳・構成比(5件まで、6件以上は上位4+その他) | `renderDonutChartHtml`, `lib/posts.js:502-571` |
 | `charts[].type: "prosCons"` | 同上 | `title`,`pros[]`,`cons[]` | メリット/デメリット2カラム(出典不要) | `renderProsConsHtml`, `lib/posts.js:577-590` |
+| `charts[].type: "versus"` | 同上 | `title`,`leftLabel`,`rightLabel`,`left[]`,`right[]`(`left`・`right` は `prosCons` の `pros`・`cons` と同じ、文字列の配列) | 2つのものを並べて、違い・使い分け・向く場合を2列で見せる。見出し(`leftLabel`・`rightLabel`)は記事ごとに書く、中身を表す言葉にする。◎や△のような優劣の記号は付かない。スマホでは縦に並ぶ(出典不要。法令・税務の解釈などに当たる断定を書く場合は出典を置く) | `renderVersusHtml`, `lib/posts.js`(2026-10-12 追加) |
 | `charts[].type: "quadrant"` | 同上 | `title`,`xLabel`,`yLabel`,`data[{label,x,y}]`(x/yは0〜100) | 2軸ポジショニングマップ(SVG散布図) | `renderQuadrantChartHtml`, `lib/posts.js:615-753` |
 | `charts[].type: "flowchart"` | 同上 | `title`,`questions[]`,`outcomes[{label,color,answers[]}]` | 質問→タイプ診断フロー(3カラムカード) | `renderFlowchartHtml`, `lib/posts.js:869-903` |
 | `charts[].type: "lineChart"` | 同上 | `title`,`unit`,`xLabels[]`,`series[{label,color,points[]}]` | 経時変化の折れ線イメージ図 | `renderLineChartHtml`, `lib/posts.js:910-989` |
 
-上記8種は**データ形状さえ合わせればどの記事でも汎用的に使える**(コード側にslug/記事名のハードコードが無い)。一方 `chart.type` には他にも値が存在するが、**いずれも「以下N種は『◯◯記事』専用」とコード内コメントで明記された1記事だけのハードコード実装**であり、他記事から呼び出しても意味のある結果にならない設計(詳細は§4・§10)。
+上記9種(2026-10-12 に `versus` を追加)は**データ形状さえ合わせればどの記事でも汎用的に使える**(コード側にslug/記事名のハードコードが無い)。一方 `chart.type` には他にも値が存在するが、**いずれも「以下N種は『◯◯記事』専用」とコード内コメントで明記された1記事だけのハードコード実装**であり、他記事から呼び出しても意味のある結果にならない設計(詳細は§4・§10)。
 
 `checklists[]` / `conclusionCards[]` / `quickSummaryCard` は、`lib/posts.js` に該当のキーが無い。
 

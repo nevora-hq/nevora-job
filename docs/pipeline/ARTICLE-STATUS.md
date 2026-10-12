@@ -15,7 +15,7 @@
 
 - **専用libファイル**: その記事のためだけに作られた`lib/*.js`(記事名を含むコメントで
   「〇〇記事専用」と明記されているファイル)。汎用実装(`bar`/`stat`/`pie`・`donut`/
-  `prosCons`/`quadrant`/`steps`/`checklist`/`summaryCard`/`compareCards`等、`lib/posts.js`
+  `prosCons`/`versus`/`quadrant`/`steps`/`checklist`/`summaryCard`/`compareCards`等、`lib/posts.js`
   本体に実装されている汎用chart type)のみを使う記事は「なし」
 - **使用中のchart type**: frontmatterの`charts[].type`のユニーク一覧(重複除去、出現順)。
   `type`省略時はサイト側の実装で棒グラフとして描画されるため`bar`と表記する
