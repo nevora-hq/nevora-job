@@ -531,7 +531,7 @@ v5 §1-3 は、設計期(挙動を目視で確認する)と運用期(関与ゼ�
 |---|---|
 | `verify-article.js` 項目16 | `thumbnail` を見ない(title・description・category・date・summaryPoints はそのまま必須) |
 | `scripts/queue.js`(公開予定の割り当て) | `thumbnail` が空の記事には `publishAt` を付けない。理由を標準出力に出す |
-| `scripts/queue-release.js`(公開済みへの移動) | `thumbnail` が空の記事は移さない。理由 `thumbnailMissing` の記録を `publish-skips/` に自己完結の形で書く |
+| `scripts/queue-release.js`(公開済みへの移動) | `thumbnail` が空でも移す(サムネイルが無くても公開される。記事は画像なしで公開してよい。依頼者の決定)。`queue-release.js` に thumbnail の確認は無い |
 | 判定を通過して公開待ちにある記事 | `thumbnail` が空でも**正常な中間状態**。依頼者が画像を用意して埋めたあと `npm run queue` で予定に入る |
 
 ### 指紋が変わらないようにしてある理由
@@ -1280,7 +1280,7 @@ self-test に「**発火しないはず**」の注入を3件置き、毎回確�
 
 ### 避けたいこと
 
-判定を通過して公開待ちに置かれた記事は、`thumbnail` が無いと公開キューに入らない。画像テーマ案を本文の HTML コメントに書くだけだと、どこからも取り出されず、依頼者が記事を開いて探す必要がある。
+サムネイルが無くても公開される。記事は画像なしで公開してよい(依頼者の決定)。画像を用意するときのために、画像テーマ案を本文の HTML コメントに書くだけだと、どこからも取り出されず、依頼者が記事を開いて探す必要がある。
 
 ### 決めたこと(`imageRequest`)
 
