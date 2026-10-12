@@ -1,8 +1,7 @@
 const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
-// 統合・非公開化した記事の旧URL → 統合先の301は、完全静的エクスポート(output: "export")では
-// redirects() が使えないため vercel.json の redirects に定義している。
-// アーカイブした記事を復活させる場合は、先に vercel.json の該当の定義を削除すること。
+// 完全静的エクスポート(output: "export")では redirects() が使えない。
+// 記事の旧URLの転送が必要になったら、vercel.json の redirects に定義する。
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

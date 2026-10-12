@@ -13,7 +13,7 @@
 
 ## 2. ヘッダー/フッター/共通コンポーネントの全内部リンク生存確認
 
-確認観点: ヘッダー・フッター(about・privacy-policy・terms・contact)・管理画面メニュー・サイドバー等の全リンクが実在するか。管理画面は`noindex, nofollow`か(`components/Header.js`・`Footer.js`・`AdminLayout.js` ほか)。外部リンクは、出典URL(動的・記事データ側で管理)と、`rel`の付け方を見る。
+確認観点: ヘッダー・フッター(about・privacy-policy・terms・contact)・サイドバー等の全リンクが実在するか(管理画面は2026-10-12に廃止済み)。(`components/Header.js`・`Footer.js` ほか)。外部リンクは、出典URL(動的・記事データ側で管理)と、`rel`の付け方を見る。
 
 判定: (未記入)
 

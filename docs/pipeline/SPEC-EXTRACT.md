@@ -150,7 +150,6 @@ remarkは未知の記法をプレーンテキストとして通すため、`rema
 | `Sidebar` | `components/Sidebar.js:3` | `popularPosts=[],categories=[]` | サイドバー |
 | `ScrollProgressBar` | `components/ScrollProgressBar.js:7` | なし | 記事ページのスクロール進捗バー |
 | `ImageSlider` | `components/ImageSlider.js:4` | `slides=[]` | 画像スライダー |
-| `AdminLayout` | `components/AdminLayout.js:14` | `children,title` | 管理ダッシュボード用外枠 |
 | `ArticleDisclaimer` | `components/ArticleDisclaimer.js` | (未記入) | (未記入) |
 | `ArticleSources` | `components/ArticleSources.js` | (未記入) | (未記入) |
 | `FadeInCard` | `components/FadeInCard.js` | (未記入) | (未記入) |

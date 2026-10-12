@@ -251,7 +251,7 @@ frontmatterの`updatedDate`(任意項目)は、`date`(公開日)とは別に、�
 frontmatterの`date`/`updatedDate`に`date: "2026-08-13T09:00:00+09:00"`のような時刻付きISO8601形式が使われると、記事ページの日付表示がISO生文字列のまま崩れて表示される。既存記事に同形式が混在している場合もある。
 
 - **frontmatterの`date`/`updatedDate`は必ず`"YYYY-MM-DD"`形式(時刻を含めない)で記載すること。** 時刻情報は記事の表示・機能のどこでも使われていない。
-- **表示側の恒久対策**: `サイト運営\サイト本体\lib\formatDate.js`を用意し、日付を画面表示する箇所(`pages\posts\[slug].js`の記事ヘッダー、`pages\admin\articles.js`の記事一覧)は必ずこの関数を経由して整形する。YYYY-MM-DD形式・時刻付きISO8601形式のどちらが渡されても`YYYY-MM-DD`に整形されるため、今後frontmatter側に形式の揺れが残っても表示は崩れない。
+- **表示側の恒久対策**: `サイト運営\サイト本体\lib\formatDate.js`を用意し、日付を画面表示する箇所(`pages\posts\[slug].js`の記事ヘッダー。旧`pages\admin\articles.js`の記事一覧は2026-10-12に管理画面ごと廃止)は必ずこの関数を経由して整形する。YYYY-MM-DD形式・時刻付きISO8601形式のどちらが渡されても`YYYY-MM-DD`に整形されるため、今後frontmatter側に形式の揺れが残っても表示は崩れない。
 - 一方、`lib\structuredData.js`の`buildArticleJsonLd`(`datePublished`/`dateModified`)と`pages\sitemap.xml.js`の`lastmod`は、schema.org・sitemapの仕様上ISO8601形式(日付のみも許容)がそのまま正しい値になるため、`formatDate`を経由させる必要はない(frontmatterがYYYY-MM-DD形式に統一されていれば、そのまま出力しても仕様に適合する)。
 - 既存記事のfrontmatterに時刻付き形式が混在している場合は、表記形式のみを一括変換してよい(値そのものの変更ではなく、`updatedDate`の新規追加・書き換えを伴わないため、8節の「空更新の禁止」に抵触しない)。
 
