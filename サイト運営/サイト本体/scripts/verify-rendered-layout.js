@@ -93,8 +93,24 @@ function killPort(port) {
 const VIEWPORT_WIDTHS = process.env.NEVORA_ITEM35_WIDTHS
   ? process.env.NEVORA_ITEM35_WIDTHS.split(",").map((n) => Number(n.trim())).filter(Boolean)
   : [320, 375, 768];
-const PORT = 4319;
-const BASE_URL = `http://127.0.0.1:${PORT}`;
+// ポートは実行のたびに空いているものを自動で選ぶ。固定ポートだと、同じパソコンで
+// 別のサイトの検査(同じスクリプトの写し)が同時に動いたときに、お互いのサーバーを
+// 終了させたり、別のサイトのサーバーに接続して記事ページが404になったりする。
+let PORT = null;
+let BASE_URL = null;
+
+function findFreePort() {
+  const net = require("net");
+  return new Promise((resolve, reject) => {
+    const srv = net.createServer();
+    srv.unref();
+    srv.on("error", reject);
+    srv.listen(0, "127.0.0.1", () => {
+      const { port } = srv.address();
+      srv.close(() => resolve(port));
+    });
+  });
+}
 
 function waitForServer(url, timeoutMs) {
   const start = Date.now();
@@ -517,7 +533,8 @@ async function main() {
     process.exit(1);
   }
 
-  killPort(PORT);
+  PORT = await findFreePort();
+  BASE_URL = `http://127.0.0.1:${PORT}`;
   console.log(`[item35] next start をポート${PORT}で起動します(事前に npm run build 済みであること)...`);
   const server = spawn("npx", ["next", "start", "-p", String(PORT)], {
     cwd: process.cwd(),
@@ -539,6 +556,8 @@ async function main() {
 
   const browser = await playwright.chromium.launch();
   const allFindings = [];
+  // 開けなかったページの数。1件でもあれば「検査できていない」ので、検出0件とは扱わず失敗で終わる
+  const fetchFailures = [];
 
   try {
     for (const slug of slugs) {
@@ -548,6 +567,7 @@ async function main() {
         const resp = await page.goto(url, { waitUntil: "networkidle", timeout: 20000 }).catch((e) => null);
         if (!resp || !resp.ok()) {
           console.error(`[item35] ページ取得失敗: ${url} (status=${resp ? resp.status() : "no response"})`);
+          fetchFailures.push({ slug, width, status: resp ? resp.status() : "no response" });
           await page.close();
           continue;
         }
@@ -559,6 +579,13 @@ async function main() {
   } finally {
     await browser.close();
     killPort(PORT);
+  }
+
+  if (fetchFailures.length > 0) {
+    console.error(
+      `[item35] 開けなかったページが${fetchFailures.length}件あります(全${slugs.length * VIEWPORT_WIDTHS.length}件中)。検査できていないため失敗として終了します。`
+    );
+    process.exit(1);
   }
 
   const overflow = allFindings.filter((f) => f.type === "overflow");
