@@ -136,8 +136,7 @@ sources:
   - label: "消費者庁掲載資料 ポイントサイトの動向整理(三菱UFJリサーチ&コンサルティング作成)(2021年3月10日)"
     type: "primary"
     url: "https://www.caa.go.jp/policies/policy/consumer_policy/caution/internet/assets/caution_internet_210329_0001.pdf"
-date: "2026-10-23"
-publishAt: "2026-10-23T21:02:00+09:00"
+date: "2026-10-24"
 ---
 
 しばらくログインしていないポイントサイトに、まだ貯めたポイントが残っていませんか💦 期限が切れたのか、手数料で減るのか、そもそも何を気にすればいいのか分からないまま、そっとしてある人もいるはずです。
