@@ -23,7 +23,7 @@ sources:
     url: "https://www.stat.go.jp/data/shakai/2021/pdf/gaiyoua.pdf"
   - label: "厚生労働省 健康づくりのための睡眠ガイド(リーフレット『睡眠ガイド』)"
     type: "primary"
-    url: "https://www.mhlw.go.jp/content/001298243.pdf"
+    url: "https://www.mhlw.go.jp/content/001761980.pdf"
   - label: "厚生労働省 副業・兼業と労働条件(確かめよう労働条件)"
     type: "primary"
     url: "https://www.check-roudou.mhlw.go.jp/study/roudousya_fukugyoutokengyou.html"
