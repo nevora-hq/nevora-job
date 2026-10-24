@@ -5,7 +5,7 @@ description: "副業の確定申告が要るかは、売上ではなく経費を
 category: "税金・確定申告"
 tags: ["副業 確定申告", "副業 確定申告 いくらから", "副業 20万円", "副業 住民税 申告", "雑所得", "副業 経費"]
 date: "2026-08-28"
-updatedDate: "2026-10-24"
+updatedDate: "2026-10-25"
 sectionAlternate: false
 heroImage: "/images/articles/fukugyo-20man-hero.webp"
 pinImageTitle: "副業の確定申告と20万円"
@@ -63,7 +63,7 @@ charts:
       - label: "副業が報酬型で、給与は1か所"
         color: "#2a78d6"
         hikaku: "入金の合計から経費を引いた所得"
-        shotokuzei: "20万円を超えると必要"
+        shotokuzei: "給与の全部が源泉徴収の対象なら、20万円を超えると必要"
         juminzei: "確定申告をしない場合は、市民税・県民税の申告が必要になる場合がある(横浜市の案内)"
       - label: "副業が給与で、給与が2か所以上"
         color: "#9c36b5"
@@ -73,7 +73,7 @@ charts:
       - label: "所得が20万円以下で、確定申告をしない"
         color: "#eb6834"
         hikaku: "20万円以下の所得"
-        shotokuzei: "給与が1か所の場合、必要になるのは20万円を超える場合"
+        shotokuzei: "給与が1か所で、その全部が源泉徴収の対象の場合、必要になるのは各種の所得が20万円を超える場合"
         juminzei: "給与以外に雑所得などがあれば、市民税・県民税の申告が必要になる場合がある(横浜市の案内)"
     source: "国税庁 タックスアンサー No.1900 給与所得者で確定申告が必要な人、横浜市 市民税・県民税の申告について"
     sourceUrl: "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1900.htm"
