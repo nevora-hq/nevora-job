@@ -6,7 +6,6 @@ category: "せどり・物販"
 tags: ["せどり 利益計算", "せどり 手数料 送料", "メルカリ せどり 手取り", "せどり 仕入れ 基準", "せどり 利益率", "フリマアプリ 副業"]
 date: "2026-10-24"
 updatedDate: "2026-10-21"
-publishAt: "2026-10-24T10:51:00+09:00"
 sectionAlternate: false
 summaryPoints:
   - "売値から引き忘れやすい項目"
