@@ -8,7 +8,7 @@
 // 乖離しているかを検証する手段が無かった。
 //
 // 本スクリプトはPlaywright(playwright-core、Chromiumは既存のms-playwright
-// キャッシュを利用)で`next start`したページを実際のブラウザに描画させ、
+// キャッシュを利用)でout/ を静的サーバーで配信したページを実際のブラウザに描画させ、
 // getBoundingClientRect()で実測した座標をもとに、
 //   (1) 親コンテナ(SVG本体・図解パネル・コールアウトボックス)からのはみ出し
 //   (2) 兄弟テキスト同士の重なり
@@ -23,68 +23,94 @@
 //   省略時はexit 0(全量opt-in診断、後日ブロッキング昇格を決裁する運用)
 //
 // 前提: 事前に`npm run build`済みであること(このスクリプト自体はbuildを実行しない。
-// verify-declared-vs-rendered.jsとは異なり、`next start`で実サーバーを起動して
+// verify-declared-vs-rendered.jsとは異なり、out/ を静的サーバーで配信して
 // 実ブラウザから見るため、prebuild(sync-content)の反映有無は呼び出し側で
 // `npm run build`を先に実行しておくことで保証する)。
 
-const { spawn, execSync } = require("child_process");
+const fs = require("fs");
+const http = require("http");
 const path = require("path");
 
-// Windowsでは`spawn(..., {shell:true})`で起動した子プロセスに対する`.kill()`は
-// シェル(cmd.exe)だけを止め、その配下で実際にポートをlistenしているnode/next
-// プロセスは残り続ける(2026-08-16、これが原因で「ソースを修正してnpm run buildを
-// 再実行しても、item35が古いビルド内容のまま検査してしまう」という重大な不具合を
-// 自己発見した。stale serverが前回ポートを掴んだままだと、新しいnext startの
-// bindが暗黙に失敗し古いプロセスが応答し続けるため、検証結果が信用できなくなる)。
-// このため、起動前に対象ポートを掴んでいるプロセスを`taskkill /F /T`で確実に
-// 終了させ、終了後もプロセスをexecSyncで確実にkillする。
-// netstat/findstr/taskkillはWindows専用のため、Linux(GitHub Actionsの
-// ubuntu-latest)ではそのまま実行すると`findstr: not found`が繰り返し出る
-// (2026-08-25、CI実行#3のログで判明)。処理自体は「残留プロセスがあれば
-// 落とす」保険で、CIでは毎回まっさらなため実害は無かったが、ログが汚れて
-// 本来の検出が埋もれるためプラットフォーム別に分岐する。
-function killPort(port) {
-  const pids = new Set();
+// next.config.js は output: "export"(完全静的エクスポート)のため、Next.js の起動コマンドでは配信できない。
+// ビルド成果物 out/ を、標準の http モジュールだけの小さな静的サーバーで配信する。
+// 子プロセスを作らないので、止めるのは server.close() だけでよい。
+const OUT_DIR = path.resolve(process.cwd(), "out");
+
+const CONTENT_TYPES = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".map": "application/json; charset=utf-8",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".webp": "image/webp",
+  ".avif": "image/avif",
+  ".ico": "image/x-icon",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+  ".ttf": "font/ttf",
+};
+
+function isFile(p) {
   try {
-    if (process.platform === "win32") {
-      const out = execSync(`netstat -ano | findstr :${port}`, { encoding: "utf8" });
-      out.split("\n").forEach((line) => {
-        const m = line.trim().match(/LISTENING\s+(\d+)\s*$/);
-        if (m) pids.add(m[1]);
-      });
-    } else {
-      // lsofが無い環境もあるため、無ければssにフォールバックする
-      let out = "";
-      try {
-        out = execSync(`lsof -ti tcp:${port} -sTCP:LISTEN`, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
-      } catch (e) {
-        try {
-          out = execSync(`ss -lptnH "sport = :${port}"`, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
-        } catch (e2) {
-          out = "";
-        }
-      }
-      out.split("\n").forEach((line) => {
-        const t = line.trim();
-        if (/^\d+$/.test(t)) pids.add(t);
-        const m = t.match(/pid=(\d+)/);
-        if (m) pids.add(m[1]);
-      });
-    }
+    return fs.statSync(p).isFile();
   } catch (e) {
-    // ヒットしない(該当プロセス無し)場合は非ゼロ終了になるだけなので無視
+    return false;
   }
-  pids.forEach((pid) => {
-    try {
-      if (process.platform === "win32") {
-        execSync(`taskkill /PID ${pid} /T /F`, { stdio: "ignore" });
-      } else {
-        process.kill(Number(pid), "SIGKILL");
-      }
-      console.log(`[item35] ポート${port}を掴んでいた残留プロセス(PID ${pid})を終了しました。`);
-    } catch (e) {
-      // 既に終了している等は無視
+}
+
+// out/ の外に出るパスは null を返す(パストラバーサル対策)
+function safeJoin(rel) {
+  const full = path.resolve(OUT_DIR, "." + path.sep + rel);
+  if (full !== OUT_DIR && !full.startsWith(OUT_DIR + path.sep)) return null;
+  return full;
+}
+
+function resolveRequestFile(urlPath) {
+  let rel;
+  try {
+    rel = decodeURIComponent(urlPath);
+  } catch (e) {
+    return null;
+  }
+  if (rel.includes("\u0000")) return null;
+  rel = rel.replace(/^\/+/, "").replace(/\/+$/, "");
+  const candidates = rel === "" ? ["index.html"] : [rel, rel + ".html", path.posix.join(rel, "index.html")];
+  for (const c of candidates) {
+    const full = safeJoin(c);
+    if (full && isFile(full)) return full;
+  }
+  return null;
+}
+
+function startStaticServer(port) {
+  const server = http.createServer((req, res) => {
+    const urlPath = (req.url || "/").split("?")[0].split("#")[0];
+    const file = resolveRequestFile(urlPath);
+    if (file) {
+      res.writeHead(200, { "Content-Type": CONTENT_TYPES[path.extname(file).toLowerCase()] || "application/octet-stream" });
+      fs.createReadStream(file).pipe(res);
+      return;
     }
+    const notFound = safeJoin("404.html");
+    if (notFound && isFile(notFound)) {
+      res.writeHead(404, { "Content-Type": CONTENT_TYPES[".html"] });
+      fs.createReadStream(notFound).pipe(res);
+    } else {
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("404 Not Found");
+    }
+  });
+  return new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(port, "127.0.0.1", () => resolve(server));
   });
 }
 
@@ -534,28 +560,31 @@ async function main() {
     process.exit(1);
   }
 
-  PORT = await findFreePort();
-  BASE_URL = `http://127.0.0.1:${PORT}`;
-  console.log(`[item35] next start をポート${PORT}で起動します(事前に npm run build 済みであること)...`);
-  const server = spawn("npx", ["next", "start", "-p", String(PORT)], {
-    cwd: process.cwd(),
-    shell: true,
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  let serverOutput = "";
-  server.stdout.on("data", (d) => (serverOutput += d.toString()));
-  server.stderr.on("data", (d) => (serverOutput += d.toString()));
-
-  try {
-    await waitForServer(BASE_URL, 30000);
-  } catch (e) {
-    console.error("[item35] next start の起動に失敗しました。");
-    console.error(serverOutput.slice(-2000));
-    killPort(PORT);
+  if (!isFile(path.join(OUT_DIR, "index.html"))) {
+    console.error("[item35] out/ がありません。先に npm run build を実行してください。");
     process.exit(1);
   }
 
-  const browser = await playwright.chromium.launch();
+  PORT = await findFreePort();
+  BASE_URL = `http://127.0.0.1:${PORT}`;
+  console.log(`[item35] out/ の静的サーバーをポート${PORT}で起動します(事前に npm run build 済みであること)...`);
+  let server;
+  try {
+    server = await startStaticServer(PORT);
+  } catch (e) {
+    console.error("[item35] out/ の静的サーバーの起動に失敗しました。", e.message);
+    process.exit(1);
+  }
+  const stopServer = () => new Promise((resolve) => server.close(() => resolve()));
+
+  let browser;
+  try {
+    browser = await playwright.chromium.launch();
+  } catch (e) {
+    console.error("[item35] ブラウザの起動に失敗しました。", e.message);
+    await stopServer();
+    process.exit(1);
+  }
   const allFindings = [];
   // 開けなかったページの数。1件でもあれば「検査できていない」ので、検出0件とは扱わず失敗で終わる
   const fetchFailures = [];
@@ -579,7 +608,7 @@ async function main() {
     }
   } finally {
     await browser.close();
-    killPort(PORT);
+    await stopServer();
   }
 
   if (fetchFailures.length > 0) {
