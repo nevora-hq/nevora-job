@@ -93,7 +93,7 @@ export default function Layout({
           背後にも回り込む)。ページごとの背景色は持たせず、ここに一本化する。 */}
       <div className="site-bg" aria-hidden="true" />
       <Header categories={categories} />
-      <main className={fullWidth ? "main--full" : undefined}>
+      <main className={fullWidth ? "main--full" : hero ? "main--hero" : undefined}>
         {hero}
         {fullWidth ? (
           children

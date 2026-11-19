@@ -4918,3 +4918,202 @@ h1.page-title {
   text-align: right;
 }
 
+
+/* ==== 円形ジャンルナビ(トップ「カテゴリで探す」) ==== */
+.genre-nav { margin: 0 auto 32px; }
+.genre-nav-ring { position: relative; width: min(520px, 100%); aspect-ratio: 1 / 1; margin: 0 auto; }
+
+.genre-circle {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--g-line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--g-soft) 45%, transparent);
+  color: var(--color-text);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+.genre-circle:hover { background: color-mix(in srgb, var(--g-soft) 75%, transparent); }
+.genre-circle.is-active { background: var(--g-soft); border-width: 2px; z-index: 1; }
+.genre-circle:focus-visible,
+.genre-hub:focus-visible,
+.genre-chip:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; z-index: 3; }
+
+.genre-circle-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 52%;
+  transform: translate(var(--ox, 0), var(--oy, 0));
+}
+.genre-circle-icon { width: 26px; height: 26px; color: var(--g-line); }
+.genre-circle-label { font-size: 0.95rem; font-weight: 700; line-height: 1.35; color: var(--color-text); }
+.genre-circle-count { font-size: 0.75rem; color: var(--color-text-muted); }
+
+.genre-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 21%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary-dark);
+  background: var(--color-primary-dark);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.genre-hub.is-active { box-shadow: 0 0 0 5px rgba(111, 52, 5, 0.16); }
+.genre-hub-mark { width: 34%; height: auto; border-radius: 6px; background: #fff; padding: 2px; }
+.genre-hub-name { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; }
+
+.genre-nav--chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.genre-chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--g-line, var(--color-primary));
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.genre-chip.is-active { background: var(--g-soft, var(--color-primary-light)); }
+
+.category-summary-swap.is-animated { animation: category-swap-in 300ms ease both; }
+@keyframes category-swap-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.category-summary-filtered { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.category-summary-filtered > * { max-width: 420px; }
+@media (min-width: 1024px) {
+  .category-summary-filtered { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .category-summary-filtered > * { max-width: none; }
+}
+@media (min-width: 1280px) { .category-summary-filtered { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+@media (max-width: 600px) {
+  .genre-nav-ring { width: min(100%, 400px); }
+  .genre-circle-body { width: 56%; gap: 3px; }
+  .genre-circle-icon { width: 20px; height: 20px; }
+  .genre-circle-label { font-size: 0.7rem; letter-spacing: 0; }
+  .genre-circle-count { display: none; }
+  .genre-hub-name { font-size: 0.55rem; letter-spacing: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .category-summary-swap { animation: none; }
+  .genre-circle { transition: none; }
+}
+
+/* ==== 帯の背景に敷く英単語(視差) ==== */
+.home-stripe[data-bg-word] { overflow: clip; }
+.home-stripe[data-bg-word]::before {
+  content: attr(data-bg-word);
+  position: absolute;
+  right: -1%;
+  top: 0;
+  transform: translateY(var(--bg-y, 0px));
+  will-change: transform;
+  z-index: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(72px, 15vw, 260px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: rgba(143, 68, 7, 0.07);
+  pointer-events: none;
+  user-select: none;
+}
+.home-stripe[data-bg-word] > .container { position: relative; z-index: 1; }
+
+/* ==== 下層ページの写真ヒーロー ==== */
+main.main--hero { padding-top: 0; }
+.page-hero .section-band-img { height: clamp(190px, 20vw, 300px); }
+.page-hero-eyebrow {
+  margin: 0 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f7f0e8;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+.page-hero-title {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: clamp(1.35rem, 1rem + 1.6vw, 2.05rem);
+  line-height: 1.4;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+.page-hero-lead {
+  margin: 0;
+  max-width: 28em;
+  font-size: clamp(0.8rem, 0.76rem + 0.2vw, 0.95rem);
+  line-height: 1.7;
+  color: #f7f0e8;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+.page-hero + .container > .page-panel { margin-top: -28px; position: relative; z-index: 1; }
+@media (max-width: 720px) {
+  .page-hero + .container > .page-panel { margin-top: -16px; }
+}
+
+/* ==== 悩みページの面・カードの統一 ==== */
+.page-panel .article-section + .article-section { border-top: 1px solid var(--color-primary-light); padding-top: 24px; margin-top: 28px; }
+
+.worry-hub-group-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding-left: 12px;
+  border-left: 4px solid var(--wg, var(--color-primary));
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem);
+  color: var(--wg, var(--color-primary-dark));
+}
+.worry-hub-group-en {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.worry-hub-group .worry-hub-card { position: relative; border-left: 4px solid var(--wg, var(--color-primary)); }
+.worry-hub-group .worry-hub-card-label,
+.worry-hub-group .worry-hub-card-count { color: var(--wg, var(--color-primary)); }
+.worry-hub-card-arrow { position: absolute; right: 14px; bottom: 12px; color: var(--wg, var(--color-primary)); transition: transform var(--transition); }
+.worry-hub-card:hover .worry-hub-card-arrow { transform: translateX(4px); }
+
+.worry-cause-list { counter-reset: worry-cause; }
+.worry-cause-item { position: relative; padding-left: 64px; counter-increment: worry-cause; }
+.worry-cause-item::before {
+  content: counter(worry-cause, decimal-leading-zero);
+  position: absolute;
+  left: 14px;
+  top: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: rgba(143, 68, 7, 0.28);
+}
+@media (prefers-reduced-motion: reduce) {
+  .worry-hub-card-arrow { transition: none; }
+}
