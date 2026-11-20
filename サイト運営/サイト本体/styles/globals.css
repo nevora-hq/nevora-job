@@ -474,10 +474,17 @@ img {
    右端でもα0.72 → 白文字で約6.1:1を確保する。 */
 @media (max-width: 767px) {
   .hero-banner-scrim {
+    /* 左から濃く、顔のある右側(約75%〜)では消える。文字パネルは幅66%以内 */
     background:
-      linear-gradient(100deg, rgba(41, 25, 12, 0.82) 0%, rgba(48, 29, 14, 0.72) 100%),
-      radial-gradient(160px 110px at 90% 86%, rgba(36, 22, 10, 0.3), transparent 72%),
-      linear-gradient(to top, rgba(36, 22, 10, 0.3) 0%, rgba(36, 22, 10, 0) 46%);
+      linear-gradient(
+        90deg,
+        rgba(41, 25, 12, 0.84) 0%,
+        rgba(44, 26, 12, 0.78) 58%,
+        rgba(48, 29, 14, 0.36) 72%,
+        rgba(52, 32, 16, 0) 86%
+      ),
+      radial-gradient(160px 110px at 90% 86%, rgba(36, 22, 10, 0.2), transparent 72%),
+      linear-gradient(to top, rgba(36, 22, 10, 0.15) 0%, rgba(36, 22, 10, 0) 40%);
   }
 }
 
@@ -548,6 +555,91 @@ img {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
+/* 見出しのメリハリ: 1語だけ薄い金のグラデーション文字にし、ブランド名(欧文)は下段に小さく置く */
+.hero-banner-title-em {
+  font-style: normal;
+  font-size: 1.08em;
+  background: linear-gradient(180deg, #fff3dc 0%, #f3c987 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+}
+
+/* 区切り記号は文字列として残し、見た目だけ隠す */
+.hero-banner-title-sep {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.hero-banner-title-brand {
+  display: block;
+  margin-top: 2px;
+  font-family: "Cormorant Garamond", var(--font-serif);
+  font-weight: 600;
+  font-size: 0.6em;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+  color: var(--color-primary-light);
+}
+
+.hero-banner-eyebrow {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: #f1dcc4;
+}
+
+/* リード文+上下の飾り罫。幅は文章に揃える */
+.hero-banner-lead-wrap {
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* スマホだけ2行に固定する改行(PCは1行)。行を固定すると、飾り罫の幅が最も長い行に揃う */
+@media (min-width: 768px) {
+  .hero-banner-lead-br {
+    display: none;
+  }
+}
+
+.hero-banner-lead-p {
+  font-size: 0.72em;
+}
+
+.hero-banner-orn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin: 0 0 8px;
+  color: var(--color-primary-light);
+  opacity: 0.6;
+}
+.hero-banner-orn--bottom {
+  margin: 8px 0 0;
+}
+.hero-banner-orn svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  overflow: visible;
+}
+.hero-banner-orn-curl { flex: none; width: 12px; height: 12px; }
+.hero-banner-orn-curl--r, .hero-banner-orn-wave--r { transform: scaleX(-1); }
+/* width:0 … SVGの固有幅が入れ物(fit-content)を押し広げないようにする */
+.hero-banner-orn-wave { flex: 1 1 0; width: 0; min-width: 0; height: 9px; }
+.hero-banner-orn-wave path { vector-effect: non-scaling-stroke; }
+.hero-banner-orn-center { flex: none; width: 30px; height: 11px; }
+.hero-banner-orn-fill { fill: currentColor; stroke: none; }
+
 /* PC(768px〜)のみ、ファーストビューを大きく取る */
 @media (min-width: 768px) {
   .hero-banner-img {
@@ -610,8 +702,27 @@ img {
    マスコットはヒーロー下端にありタイトルの高さとは重ならないため、
    逃げ幅はリード文だけに付ける(コピー全体に付けるとタイトルが折り返す)。 */
 @media (max-width: 767px) {
+  /* 文字パネルを画面幅の約66%に絞り、マスコットと重ねない(逃げ幅は幅の制限で確保) */
+  .hero-banner-copy {
+    max-width: 66%;
+  }
+
+  .hero-banner-title {
+    white-space: nowrap;
+    font-size: clamp(1.1rem, 5.6vw, 1.6rem);
+  }
+
   .hero-banner-lead {
-    padding-right: 62px;
+    padding-right: 0;
+    white-space: nowrap;
+    font-size: clamp(0.72rem, 3.3vw, 0.83rem);
+  }
+
+  .hero-banner-orn {
+    margin-bottom: 6px;
+  }
+  .hero-banner-orn--bottom {
+    margin: 6px 0 0;
   }
 }
 
@@ -816,6 +927,42 @@ img {
   font-size: 1rem;
   padding-left: 10px;
   border-left: 4px solid var(--color-primary);
+}
+
+/* カテゴリのアコーディオン(JS不要・初期は閉じる) */
+.sidebar-accordion > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+.sidebar-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+.sidebar-accordion > summary .sidebar-widget-title {
+  margin: 0;
+}
+.sidebar-accordion[open] > summary {
+  margin-bottom: 16px;
+}
+.sidebar-accordion > summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+.sidebar-accordion-chevron {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-right: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.sidebar-accordion[open] > summary .sidebar-accordion-chevron {
+  transform: rotate(-135deg);
 }
 
 .sidebar-post-list {
