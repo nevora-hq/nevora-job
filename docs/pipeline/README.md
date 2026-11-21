@@ -9,6 +9,9 @@
 > 無効化していない。** サイト実装(`lib/posts.js`等)の事実記録として現在も有効。
 > このREADME自体は経緯の記録として残しているが、以下の内容(決定事項#14を除く)は
 > 無効化された設計を前提にしている。
+> **現行の手順の入口(2026-11-19)**: 既存記事の書き直し・調べの回・並列サブエージェント運用は
+> `docs/pipeline/autonomy/FULL-REWRITE-PROCEDURE.md`、担当への指示の書き方は
+> `docs/pipeline/autonomy/指示書の雛形.md`、公開は `.claude/agents/publisher.md` が正。
 > `scripts/autonomy`(run-local.js)が入るまでは、スキル `run-article-production` の「サイトのコードに仕組みが入るまでの手順」で進める。
 
 このディレクトリは、`_source-spec-v1.md`(設計・ルールの正、変更しない)と

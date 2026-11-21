@@ -42,7 +42,7 @@ const matter = require("gray-matter");
 const EMOTION_EMOJI = ["😓", "😳", "💦", "🥹", "✨", "😅", "🙆", "🙌", "😢", "😌"];
 
 const DECORATION_TOTAL_MIN = 6; // 項目4: 装飾要素の合計使用数の下限
-const NEVORA_POINT_MAX_CHARS = 80; // 項目5: NEVORAポイント本文の上限(全角換算)
+const NEVORA_POINT_MAX_CHARS = 80; // 項目5: NEVORAポイント本文の字数の目安(全角換算。参考。2026-11-20 に止める→参考)
 const PLAIN_TEXT_MAX_CHARS = 200; // 項目7: 連続プレーンテキストの上限(全角換算)
 const ACCORDION_DUP_PREFIX_LEN = 30; // 項目2: 重複判定に使う先頭文字数
 
@@ -386,10 +386,13 @@ function findNevoraPointBlocks(bodyLines) {
 // 項目5: NEVORAポイントの文字数(表示テキストで全角換算)
 // ---------------------------------------------------------------------------
 
+// 2026-11-20: 80字は設計役の暫定(元サイトの台帳でB。運営者の原文なし)なので、元サイトの規則に合わせて
+// 止める項目から参考(result: "N/A" + referenceResult)に下げた(依頼者の決定 2026-11-20)。
+// 数え方(表示テキスト・出典の印を除く)は変えない。公開も差し戻しも止めない。
 function checkItem5(ctx) {
   const blocks = findNevoraPointBlocks(ctx.bodyLines);
   if (blocks.length === 0) {
-    return { id: 5, name: "NEVORAポイントの文字数", result: "Yes", blocks: [], note: "NEVORAポイントなし(該当なし)" };
+    return { id: 5, name: "NEVORAポイントの文字数(参考)", result: "N/A", referenceResult: "Yes", blocks: [], note: "NEVORAポイントなし(該当なし)" };
   }
 
   const violations = [];
@@ -409,10 +412,12 @@ function checkItem5(ctx) {
 
   return {
     id: 5,
-    name: "NEVORAポイントの文字数",
-    result: violations.length === 0 ? "Yes" : "No",
+    name: "NEVORAポイントの文字数(参考)",
+    result: "N/A",
+    referenceResult: violations.length === 0 ? "Yes" : "No",
     blocks: details,
     violations,
+    note: `💡の本文が${NEVORA_POINT_MAX_CHARS}字を超えるブロックの一覧(参考。80字は設計役の暫定で、合否に使わない。公開も差し戻しも止めない)。`,
   };
 }
 
@@ -1013,6 +1018,11 @@ function isShallowUrl(url) {
   }
 }
 
+// 項目17の参考表示(2026-11-19): 一次情報でない出典の候補を拾うための語。目で確かめる候補で、合否に使わない。
+const RE_NON_PRIMARY_HOST =
+  /(^|\.)(note\.com|ameblo\.jp|hatenablog\.(com|jp)|hatenadiary\.(com|jp)|hatena\.ne\.jp|livedoor\.(jp|blog)|fc2\.com|seesaa\.net|threads\.(com|net)|x\.com|twitter\.com|instagram\.com|tiktok\.com|facebook\.com|youtube\.com|youtu\.be|pinterest\.[a-z.]+|chiebukuro\.yahoo\.co\.jp|reddit\.com|wikipedia\.org)$/i;
+const RE_NON_PRIMARY_LABEL = /ブログ|まとめ|口コミ|レビュー|ランキング|体験談|比較サイト/;
+
 function checkItem17(ctx) {
   const sources = ctx.frontmatter.sources;
   if (!Array.isArray(sources) || sources.length === 0) {
@@ -1050,12 +1060,35 @@ function checkItem17(ctx) {
     }
   });
 
+  // 2026-11-19(元サイトの規則取り入れ): 新規・書き直しの出典は一次情報だけ(writer.md「出典に使えるのは一次情報だけ」)。
+  // このサイトには旧基準の記事の一覧(適用範囲の印)が無く、既存記事は一括では直さない決まりなので、
+  // 止める項目は増やさず、一次情報でない出典の候補を参考表示(referenceResult。resultは変えない)に出す。
+  // 目で確かめる候補であり、editorial(運営者提供データに限る)も参考表示に入れるだけで、合否に使わない。
+  const nonPrimarySources = [];
+  sources.forEach((s, i) => {
+    const reasons = [];
+    if (s.type === "secondary") reasons.push("type: secondary");
+    if (s.type === "editorial") reasons.push("type: editorial(運営者提供データに限る)");
+    let host = "";
+    try {
+      host = new URL(String(s.url || "")).hostname;
+    } catch {
+      host = "";
+    }
+    if (host && RE_NON_PRIMARY_HOST.test(host)) reasons.push(`ホストが一次情報でない(${host})`);
+    if (s.label && RE_NON_PRIMARY_LABEL.test(String(s.label))) reasons.push("labelに一次情報でない語を含む");
+    if (reasons.length > 0) nonPrimarySources.push({ sourceIndex: i, label: s.label || null, reasons });
+  });
+
   return {
     id: 17,
     name: "sourcesのURL形式・editorial必須項目",
     result: violations.length === 0 ? "Yes" : "No",
     violations,
     sourcesMissing: false,
+    referenceResult: nonPrimarySources.length === 0 ? "Yes" : "No",
+    nonPrimarySources,
+    note: "referenceResult・nonPrimarySourcesは参考表示(2026-11-19。overallに数えない)。新規・書き直しの出典は一次情報だけ(writer.md)。resultは従来どおり形式の検査だけを見る。",
   };
 }
 
@@ -1587,7 +1620,7 @@ function checkItem23(ctx) {
     name: "地の文の連続文字数(400字ルール)",
     result: violations.length === 0 ? "Yes" : "No",
     violations,
-    note: `画像・チャート(図解含む)/アコーディオン・表・コールアウトボックスのいずれにも当たらないまま、地の文(箇条書き含む)が${CONTINUOUS_TEXT_MAX_CHARS}字以上連続する箇所を検出する。見出し自体(図解等が紐づいていない場合)・箇条書き自体・区切り線(hr)はリセット条件に含めない。Markdownリンク[表示テキスト](URL)はURL・角括弧・丸括弧を除いた表示テキストのみをカウントする(2026-08-15、L1決裁)。導入(最初の見出しより前)は対象にしない。字数は出典の印 %%出典:…%% を除いて数える(2026-10-11)。解消手段は説明内容の図解化を優先する(docs/CONTRIBUTING.md 24〜25節参照)。`,
+    note: `画像・チャート(図解含む)/アコーディオン・表・コールアウトボックスのいずれにも当たらないまま、地の文(箇条書き含む)が${CONTINUOUS_TEXT_MAX_CHARS}字以上連続する箇所を検出する。見出し自体(図解等が紐づいていない場合)・箇条書き自体・区切り線(hr)はリセット条件に含めない。Markdownリンク[表示テキスト](URL)はURL・角括弧・丸括弧を除いた表示テキストのみをカウントする(2026-08-15、L1決裁)。導入(最初の見出しより前)は対象にしない。字数は出典の印 %%出典:…%% を除いて数える(2026-10-11)。400という数は運営者の原文が確認できない目安(元サイトの台帳でA-記録)で、新規・書き直しの記事に当てる(公開済みの既存記事へは遡及しない。docs/CONTRIBUTING.md 13節)。読み順を優先して決め、400字を避けるためだけに本文の説明を図表へ移さない(検査を通すためだけの直しをしない。docs/CONTRIBUTING.md 25節)。読者のためにならない直しになるときは、Noのまま残して、変えなかった理由を報告する。`,
   };
 }
 
@@ -2330,6 +2363,75 @@ function abolishedItem(id, name) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// advisories(参考表示。項目の結果・overallを変えない。2026-11-19新設)
+// 元サイトの規則取り入れ(writer.md 規則35)に対応する参考表示。数・字数は依頼者の原文があるものだけ
+// 合否に使う決まりなので、ここは参考であり、公開も差し戻しも止めない。件数を減らすこと自体を目標にしない。
+// ---------------------------------------------------------------------------
+const INTRO_HOOK_MAX_CHARS = 250; // 規則35(f): フックは150〜250字が目安(参考。合否に使わない)
+
+function collectAdvisories(ctx) {
+  const advisories = [];
+  const lines = ctx.bodyLines;
+  const firstH2 = lines.findIndex((l) => /^\s{0,3}##\s+/.test(l));
+  if (firstH2 > 0) {
+    let len = 0;
+    for (let i = 0; i < firstH2; i++) {
+      if (classifyLine(lines[i]) !== "text") continue;
+      const t = toDisplayText(lines[i].replace(/%%\s*出典\s*[:：][^\n]*?%%/g, "")).trim();
+      len += Array.from(t).length;
+    }
+    if (len > INTRO_HOOK_MAX_CHARS) {
+      advisories.push({
+        kind: "導入(最初のH2より前の地の文)が250字超(規則35(f)。参考)",
+        charCount: len,
+        reference: INTRO_HOOK_MAX_CHARS,
+        note: "150〜250字は目安(参考。合否に使わない)。超えるときは理由を企画書に書く(writer.md 規則35(f))。",
+      });
+    }
+  }
+  return advisories;
+}
+
+// 声の作業記録(voices.md)の形式の確認(参考表示。2026-11-20。元サイトの項目58・65に相当するが、このサイトでは止めない)。
+// 声は必須でない(悩み型では可能な限り入れる。依頼者の決定 2026-11-20)ので、voices.md が無くても何も出さず、公開も差し戻しも止めない。
+// 見るのは、記事と同じフォルダに meta.md がある場合(作成中の作業フォルダ)だけ。公開済み・公開待ちの記事は見ない。
+// meta.md が voices.md に触れているのにファイルが無いときと、voices.md の形式が揃わないときだけ、1件ずつ参考として出す。
+function voicesAdvisories(ctx) {
+  if (!ctx.filePath) return [];
+  const dir = path.dirname(ctx.filePath);
+  const metaPath = path.join(dir, "meta.md");
+  if (!fs.existsSync(metaPath)) return [];
+  let meta = "";
+  try { meta = fs.readFileSync(metaPath, "utf8"); } catch (e) { return []; }
+  const voicesPath = path.join(dir, "voices.md");
+  const out = [];
+  const add = (issue) => out.push({ kind: "声の作業記録(voices.md)の形式(参考。止めない)", issue, note: "声は必須でない。無い・足りないことを理由に止めない。声が無いときは企画書に1行書く(writer.md 規則34)。" });
+  if (!fs.existsSync(voicesPath)) {
+    if (/voices\.md/.test(meta)) add("meta.md が voices.md に触れているが、同じフォルダにファイルが無い");
+    return out;
+  }
+  let v = "";
+  try { v = fs.readFileSync(voicesPath, "utf8"); } catch (e) { return out; }
+  if (v.trim() === "") { add("voices.md が空"); return out; }
+  const missing = ["取得日", "取得手段", "検索語", "採用", "問い"].filter((w) => !v.includes(w));
+  if (missing.length > 0) add("次の語が無い: " + missing.join("・"));
+  if (/https?:\/\/\S+/.test(v)) add("URL が残っている(匿名で保存する。規則34(c))");
+  if (/(^|[\s(（「|])@[A-Za-z0-9_.]{2,}/m.test(v)) add("@アカウント名が残っている(匿名で保存する。規則34(c))");
+  const vLines = v.split("\n");
+  const adoptIdx = vLines.findIndex((l) => /^#{1,4}\s*.*採用/.test(l));
+  if (adoptIdx >= 0) {
+    const rest = vLines.slice(adoptIdx + 1);
+    const end = rest.findIndex((l) => /^#{1,4}\s/.test(l));
+    const sec = end >= 0 ? rest.slice(0, end) : rest;
+    const rows = sec.filter((l) => /^\s*\|/.test(l) && !/^\s*\|[\s:|-]+\|?\s*$/.test(l));
+    if (rows.length <= 1) add("「採用」の表にデータ行が無い(声が1件も取れなかったときは、声が無いことを企画書に書く)");
+    else if (!/区分/.test(rows[0])) add("「採用」の表の見出し行に「区分」列が無い");
+    else if (!rows.slice(1).some((l) => l.split("|").some((c) => c.trim() === "悩み"))) add("区分が「悩み」の声が無い(悩み型の問いの根拠は区分「悩み」の声から選ぶ。無いときは企画書にその旨を1行)");
+  }
+  return out;
+}
+
 function main() {
   if (process.argv[2] === "--audit-updated-date") {
     const dirs = process.argv.slice(3);
@@ -2396,7 +2498,11 @@ function main() {
   const blockingItems = items.filter((it) => it.result !== "N/A");
   const overall = blockingItems.every((it) => it.result === "Yes") ? "Yes" : "No";
 
-  console.log(JSON.stringify({ file: filePath, items, overall }, null, 2));
+  ctx.filePath = resolved;
+  const advisories = collectAdvisories(ctx).concat(voicesAdvisories(ctx));
+  const out = { file: filePath, items, overall };
+  if (advisories.length > 0) out.advisories = advisories; // 0件のときはキー自体を出さない(既存の出力を変えない)
+  console.log(JSON.stringify(out, null, 2));
 }
 
 main();
