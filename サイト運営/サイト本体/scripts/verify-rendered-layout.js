@@ -30,6 +30,7 @@
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
+const { postPath } = require("../lib/permalinkMap");
 
 // next.config.js は output: "export"(完全静的エクスポート)のため、Next.js の起動コマンドでは配信できない。
 // ビルド成果物 out/ を、標準の http モジュールだけの小さな静的サーバーで配信する。
@@ -593,7 +594,7 @@ async function main() {
     for (const slug of slugs) {
       for (const width of VIEWPORT_WIDTHS) {
         const page = await browser.newPage({ viewport: { width, height: 1200 } });
-        const url = `${BASE_URL}/posts/${encodeURIComponent(slug)}`;
+        const url = `${BASE_URL}${postPath(slug)}`;
         const resp = await page.goto(url, { waitUntil: "networkidle", timeout: 20000 }).catch((e) => null);
         if (!resp || !resp.ok()) {
           console.error(`[item35] ページ取得失敗: ${url} (status=${resp ? resp.status() : "no response"})`);

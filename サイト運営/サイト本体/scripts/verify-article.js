@@ -496,7 +496,7 @@ function checkItem8(ctx) {
     [...charts, ...accordions].map((x) => (x.afterHeading || "").trim()).filter(Boolean)
   );
 
-  // frontmatterにsummaryPointsがある記事は、pages/posts/[slug].jsが本文の直前
+  // frontmatterにsummaryPointsがある記事は、pages/posts/[...path].jsが本文の直前
   // (最初のH2より前)に「この記事で分かること」ボックスを自動描画する
   // (summaryPoints由来、bodyLinesの範囲外)。このボックスは実質的にリード文
   // セクションの視覚要素として機能するため、文書内で最初のH2セクションに限り、

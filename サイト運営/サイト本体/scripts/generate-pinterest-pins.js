@@ -24,6 +24,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { postPath } = require("../lib/permalinkMap");
 const { spawn, execSync } = require("child_process");
 const matter = require("gray-matter");
 
@@ -185,7 +186,7 @@ function buildRow(slug, fm) {
   const category = String(fm.category || "");
   return {
     slug,
-    url: `${SITE_URL}/posts/${encodeURIComponent(slug)}`,
+    url: `${SITE_URL}${postPath(slug)}`,
     category,
     board: BOARD_BY_CATEGORY[category] || "美容の基礎知識",
     pinTitle: buildPinTitle(fm),
@@ -525,7 +526,7 @@ async function main() {
         deviceScaleFactor: 1,
       });
       try {
-        const url = `${BASE_URL}/posts/${encodeURIComponent(slug)}`;
+        const url = `${BASE_URL}${postPath(slug)}`;
         const resp = await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
         if (!resp || !resp.ok()) throw new Error(`ページ取得に失敗: ${resp && resp.status()}`);
 

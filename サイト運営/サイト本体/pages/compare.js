@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { getAllPostsMeta } from "../lib/posts";
 import { getAllWorryItems } from "../lib/worryTopics";
+import { postPath } from "../lib/permalinkMap";
 
 export async function getStaticProps() {
   const posts = getAllPostsMeta();
@@ -149,7 +150,7 @@ export default function ComparePage({ items, categories }) {
                     <td>{item.name}</td>
                     <td>{item.category}</td>
                     <td>
-                      <a href={`/posts/${item.sourceSlug}`}>{item.sourcePost}</a>
+                      <a href={postPath(item.sourceSlug)}>{item.sourcePost}</a>
                     </td>
                     <td>
                       <a href={item.url} target="_blank" rel="nofollow sponsored noopener noreferrer">

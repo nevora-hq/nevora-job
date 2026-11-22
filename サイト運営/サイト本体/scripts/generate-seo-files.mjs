@@ -17,6 +17,9 @@ import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import permalinkMap from "../lib/permalinkMap.js";
+
+const { postPath } = permalinkMap;
 
 // lib/ 配下は拡張子なしの相対importを使っている(Next.jsのバンドラ前提)ため、
 // Node単体で読めるよう .js を補うリゾルバを登録する。
@@ -97,7 +100,7 @@ function buildSitemap() {
     }),
     ...posts.map((p) =>
       urlEntry(
-        `${siteUrl}/posts/${encodeURIComponent(p.slug)}`,
+        `${siteUrl}${postPath(p.slug)}`,
         p.updatedDate || p.date || undefined
       )
     ),

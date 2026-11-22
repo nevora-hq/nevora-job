@@ -93,3 +93,12 @@ Webサイト
 - 未公開の記事は `記事データ/公開待ち` にあり、`sync-content.js` の同期対象外のためサイト・sitemap のいずれにも出ない。`公開済み` に誤って置かれた場合も `publishAt` が未来ならスキップされる
 - 公開の反映は `.github/workflows/publish-queue.yml` が commit・push し、Vercel の自動デプロイで行う(手動の vercel CLI は使わない)。ジョブが失敗した場合は `publish-queue` ラベル付きの Issue が自動で立つ
 - 記事の公開日(表示・sitemap・JSON-LD の `datePublished`)は、`queue:release` が動いた**実際の公開日**になる
+
+## 記事のURL(パーマリンク)と、新記事を足す手順(2026-11-22)
+
+記事のURLは `/posts/<大項目>/<中項目>/<小項目>-<連番2桁>`(例: `/posts/basics/company-rules/work-rules-01`)。台帳は `lib/permalinkMap.js` の `PERMALINKS`。
+
+- 記事を足したら、`PERMALINKS` に「記事ファイル名(.mdなし) → "大/中/小-NN"」を1行足す。大項目は記事の category に対応する固定語(`MAJOR_SEGMENTS`)。同じ「大/中/小」が複数あるときだけ連番を 01, 02… と振る。
+- `npm run verify:permalinks` を通す(未登録・重複・大項目の食い違い・書式・欠番・本文リンクの宛先を検査)。
+- この分類(大・中・小)はURLにだけ使い、画面(パンくず・カテゴリ・ナビ・検索結果)には出さない。
+- 記事本文の内部リンクは、これまでどおり `/posts/<記事ファイル名>` と書く。描画時に新URLへ置き換わる。旧URLの転送は設けていない。

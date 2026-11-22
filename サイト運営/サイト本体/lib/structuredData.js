@@ -1,7 +1,8 @@
+import { postPath } from "./permalinkMap";
 // サイト全体で使う構造化データ(JSON-LD)の共通組み立て関数。
 // 各ページ(pages/*.js)には出力先の呼び出しだけを残し、スキーマの組み立て
 // ロジック自体はここに一本化する。SITE_NAMEもここを唯一の定義元とする
-// (以前は components/Layout.js と pages/posts/[slug].js に重複定義していた)。
+// (以前は components/Layout.js と pages/posts/[...path].js に重複定義していた)。
 
 export const SITE_NAME = "副業の総合ガイド｜NEVORA";
 // 運営者(個人)の氏名。記事のauthor・Organizationのfounderに用いる。
@@ -104,7 +105,7 @@ export function buildArticleJsonLd(post, siteUrl) {
   // 日本語スラッグはpages/sitemap.xml.js・canonicalと同じpercent-encoded形式で出力する
   // (生の日本語のままだとsitemap・canonicalのURLと文字列が一致せず、別URL扱いになる)。
   // post.slugはファイル名から取り出した未エンコードの値のため、ここでの1回の変換で二重エンコードにはならない。
-  const url = `${siteUrl}/posts/${encodeURIComponent(post.slug)}`;
+  const url = `${siteUrl}${postPath(post.slug)}`;
   const image = post.thumbnail ? `${siteUrl}${post.thumbnail}` : undefined;
   return {
     "@context": "https://schema.org",

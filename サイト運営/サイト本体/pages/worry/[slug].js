@@ -12,6 +12,7 @@ import {
 import { getWorryContent } from "../../lib/worryContent";
 import { getCategoryMeta } from "../../lib/categoryMeta";
 import { getAllPostsMeta } from "../../lib/posts";
+import { postPath } from "../../lib/permalinkMap";
 import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
@@ -68,7 +69,7 @@ function buildWorryJsonLd(slug, label, content, posts, siteUrl) {
     { name: label, url: pageUrl },
   ]);
   const itemList = buildItemListJsonLd(
-    posts.map((p) => ({ name: p.title, url: `${siteUrl}/posts/${p.slug}` }))
+    posts.map((p) => ({ name: p.title, url: `${siteUrl}${postPath(p.slug)}` }))
   );
   const faq = buildFaqJsonLd(content.faq);
   return [breadcrumb, itemList, faq].filter(Boolean);

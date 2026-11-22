@@ -14,6 +14,7 @@ import {
   getPostsByCategory,
   getNextPost,
 } from "../../lib/posts";
+import { permalinkOf, postPath, slugFromPermalink } from "../../lib/permalinkMap";
 import { getWorryItemBySlug } from "../../lib/worryTopics";
 import { buildArticleJsonLd, buildBreadcrumbJsonLd, SITE_NAME, AUTHOR_NAME } from "../../lib/structuredData";
 import { formatDate } from "../../lib/formatDate";
@@ -21,20 +22,22 @@ import { formatDate } from "../../lib/formatDate";
 export async function getStaticPaths() {
   const slugs = getAllSlugs();
   return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
+    paths: slugs.map((slug) => ({ params: { path: permalinkOf(slug).split("/") } })),
     fallback: false,
   };
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPostBySlug(params.slug);
+  // URLは /posts/<大>/<中>/<小>-NN。台帳(lib/permalinkMap.js)から記事slugを引く。
+  const slug = slugFromPermalink(params.path);
+  const post = slug ? await getPostBySlug(slug) : null;
   if (!post) {
     return { notFound: true };
   }
   const related = getPostsByCategory(post.category)
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
-  const nextPost = getNextPost(params.slug);
+  const nextPost = getNextPost(post.slug);
 
   return { props: { post, related, nextPost } };
 }
@@ -51,7 +54,7 @@ function toIsoJst(date) {
 // スキーマ自体を出力しない(Layout側のcanonical/og:urlの扱いと同じ方針)。
 function buildPostJsonLd(post, siteUrl) {
   if (!siteUrl) return [];
-  const url = `${siteUrl}/posts/${post.slug}`;
+  const url = `${siteUrl}${postPath(post.slug)}`;
   const article = buildArticleJsonLd(post, siteUrl);
   const breadcrumb = buildBreadcrumbJsonLd(siteUrl, [
     { name: "トップ", url: siteUrl },
@@ -76,7 +79,7 @@ export default function PostPage({ post, related, nextPost }) {
       title={`${post.title} | ${SITE_NAME}`}
       description={post.description}
       ogImage={post.thumbnail}
-      canonicalPath={`/posts/${encodeURIComponent(post.slug)}`}
+      canonicalPath={postPath(post.slug)}
       ogType="article"
       publishedTime={toIsoJst(post.date)}
       modifiedTime={toIsoJst(post.updatedDate || post.date)}
@@ -203,7 +206,7 @@ export default function PostPage({ post, related, nextPost }) {
 
         {nextPost && (
           <div className="article-next-post">
-            <a href={`/posts/${nextPost.slug}`} className="article-next-post-link">
+            <a href={postPath(nextPost.slug)} className="article-next-post-link">
               {nextPost.thumbnail ? (
                 <img
                   src={nextPost.thumbnail}
@@ -238,7 +241,7 @@ export default function PostPage({ post, related, nextPost }) {
             <ul className="related-posts-grid">
               {related.map((p) => (
                 <li key={p.slug} className="related-post-card">
-                  <a href={`/posts/${p.slug}`} className="related-post-link">
+                  <a href={postPath(p.slug)} className="related-post-link">
                     {p.thumbnail ? (
                       <img
                         src={p.thumbnail}
