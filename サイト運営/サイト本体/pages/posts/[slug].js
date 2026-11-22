@@ -89,8 +89,8 @@ export default function PostPage({ post, related, nextPost }) {
           <a href="/">トップ</a>
           <span className="sep">/</span>
           <a href={`/category/${encodeURIComponent(post.category)}`}>{post.category}</a>
-          <span className="sep">/</span>
-          <span className="current">{post.title}</span>
+          {/* 2026-11-22 依頼者の指示: 記事の題が省略されてパンくずの末尾に出る表示は消す。
+              検索エンジン向けのパンくず(JSON-LD)は上の buildBreadcrumbJsonLd で別に出しているので変えない。 */}
         </nav>
 
         <div className="article-header">
