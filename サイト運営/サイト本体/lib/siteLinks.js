@@ -3,6 +3,6 @@
 export const SISTER_SITES = [
   { label: "AI活用の総合ガイド｜NEVORA", url: "https://nevora-ai.vercel.app/" },
   { label: "お金の総合ガイド｜NEVORA", url: "https://nevora-money.vercel.app/" },
-  { label: "副業・在宅ワークの総合ガイド｜NEVORA", url: "https://nevora-job.vercel.app/" },
+  { label: "副業・在宅ワークの総合ガイド｜NEVORA", url: "https://job.nevora.jp/" },
   { label: "生活を豊かにする総合ガイド｜NEVORA", url: "https://nevora-lifestyle.vercel.app/" },
 ];

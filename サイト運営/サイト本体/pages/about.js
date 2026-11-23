@@ -42,7 +42,7 @@ export default function About() {
             </tr>
             <tr>
               <th>URL</th>
-              <td>https://nevora-job.vercel.app/</td>
+              <td>https://job.nevora.jp/</td>
             </tr>
             <tr>
               <th>運営者</th>
