@@ -4,7 +4,6 @@ title: "副業で開業届を出したらiDeCoはどうなる？区分・上限�
 description: "副業で開業届を出したときのiDeCoの区分と掛金の上限が、何を見て決まるかの見分け方です。給与明細の確かめ方、現行と2026年12月以降の限度額、所得控除の書き場所まで整理します。"
 category: "投資・資産形成"
 date: "2026-11-27"
-publishAt: "2026-11-27T14:44:00+09:00"
 tags: ["副業 iDeCo", "iDeCo 開業届", "iDeCo 加入区分", "iDeCo 掛金 上限", "小規模企業共済等掛金控除", "会社員 副業 年金"]
 sectionAlternate: false
 summaryPoints:
